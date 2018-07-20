@@ -318,6 +318,12 @@ chmod a=rwx file
 
 
 
+//给demo.sh变成可执行文件
+
+```
+chmod +x demo.sh
+```
+
 若用chmod 4755 filename可使此程序具有root的权限
 
 
@@ -954,3 +960,9 @@ $sed '/test/'d example
 | w           | sed   '2w 3.txt' 1.txt           | 在1.txt中第二行导出为3.txt的内容                   |
 | w           | sed   '2,5w 3.txt' 1.txt         | 在1.txt中第二行到第五行导出3.txt的内容             |
 | /正则/r     | sed  -i  '/^[0-9]/w 2.txt' 1.txt | 在1.txt中以数字开头的行导出为3.txt的内容           |
+
+
+
+
+
+## 11.待修改

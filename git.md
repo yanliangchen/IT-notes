@@ -2211,6 +2211,14 @@ git push gitee master
 
 
 
+**16 .  总结过程**
+
+​	1.什么都没有直接 git push --force  origin master
+
+​	2.如果对内容进行修改先把之前的仓库克隆下来  之后创建分支把修改的文件放到分支里（是改完放里，还是放里改随便)之后合并分支 推送到远程主分支
+
+​	3.关联仓库 加入文件到分支 之后合并分支
+
 
 
 
@@ -2220,3 +2228,6 @@ git push gitee master
 
 
 **https://git-scm.com/book/zh/v2**
+
+## 11. git连接pycharm参考
+**https://blog.csdn.net/liuhongyue/article/details/80594864**

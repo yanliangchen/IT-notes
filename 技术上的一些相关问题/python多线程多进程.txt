@@ -1,0 +1,220 @@
+一、多线程
+　　多线程就是允许一个进程内存在多个控制权，以便让多个函数同时处于激活状态，从而让多个函数的操作同时运行。即使是单CPU的计算机，也可以通过不停地在不同线程的指令间切换，从而造成多线程同时运行的效果。
+
+　　多线程相当于一个并发(concunrrency)系统。并发系统一般同时执行多个任务。如果多个任务可以共享资源，特别是同时写入某个变量的时候，就需要解决同步的问题，比如多线程火车售票系统：两个指令，一个指令检查票是否卖完，另一个指令，多个窗口同时卖票，可能出现卖出不存在的票。
+
+　　在并发情况下，指令执行的先后顺序由内核决定。同一个线程内部，指令按照先后顺序执行，但不同线程之间的指令很难说清除哪一个会先执行。因此要考虑多线程同步的问题。同步(synchronization)是指在一定的时间内只允许某一个线程访问某个资源。 
+
+详情请看：Linux多线程与同步
+
+1、thread模块
+2、threading模块
+threading.Thread 创建一个线程。
+
+给判断是否有余票和卖票，加上互斥锁，这样就不会造成一个线程刚判断没有余票，而另外一个线程就执行卖票操作。
+
+复制代码
+#! /usr/bin/python
+#-* coding: utf-8 -*
+# __author__ ="tyomcat"
+import threading
+import time
+import os
+
+def booth(tid):
+    global i
+    global lock
+    while True:
+        lock.acquire()
+        if i!=0:
+            i=i-1
+            print "窗口:",tid,",剩余票数:",i
+            time.sleep(1)
+        else:
+            print "Thread_id",tid,"No more tickets"
+            os._exit(0)
+        lock.release()
+        time.sleep(1)
+
+i = 100
+lock=threading.Lock()
+
+for k in range(10):
+
+    new_thread = threading.Thread(target=booth,args=(k,))
+    new_thread.start()
+复制代码
+二、协程（又称微线程，纤程）
+　　协程，与线程的抢占式调度不同，它是协作式调度。协程也是单线程，但是它能让原来要使用异步+回调方式写的非人类代码,可以用看似同步的方式写出来。
+
+1、协程在python中可以由生成器（generator）来实现。
+
+　　首先要对生成器和yield有一个扎实的理解.
+
+　　调用一个普通的python函数，一般是从函数的第一行代码开始执行，结束于return语句、异常或者函数执行（也可以认为是隐式地返回了None）。
+
+一旦函数将控制权交还给调用者，就意味着全部结束。而有时可以创建能产生一个序列的函数，来“保存自己的工作”，这就是生成器（使用了yield关键字的函数）。
+
+　　能够“产生一个序列”是因为函数并没有像通常意义那样返回。return隐含的意思是函数正将执行代码的控制权返回给函数被调用的地方。而"yield"的隐含意思是控制权的转移是临时和自愿的，我们的函数将来还会收回控制权。
+
+ 详情请看：解释'yield'和'Generators(生成器)'
+
+看一下生产者/消费者的例子：
+
+复制代码
+#! /usr/bin/python
+#-* coding: utf-8 -*
+# __author__ ="tyomcat"
+import time
+import sys
+# 生产者
+def produce(l):
+    i=0
+    while 1:
+        if i < 10:
+            l.append(i)
+            yield i
+            i=i+1
+            time.sleep(1)
+        else:
+            return     
+# 消费者
+def consume(l):
+    p = produce(l)
+    while 1:
+        try:
+            p.next()
+            while len(l) > 0:
+                print l.pop()
+        except StopIteration:
+            sys.exit(0)
+if __name__ == "__main__":
+    l = []
+    consume(l)
+复制代码
+当程序执行到produce的yield i时，返回了一个generator并暂停执行，当我们在custom中调用p.next()，程序又返回到produce的yield i 继续执行，这样 l 中又append了元素，然后我们print l.pop()，直到p.next()引发了StopIteration异常。
+
+2、Stackless Python
+
+3、greenlet模块
+
+　　基于greenlet的实现则性能仅次于Stackless Python，大致比Stackless Python慢一倍，比其他方案快接近一个数量级。其实greenlet不是一种真正的并发机制，而是在同一线程内，在不同函数的执行代码块之间切换，实施“你运行一会、我运行一会”，并且在进行切换时必须指定何时切换以及切换到哪。
+
+4、eventlet模块
+
+详情请看：Python几种并发实现方案的性能比较
+
+三、多进程
+1、子进程（subprocess包）
+
+　　在python中，通过subprocess包，fork一个子进程，并运行外部程序。
+
+　　调用系统的命令的时候，最先考虑的os模块。用os.system()和os.popen()来进行操作。但是这两个命令过于简单，不能完成一些复杂的操作，如给运行的命令提供输入或者读取命令的输出，判断该命令的运行状态，管理多个命令的并行等等。这时subprocess中的Popen命令就能有效的完成我们需要的操作
+
+>>>import subprocess
+>>>command_line=raw_input()
+ping -c 10 www.baidu.com
+>>>args=shlex.split(command_line)
+>>>p=subprocess.Popen(args)
+　　利用subprocess.PIPE将多个子进程的输入和输出连接在一起，构成管道(pipe):
+
+import subprocess
+child1 = subprocess.Popen(["ls","-l"], stdout=subprocess.PIPE)
+child2 = subprocess.Popen(["wc"], stdin=child1.stdout,stdout=subprocess.PIPE)
+out = child2.communicate()
+print(out)
+communicate() 方法从stdout和stderr中读出数据，并输入到stdin中。
+
+2、多进程（multiprocessing包）
+
+详情请看：Python多进程编程
+
+　　（1）、multiprocessing包是Python中的多进程管理包。与threading.Thread类似，它可以利用multiprocessing.Process对象来创建一个进程。
+
+　　进程池 (Process Pool)可以创建多个进程。
+
+　　apply_async(func,args)  从进程池中取出一个进程执行func，args为func的参数。它将返回一个AsyncResult的对象，你可以对该对象调用get()方法以获得结果。
+
+　　close()  进程池不再创建新的进程
+
+　　join()   wait进程池中的全部进程。必须对Pool先调用close()方法才能join。
+
+复制代码
+#! /usr/bin/env python
+# -*- coding:utf-8   -*-
+# __author__ == "tyomcat"
+# "我的电脑有4个cpu"
+
+from multiprocessing import Pool
+import os, time
+
+def long_time_task(name):
+    print 'Run task %s (%s)...' % (name, os.getpid())
+    start = time.time()
+    time.sleep(3)
+    end = time.time()
+    print 'Task %s runs %0.2f seconds.' % (name, (end - start))
+
+if __name__=='__main__':
+    print 'Parent process %s.' % os.getpid()
+    p = Pool()
+    for i in range(4):
+        p.apply_async(long_time_task, args=(i,))
+    print 'Waiting for all subprocesses done...'
+    p.close()
+    p.join()
+    print 'All subprocesses done.'
+
+复制代码
+（2）、多进程共享资源
+
+
+通过共享内存和Manager对象：用一个进程作为服务器，建立Manager来真正存放资源。
+其它的进程可以通过参数传递或者根据地址来访问Manager，建立连接后，操作服务器上的资源。
+复制代码
+#! /usr/bin/env python
+# -*- coding:utf-8   -*-
+# __author__ == "tyomcat"
+
+from multiprocessing import Queue,Pool
+import multiprocessing,time,random
+
+def write(q):
+
+    for value in  ['A','B','C','D']:
+        print "Put %s to Queue!" % value
+        q.put(value)
+        time.sleep(random.random())
+
+
+def read(q,lock):
+    while True:
+        lock.acquire()
+        if not q.empty():
+            value=q.get(True)
+            print "Get %s from Queue" % value
+            time.sleep(random.random())
+        else:
+            break
+        lock.release()
+
+if __name__ == "__main__":
+    manager=multiprocessing.Manager()
+    q=manager.Queue()
+    p=Pool()
+    lock=manager.Lock()
+    pw=p.apply_async(write,args=(q,))
+    pr=p.apply_async(read,args=(q,lock))
+    p.close()
+    p.join()
+    print
+    print "所有数据都写入并且读完"
+复制代码
+四、异步
+　　无论是线程还是进程，使用的都是同步进制，当发生阻塞时，性能会大幅度降低，无法充分利用CPU潜力，浪费硬件投资，更重要造成软件模块的铁板化，紧耦合，无法切割，不利于日后扩展和变化。
+
+　　不管是进程还是线程，每次阻塞、切换都需要陷入系统调用(system call)，先让CPU跑操作系统的调度程序，然后再由调度程序决定该跑哪一个进程(线程)。多个线程之间在一些访问互斥的代码时还需要加上锁，
+
+　　现下流行的异步server都是基于事件驱动的（如nginx）。
+
+　　异步事件驱动模型中，把会导致阻塞的操作转化为一个异步操作，主线程负责发起这个异步操作，并处理这个异步操作的结果。由于所有阻塞的操作都转化为异步操作，理论上主线程的大部分时间都是在处理实际的计算任务，少了多线程的调度时间，所以这种模型的性能通常会比较好。

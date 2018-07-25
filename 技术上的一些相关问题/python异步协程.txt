@@ -1,0 +1,67 @@
+1 .首先,现在的服务器开发对于IO调度的优先级控制权已经不再依靠系统,都采用协程的方式实现高效的并发任务,如js，不用等待程序执行完毕，就可以执行
+下一段代码.
+2. Python在3.4版本也加入了协程的概念，并在3.5确定了基本完善的语法和实现方式，同时3.6也对其进行了如接触了await和yield在同一个函数体
+限制等相关优化
+	（1.）event_loop 事件循环:程序开启一个无限的循环,程序员会把一些函数注册到事件循环上。当满足事件发生的时候,调用相应的协程函数。
+	（2.）coroutine协程:协程对象,指一个使用async关键字定义的函数,它的调用不会立即执行函数，而是会返回一个协程对象。协程对象需要注册到事件
+	循环，由事件循环调用。
+	(3.) task任务：一个协程对象就是一个原生可以挂起的函数，任务则是协成进一步的封装，其中包含任务的各种状态
+	(4.)future:代表将来执行或没有执行的任务的结果。它和task上没有本质区别
+	
+# egg1  创建协程
+import asyncio
+async def fun():
+    print('hello word')
+loop = asyncio.get_event_loop()
+loop.run_until_complete(fun())
+print('---------------')
+
+# egg2  协程对象task
+import asyncio
+async def fun():
+    print('hello word')
+    return 'miao'
+
+loop = asyncio.get_event_loop()
+task = loop.create_task(fun())
+print(task)
+loop.run_until_complete(task)
+print(task)
+
+print('-------------------')
+# egg3  绑定回调
+'''
+在task执行完毕的时候可以获取执行的结果，回调的最后一个参数是future对象，
+通过该对象可以获取协程返回值。如果回调需要多个参数，可以通过偏函数导入。
+'''
+import asyncio
+async def fun():
+    print('hello word')
+    return 'miao'
+
+def callback(future):
+    print('Callback: ', future.result())
+
+loop = asyncio.get_event_loop()
+task = loop.create_task(fun())
+# print(task)
+task.add_done_callback(callback)
+loop.run_until_complete(task)
+# print(task)
+
+print('----------------------')
+
+#也可以使用ensure_future获取返回值
+import asyncio
+async def fun():
+    print('hello word')
+    return 'miao'
+
+loop = asyncio.get_event_loop()
+
+task = asyncio.ensure_future(fun())
+
+loop.run_until_complete(task)
+
+print('the fun() return is: {}'.format(task.result()))
+

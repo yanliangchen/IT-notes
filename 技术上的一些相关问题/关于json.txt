@@ -1,0 +1,25 @@
+json 模块提供了四个功能:dumps dump  loads load 用于字符串和python 数据类型间进行转换
+
+
+
+
+1.json.loads()
+
+把json格式字符串解码转换成Python对象，从json到Python的类型转换
+
+
+2.json.dumps()
+
+实现python类型转化为json字符串 ，返回一个str对象，把一个python对象编码转换成json字符串
+
+
+
+3.json.dump()
+
+将python 内置类型序列化为json对象写入文件
+   dictstr={"city:":"北京"}  json.dump(dictstr,open("liststr.json","w"),ensure_ascii=False)
+
+4.json.load()
+
+读文件中json格式为字符串元素，转成python类型
+    strlist=json.load(open("liststr.json"))

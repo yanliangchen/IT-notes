@@ -1,4 +1,87 @@
-### Ansible  Study
+# Ansible
+
+ansible官方文档 **http://docs.ansible.com/ansible/latest/index.html**
+
+## 关于Ansible
+
+Ansible是一款IT自动化工具。它可以配置系统，部署软件并编排更高级的IT任务，例如连续部署或零停机滚动更新。
+
+Ansible的主要目标是简单易用。它还非常注重安全性和可靠性，具有最少的移动部件，使用OpenSSH进行传输（其他传输和拉模式作为替代方案），以及围绕人类可审计性设计的语言，即使那些不熟悉该程序。
+
+我们相信简单性与各种规模的环境相关，因此我们为各种类型的繁忙用户进行设计：开发人员，系统管理员，发布工程师，IT经理以及其他人员。Ansible适用于管理所有环境，从少数几个实例的小型设置到数千个实例的企业环境。
+
+Ansible以无代理方式管理机器。永远不会有如何升级远程守护进程或由于守护进程被卸载而无法管理系统的问题。由于OpenSSH是同行评审最多的开源组件之一，安全风险大大降低。Ansible是分散的，它依赖于您现有的操作系统凭据来控制对远程机器的访问。如果需要，Ansible可以轻松连接Kerberos，LDAP和其他集中式身份验证管理系统。
+
+本文档涵盖了Ansible（2.5）的当前发行版本以及一些开发版本功能。对于最近的功能，我们在每个部分中注意添加功能的Ansible版本。
+
+Ansible大约每两个月发布一个新的主要版本。核心应用程序的演变有点保守，重视语言设计和设置的简单性。然而，围绕新模块和插件开发和提供的社区发展非常迅速，每个版本都增加了许多新模块。
+
+
+
+
+
+## ansible 原理及详解
+
+
+
+**简介**
+
+ ansible是个什么东西呢？官方的title是“Ansible is Simple IT Automation”——简单的自动化IT工具。这个工具的目标有这么几项：
+
+- 自动化部署APP；
+- 自动化管理配置项；
+- 自动化的持续交互；
+- 自动化的（AWS）云服务管理；
+
+ 
+
+  所有的这几个目标从本质上来说都是在一个台或者几台服务器上，执行一系列的命令而已。通俗的说就是批量的在远程服务器上执行命令。当然，最主要的是它是基于 paramiko 开发的。这个paramiko是什么呢？它是一个纯Python实现的ssh协议库。因此fabric和ansible还有一个共同点就是不需要在远程主机上安装client/agents，因为它们是基于ssh来和远程主机通讯的。简单归纳一下：
+
+ 
+
+Ansible
+
+—基于 Python paramiko 开发，分布式，无需客户端，轻量级，配置语法使用 YMAL 及 Jinja2模板语言，更强的远程命令执行操作
+
+ 
+
+类似的自动化运维工具有很多常用的还有：
+
+Puppet
+
+—基于 Ruby 开发，采用 C/S 架构，扩展性强，基于 SSL，远程命令执行相对较弱
+
+ 
+
+SaltStack
+
+—基于 Python 开发，采用 C/S 架构，相对 puppet 更轻量级，配置语法使用 YMAL，使得配置脚本更简单
+
+ 
+
+## **Ansible 工作机制**
+
+ 
+
+Ansible 在管理节点将 Ansible 模块通过 SSH 协议（或者 Kerberos、LDAP）推送到被管理端执行，执行完之后自动删除，可以使用 SVN 等来管理自定义模块及编排
+
+[![wKiom1aSQHHjJRZTAAEBRfKpi_E196.png](http://s2.51cto.com/wyfs02/M02/79/79/wKiom1aSQHHjJRZTAAEBRfKpi_E196.png)](http://s2.51cto.com/wyfs02/M02/79/79/wKiom1aSQHHjJRZTAAEBRfKpi_E196.png)
+
+ 
+
+[![wKioL1aSQMaAKaEaAAG9obSmtq8836.png](http://s3.51cto.com/wyfs02/M02/79/78/wKioL1aSQMaAKaEaAAG9obSmtq8836.png)](http://s3.51cto.com/wyfs02/M02/79/78/wKioL1aSQMaAKaEaAAG9obSmtq8836.png)
+
+ 
+
+由上面的图可以看到 Ansible 的组成由 5 个部分组成：
+
+ 
+
+- Ansible ：     核心
+- Modules ：    包括 Ansible 自带的核心模块及自定义模块
+- Plugins ：      完成模块功能的补充，包括连接插件、邮件插件等
+- Playbooks ：   剧本；定义 Ansible 多任务配置文件，由Ansible 自动执行
+- Inventory ：    定义 Ansible 管理主机的清单
 
 
 

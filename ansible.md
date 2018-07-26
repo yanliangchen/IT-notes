@@ -567,6 +567,156 @@ $ ansible multi  -m  cron -a "name='daily-cron-all-servers' state=absent"
 
 
 
-### 4.Playbook追加
 
-https://blog.csdn.net/hxpjava1/article/details/79513812
+
+
+
+
+
+### 4.AD-HOC命令追加
+
+//查看机器是否存活
+
+``` 
+ansible proxy -f 5 -m  ping 
+```
+
+
+
+//返回proxy组所有主机的hostname,并打印最详细的执行过程到标准输出
+
+```
+ansible proxy -s -m  command -a 'hostname' -vvv
+```
+
+
+
+//查看组里的ip
+
+```
+ansible app --list
+```
+
+
+
+#### 5.1 yum 模块
+
+```
+ansible apps -m  yum -a 'name=redhat-lsb state=present'
+```
+
+
+
+### 5.Playbook追加
+
+**看文档,文档在我的IT/note/document文件夹下**
+
+#### 5.1基本语法
+
+连续的项目通过“-”来表示，map结构里面的key/value对用冒号":"来分隔。格式如以下代码所示:
+
+```
+house:
+family:
+name: Doe
+parents:
+	- John
+	- Jane
+children:
+	- Paul
+	- Mark
+	- Simone
+address:
+number: 34
+street: Main Street
+city: Nowheretown
+zipcode: 123456
+
+```
+
+
+
+#### 5.2 基础入门
+
+```
+---
+#这个是你选择的主机
+- hosts: webservers
+#这个是变量
+vars:
+	http_port: 80
+	max_clients: 200
+#远端的执行权限
+	remote_user: root
+#利用YUM模块来操作
+	- name: ensure apache is at the latest version
+yum: pkg=httpd state=latest
+	- name: write the apache config file
+template: src=/srv/httpd.j2 dest=/etc/httpd.conf
+#触发重启服务器
+notify:restart apache
+	- name: ensure apache is  running
+service: name=httpd state=started
+#这里的restart apache 和上面的触发是配对的。这就是handlers的作用。相当于tag
+handlers:
+	- name: restart apache
+service: name=httpd state=restarted 
+总的来说，Playbook语法具有如下一些特性。
+1）需要以 "---"(3个减号)开始,且需顶行首写。
+2) 次行开始正常写Playbook的内容，但笔者建议写明该Playbook的功能。
+3) 使用#号注释代码。
+4) 缩进必须是统一的，不能将空格和Tab混用。
+5) 缩进的级别必须是一致的，同样的缩进代表同样的级别，程序判别配置的级别是通过缩进结合换行来实现的。
+6) YAML文件内容和Linux系统大小写判断方式保持一致，是区别大小写的,k/v的值均需大小写敏感。
+7) k/v的值可同行写也可换行写。同行使用":"分割，换行写需要以 "-"分割。
+8) 一个完整的代码块功能需要最少元素，需包括 name:task。
+9）一个name只能包括一个task。
+
+```
+
+
+
+#### 5.3playbook参数
+
+//指定主机
+
+//即便test.yml文件里设置了all那么也会仅对webservers生效
+
+```
+ansible-playbook test.yml --limit webservers
+```
+
+
+
+//-v  或者-vvvv 详细输出信息
+
+//--forks 或者 -f  5  指定并发执行的任务数,默认为5,根据服务器这个性能，调大这个值可提高Ansible执行效率.
+
+//--check 检测模式，Paybook中定义所有的任务将在每台服务器上进行检测。但不真正的执行
+
+
+
+
+
+#### 5.4 文档看到100页了
+
+# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

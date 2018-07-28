@@ -965,44 +965,4 @@ $sed '/test/'d example
 
 
 
-
-
-## 11.  防火墙操作
-
-//查看状态，看电脑上是否已经安装
-
-sysyemctl  status  firewalld
-
-1. `#yum install firewalld  //安装firewalld 防火墙`
-
-2. `#systemctl start firewalld.service   //开启防火墙`
-
-3. `#systemctl stop firewalld.service   //关闭防火墙`
-
-4. `# systemctl enable firewalld.service  //设置开机自动启动`
-
-5. `# systemctl disable firewalld.service   //设置关闭开机制动启动`
-
-6. `#firewall-cmd --reload  //在不改变状态的条件下重新加载防火墙`
-
-7. `启用某个服务`
-
-   `# firewall-cmd --zone=public --add-service=https   //临时`
-
-   `# firewall-cmd --permanent --zone=public --add-service=https  //永久`
-
-8. `开启某个端口`
-
-   `#firewall-cmd --permanent --zone=public --add-port=8080-8081/tcp  //永久`
-
-   `#firewall-cmd  --zone=public --add-port=8080-8081/tcp   //临时`
-
-9. `查看开启的端口和服务`
-
-   `#firewall-cmd --permanent --zone=public --list-services    //服务空格隔开  例如 dhcpv6-client https ss   `
-
-   `#firewall-cmd --permanent --zone=public --list-ports //端口空格隔开  例如  8080-8081/tcp 8388/tcp 80/tcp`
-
-10. `#systemctl restart firewalld.service  //修改配置后需要重启服务使其生效`
-
-11. `firewall-cmd --zone=public --query-port=8080/tcp  //查看服务是否生效（例：添加的端口为8080)`
+## 11.待修改

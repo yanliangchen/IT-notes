@@ -261,5 +261,5 @@ kubernetes是google公司基于docker所做的一个分布式集群，有以下�
 **图为GIT+Jenkins+Kubernetes+Docker+Etcd+confd+Nginx+Glusterfs架构**：
 
 **如下：**
-
+print(end)
  

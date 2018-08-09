@@ -84,6 +84,13 @@ done
 
 
 
+**设置host**
+
+```
+➜ echo "192.168.60.25 node" >>/etc/hosts
+➜ echo "192.168.60.24 master" >>/etc/hosts
+```
+
 5.**设置时间同步**
 
 ```
@@ -106,6 +113,19 @@ swap was on /dev/sda11 during installation
 UUID=0a55fdb5-a9d8-4215-80f7-f42f75644f69 none  swap    sw      0       0
 #注释掉SWAP分区项，即可
 #不听我的kubelet启动报错自己百度
+```
+
+
+
+设置Yum源 
+
+ 
+
+```
+ curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+ wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+ yum makecache
+ yum install wget vim lsof net-tools lrzsz -y
 ```
 
 
@@ -368,7 +388,10 @@ cfssl gencert --initca=true etcd-root-ca-csr.json \
 **创建根CA**
 
 ```
-
+cfssl gencert --ca etcd-root-ca.pem \
+--ca-key etcd-root-ca-key.pem \
+--config etcd-gencert.json \
+-profile=etcd etcd-csr.json | cfssljson --bare etcd
 ```
 
 
@@ -1301,3 +1324,424 @@ systemctl restart kubelet
 #####  Node节点配置
 
 ###### 	1.Docker安装
+
+```
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm
+
+yum install docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch.rpm -y
+yum install docker-ce-17.03.2.ce-1.el7.centos.x86_64.rpm -y
+
+systemctl enable docker 
+systemctl start docker 
+
+sed -i '/ExecStart=\/usr\/bin\/dockerd/i\ExecStartPost=\/sbin/iptables -I FORWARD -s 0.0.0.0\/0 -d 0.0.0.0\/0 -j ACCEPT' /usr/lib/systemd/system/docker.service
+sed -i '/dockerd/s/$/ \-\-storage\-driver\=overlay2/g' /usr/lib/systemd/system/docker.service
+
+systemctl daemon-reload 
+systemctl restart docker
+```
+
+###### 2.分配证书
+
+  
+
+我们需要去Master上分配证书`kubernetes``etcd`给Node
+ 虽然 Node 节点上没有 Etcd，但是如果部署网络组件，如 calico、flannel 等时，网络组件需要联通 Etcd 就会用到 Etcd 的相关证书。
+
+> 从Mster节点上将hyperkuber kubelet kubectl kube-proxy 拷贝至node上
+
+  
+
+```
+for i in hyperkube kubelet kubectl kube-proxy;do
+scp ./kubernetes/server/bin/$i 192.168.60.25:/usr/bin/
+ssh 192.168.60.25 chmod 755 /usr/bin/$i
+done
+
+##这里的IP是node节点ip
+进入到K8S二进制目录下，for循环看不懂就别玩K8s了
+```
+
+
+
+分发K8s证书
+ cd K8S证书目录
+
+```
+cd /root/kubernets_ssl/
+for IP in 192.168.60.25;do
+    ssh $IP mkdir -p /etc/kubernetes/ssl
+    scp *.pem $IP:/etc/kubernetes/ssl
+    scp *.kubeconfig token.csv audit-policy.yaml $IP:/etc/kubernetes
+    ssh $IP useradd -s /sbin/nologin/ kube
+    ssh $IP chown -R kube:kube /etc/kubernetes/ssl
+done
+```
+
+
+
+分发ETCD证书
+
+```
+for IP in 192.168.60.25;do
+    cd /root/etcd_ssl
+    ssh $IP mkdir -p /etc/etcd/ssl
+    scp *.pem $IP:/etc/etcd/ssl
+    ssh $IP chmod -R 644 /etc/etcd/ssl/*
+    ssh $IP chmod 755 /etc/etcd/ssl
+done
+```
+
+给Node设置文件权限
+
+```
+ssh root@192.168.60.25 mkdir -p /var/log/kube-audit /usr/libexec/kubernetes &&
+ssh root@192.168.60.25 chown -R kube:kube /var/log/kube-audit /usr/libexec/kubernetes &&
+ssh root@192.168.60.25 chmod -R 755 /var/log/kube-audit /usr/libexec/kubernetes
+```
+
+###### 3.Node节点配置
+
+node 节点上配置文件同样位于 /etc/kubernetes 目录
+node 节点只需要修改 `config` `kubelet` `proxy`这三个配置文件，修改如下
+
+\#config 通用配置
+
+注意: config 配置文件(包括下面的 kubelet、proxy)中全部未 定义 API Server 地址，因为 kubelet 和 kube-proxy 组件启动时使用了 --require-kubeconfig 选项，该选项会使其从 *.kubeconfig 中读取 API Server 地址，而忽略配置文件中设置的；
+所以配置文件中设置的地址其实是无效的
+
+```
+cat > /etc/kubernetes/config <<EOF
+###
+# kubernetes system config
+#
+# The following values are used to configure various aspects of all
+# kubernetes services, including
+#
+#   kube-apiserver.service
+#   kube-controller-manager.service
+#   kube-scheduler.service
+#   kubelet.service
+#   kube-proxy.service
+# logging to stderr means we get it in the systemd journal
+KUBE_LOGTOSTDERR="--logtostderr=true"
+
+# journal message level, 0 is debug
+KUBE_LOG_LEVEL="--v=2"
+
+# Should this cluster be allowed to run privileged docker containers
+KUBE_ALLOW_PRIV="--allow-privileged=true"
+
+# How the controller-manager, scheduler, and proxy find the apiserver
+# KUBE_MASTER="--master=http://127.0.0.1:8080"
+EOF
+```
+
+\# kubelet 配置
+
+```
+cat >/etc/kubernetes/kubelet <<EOF
+###
+# kubernetes kubelet (minion) config
+
+# The address for the info server to serve on (set to 0.0.0.0 or "" for all interfaces)
+KUBELET_ADDRESS="--address=192.168.60.25"
+
+# The port for the info server to serve on
+# KUBELET_PORT="--port=10250"
+
+# You may leave this blank to use the actual hostname
+KUBELET_HOSTNAME="--hostname-override=node"
+
+# location of the api-server
+# KUBELET_API_SERVER=""
+
+# Add your own!
+KUBELET_ARGS="--cgroup-driver=cgroupfs \
+              --cluster-dns=10.254.0.2 \
+              --resolv-conf=/etc/resolv.conf \
+              --experimental-bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+              --kubeconfig=/etc/kubernetes/kubelet.kubeconfig \
+              --cert-dir=/etc/kubernetes/ssl \
+              --cluster-domain=cluster.local. \
+              --hairpin-mode promiscuous-bridge \
+              --serialize-image-pulls=false \
+              --pod-infra-container-image=gcr.io/google_containers/pause-amd64:3.0"
+EOF
+
+#这里的IP地址是node的IP地址和主机名
+```
+
+复制启动脚本
+存放路径[/usr/lib/systemd/system/kubelet.service]
+
+```
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Requires=docker.service
+
+[Service]
+WorkingDirectory=/var/lib/kubelet
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/kubelet
+ExecStart=/usr/bin/kubelet \
+        $KUBE_LOGTOSTDERR \
+        $KUBE_LOG_LEVEL \
+        $KUBELET_API_SERVER \
+        $KUBELET_ADDRESS \
+        $KUBELET_PORT \
+        $KUBELET_HOSTNAME \
+        $KUBE_ALLOW_PRIV \
+        $KUBELET_ARGS
+Restart=on-failure
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+```
+
+`mkdir /var/lib/kubelet -p`
+工程目录我们设置在/var/lib/kubele需要我们手动创建
+
+启动kubelet
+
+```
+sed -i 's#127.0.0.1#192.168.60.24#g' /etc/kubernetes/bootstrap.kubeconfig
+#这里的地址是master地址
+
+systemctl daemon-reload
+systemctl restart kubelet
+systemctl enable kubelet
+```
+
+\#修改kube-proxy配置
+
+```
+cat >/etc/kubernetes/proxy <<EOF
+###
+# kubernetes proxy config
+
+# default config should be adequate
+
+# Add your own!
+KUBE_PROXY_ARGS="--bind-address=192.168.60.25 \
+                 --hostname-override=node \
+                 --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+                 --cluster-cidr=10.254.0.0/16"
+EOF
+```
+
+kube-proxy启动脚本
+路径：/usr/lib/systemd/system/kube-proxy.service
+
+```
+[Unit]
+Description=Kubernetes Kube-Proxy Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+
+[Service]
+EnvironmentFile=-/etc/kubernetes/config
+EnvironmentFile=-/etc/kubernetes/proxy
+ExecStart=/usr/bin/kube-proxy \
+        $KUBE_LOGTOSTDERR \
+        $KUBE_LOG_LEVEL \
+        $KUBE_MASTER \
+        $KUBE_PROXY_ARGS
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+```
+
+###### 4.创建 nginx 代理
+
+此时所有 node 应该连接本地的 nginx 代理，然后 nginx 来负载所有 api server；以下为 nginx 代理相关配置
+我们也可以不用nginx代理。需要修改 `bootstrap.kubeconfig` `kube-proxy.kubeconfig`中的 API Server 地址即可
+
+> 注意: 对于在 master 节点启动 kubelet 来说，不需要 nginx 做负载均衡；可以跳过此步骤，并修改 kubelet.kubeconfig、kube-proxy.kubeconfig 中的 apiserver 地址为当前 master ip 6443 端口即可
+
+\# 创建配置目录
+
+```
+mkdir -p /etc/nginx
+```
+
+\# 写入代理配置
+
+```
+cat > /etc/nginx/nginx.conf <<EOF
+error_log stderr notice;
+
+worker_processes auto;
+events {
+  multi_accept on;
+  use epoll;
+  worker_connections 1024;
+}
+
+stream {
+    upstream kube_apiserver {
+        least_conn;
+        server 192.168.60.24:6443 weight=20 max_fails=1 fail_timeout=10s;
+        #server中代理master的IP
+    }
+
+    server {
+        listen        0.0.0.0:6443;
+        proxy_pass    kube_apiserver;
+        proxy_timeout 10m;
+        proxy_connect_timeout 1s;
+    }
+}
+EOF
+
+##servcer 中代理的ip应该是master中的apiserver端口
+```
+
+\# 更新权限
+
+```
+chmod +r /etc/nginx/nginx.conf
+```
+
+\#启动nginx的docker容器。运行转发
+
+```
+docker run -it -d -p 127.0.0.1:6443:6443 -v /etc/nginx:/etc/nginx  --name nginx-proxy --net=host --restart=on-failure:5 --memory=512M  nginx:1.13.5-alpine
+```
+
+为了保证 nginx 的可靠性，综合便捷性考虑，node 节点上的 nginx 使用 docker 启动，同时 使用 systemd 来守护， systemd 配置如下
+
+```
+cat >/etc/systemd/system/nginx-proxy.service <<EOF 
+[Unit]
+Description=kubernetes apiserver docker wrapper
+Wants=docker.socket
+After=docker.service
+
+[Service]
+User=root
+PermissionsStartOnly=true
+ExecStart=/usr/bin/docker start nginx-proxy
+Restart=always
+RestartSec=15s
+TimeoutStartSec=30s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+➜ systemctl daemon-reload
+➜ systemctl start nginx-proxy
+➜ systemctl enable nginx-proxy
+```
+
+我们要确保有6443端口，才可以启动kubelet
+
+```
+sed -i 's#192.168.60.24#127.0.0.1#g' /etc/kubernetes/bootstrap.kubeconfig
+```
+
+查看6443端口
+
+```
+[root@node kubernetes]# netstat -lntup
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:10249         0.0.0.0:*               LISTEN      2042/kube-proxy     
+tcp        0      0 0.0.0.0:6443            0.0.0.0:*               LISTEN      1925/nginx: master  
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      966/sshd            
+tcp        0      0 127.0.0.1:25            0.0.0.0:*               LISTEN      1050/master         
+tcp6       0      0 :::10256                :::*                    LISTEN      2042/kube-proxy     
+tcp6       0      0 :::22                   :::*                    LISTEN      966/sshd            
+tcp6       0      0 ::1:25                  :::*                    LISTEN      1050/master         
+udp        0      0 127.0.0.1:323           0.0.0.0:*                           717/chronyd         
+udp6       0      0 ::1:323                 :::*                                717/chronyd  
+
+[root@node kubernetes]# lsof -i:6443
+lsof: no pwd entry for UID 100
+lsof: no pwd entry for UID 100
+COMMAND  PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+kubelet 1765     root    3u  IPv4  27573      0t0  TCP node1:39246->master:sun-sr-https (ESTABLISHED)
+nginx   1925     root    4u  IPv4  29028      0t0  TCP *:sun-sr-https (LISTEN)
+lsof: no pwd entry for UID 100
+nginx   1934      100    4u  IPv4  29028      0t0  TCP *:sun-sr-https (LISTEN)
+lsof: no pwd entry for UID 100
+nginx   1935      100    4u  IPv4  29028      0t0  TCP *:sun-sr-https (LISTEN)
+```
+
+启动kubelet-proxy
+在启动kubelet之前最好将kube-proxy重启一下
+
+```
+systemctl restart kube-proxy
+systemctl enable kubelet
+
+systemctl daemon-reload
+systemctl restart kubelet
+systemctl enable kubelet
+```
+
+###### 5.认证
+
+由于采用了 TLS Bootstrapping，所以 kubelet 启动后不会立即加入集群，而是进行证书申请，从日志中可以看到如下输出
+
+```
+7月 24 13:55:50 master kubelet[1671]: I0724 13:55:50.877027    1671 bootstrap.go:56] Using bootstrap kubeconfig to generate TLS client cert, key and kubeconfig file
+```
+
+此时只需要在 master 允许其证书申请即可
+\# 查看 csr
+
+```
+➜  kubectl get csr
+NAME        AGE       REQUESTOR           CONDITION
+csr-l9d25   2m        kubelet-bootstrap   Pending
+'
+
+如果我们将2台都启动了kubelet都配置好了并且启动了，这里会显示2台，一个master一个node
+```
+
+\# 签发证书
+
+```
+➜  kubectl certificate approve csr-l9d25  或者执行kubectl get csr | grep Pending | awk '{print $1}' | xargs kubectl certificate approve
+```
+
+\# 查看 node
+
+
+
+//到这出现了问题
+
+签发完成证书
+
+```
+[root@master ~]# kubectl get nodes
+NAME      STATUS    ROLES     AGE       VERSION
+master    Ready     <none>    40m       v1.11.0
+node      Ready     <none>    39m       v1.11.0
+```
+
+认证后自动生成了kubelet kubeconfig 文件和公私钥：
+
+```
+$ ls -l /etc/kubernetes/kubelet.kubeconfig
+-rw------- 1 root root 2280 Nov  7 10:26 /etc/kubernetes/kubelet.kubeconfig
+$ ls -l /etc/kubernetes/ssl/kubelet*
+-rw-r--r-- 1 root root 1046 Nov  7 10:26 /etc/kubernetes/ssl/kubelet-client.crt
+-rw------- 1 root root  227 Nov  7 10:22 /etc/kubernetes/ssl/kubelet-client.key
+-rw-r--r-- 1 root root 1115 Nov  7 10:16 /etc/kubernetes/ssl/kubelet.crt
+-rw------- 1 root root 1675 Nov  7 10:16 /etc/kubernetes/ssl/kubelet.key
+```
+
+> **#注意：**
+> apiserver如果不启动后续没法操作
+> kubelet里面配置的IP地址都是本机（master配置node）
+> Node服务上先启动nginx-proxy在启动kube-proxy。kube-proxy里面地址配置本机127.0.0.1:6443实际上就是master:6443

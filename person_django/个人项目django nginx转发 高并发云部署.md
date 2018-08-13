@@ -2,7 +2,35 @@
 
 ### 1. 这么搭建的作用  
 
+### uwsgi
 
+  
+
+与WSGI一样，是uWSGI服务器的独占通信协议，用于定义传输信息的类型(type of information)。每一个uwsgi packet前4byte为传输信息类型的描述，与WSGI协议是两种东西，据说该协议是fcgi协议的10倍快。
+
+​    
+
+### Nginx
+
+  
+
+Nginx是一个Web服务器其中的HTTP服务器功能和uWSGI功能很类似，但是Nginx还可以用作更多用途，比如最常用的反向代理功能。
+
+​    
+
+### Django
+
+  
+
+Django是一个Web框架，框架的作用在于处理request和 reponse，其他的不是框架所关心的内容。所以如何部署Django不是Django所需要关心的。 
+
+  
+
+Django所提供的是一个开发服务器，这个开发服务器，没有经过安全测试，而且使用的是Python自带的simple HTTPServer 创建的，在安全性和效率上都是不行的。 
+
+
+
+ps :为了解决高并发，因为django自带的web服务器效率上不行。
 
 ### 2. 前期环境准备
 

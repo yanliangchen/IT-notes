@@ -1,4 +1,4 @@
-### 1 下载并安装MySQL官方的 Yum Repository
+### 1 下载并安装MySQL官方的Yum Repository
 
  
 
@@ -186,3 +186,80 @@ mysql> set global validate_password_length=1;
  
 
   此时才算真的完成了。
+
+
+
+
+
+### 3. 客户端连接mysql 
+
+//如果是像navicat这种连接mysql ,那么则需要保证云主机上的mysql跑在ipv4上 
+
+```
+//vi my.cnf
+bind-address = 0.0.0.0
+```
+
+
+
+//云主机端口放行 
+
+
+
+//这里顺便复习一下端口的相关操作 
+
+```
+一、查看端口开启状态
+[zhujiang@localhost n2]$ sudo firewall-cmd --query-port=9998/udp
+[sudo] password for zhujiang: 
+no
+
+二、开启端口
+
+[zhujiang@localhost n2]$ sudo firewall-cmd --add-port=9998/udp --permanent
+success
+
+--permanent表示永久生效，重启不会丢失配置。
+
+三、关闭端口
+[zhujiang@localhost n2]$ sudo firewall-cmd --remove-port=9998/udp --permanent
+Warning: NOT_ENABLED: 9998:udp
+success
+
+重新加载配置
+[zhujiang@localhost n2]$ sudo firewall-cmd --reload
+success
+```
+
+
+
+//防火墙关闭
+
+```
+systemctl stop firewalld.service
+systemctl disable firewalld.service 
+firewall-cmd --state #查看默认防火墙状态
+```
+
+
+
+
+
+//重启mysql 
+
+```
+service  mysqld stop 
+service mysqld start 
+service mysqld restart
+```
+
+
+
+//之后本地就可以连接了 ，还需要通过指定ip来进行授予客户端访问权限一个设置 进入mysql来敲命令
+
+```
+grant all privileges on *.* to 'root'@'192.168.1.1' identified by '密码';
+//删除权限
+DELETE FROM user WHERE User='root' and Host='%';
+```
+

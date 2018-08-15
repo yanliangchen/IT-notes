@@ -2231,3 +2231,232 @@ git push gitee master
 
 ## 11. git连接pycharm参考
 **https://blog.csdn.net/liuhongyue/article/details/80594864**
+
+
+
+
+
+## 12.几个相关命令的区别(append)
+
+
+
+git是分布式版本控制系统，SVN是集中式版本控制系统。
+
+#### **12.1reset 与 rebase, pull 与 fetch 的区别**
+
+git reset 不修改commit相关的东西，只会去修改.git目录下的东西。
+
+git rebase 会试图修改你已经commit的东西，比如覆盖commit的历史等，但是不能使用rebase来修改已经push过的内容，容易出现兼容性问题。rebase还可以来解决内容的冲突，解决两个人修改了同一份内容，然后失败的问题。
+
+git pull pull=fetch+merge,
+
+使用git fetch是取回远端更新，不会对本地执行merge操作，不会去动你的本地的内容。
+
+而是用git pull会更新你本地代码到服务器上对应分支的最新版本
+
+
+
+#### **12.2git merge和git rebase的区别**
+
+git merge把本地代码和已经取得的远程仓库代码合并。
+
+git rebase是复位基底的意思，gitmerge会生成一个新的节点，之前的提交会分开显示，而rebase操作不会生成新的操作，将两个分支融合成一个线性的提交。
+
+
+
+#### 12.3git和svn的优缺点。
+
+1．SVN优缺点 
+优点： 
+1、 管理方便，逻辑明确，符合一般人思维习惯。 
+2、 易于管理，集中式服务器更能保证安全性。 
+3、 代码一致性非常高。 
+4、 适合开发人数不多的项目开发。 
+缺点： 
+1、 服务器压力太大，数据库容量暴增。 
+2、 如果不能连接到服务器上，基本上不可以工作，看上面第二步，如果服务器不能连接上，就不能提交，还原，对比等等。 
+3、 不适合开源开发（开发人数非常非常多，但是Google app engine就是用svn的）。但是一般集中式管理的有非常明确的权限管理机制（例如分支访问限制），可以实现分层管理，从而很好的解决开发人数众多的问题。
+
+2．Git优缺点 
+优点： 
+1、适合分布式开发，强调个体。 
+2、公共服务器压力和数据量都不会太大。 
+3、速度快、灵活。 
+4、任意两个开发者之间可以很容易的解决冲突。 
+5、离线工作。 
+缺点： 
+1、学习周期相对而言比较长。 
+2、不符合常规思维。 
+3、代码保密性差，一旦开发者把整个库克隆下来就可以完全公开所有代码和版本信息。
+
+#### **12.4git如何解决代码冲突**
+
+git stash 
+git pull 
+git stash pop 
+这个操作就是把自己修改的代码隐藏，然后把远程仓库的代码拉下来，然后把自己隐藏的修改的代码释放出来，让gie自动合并。
+
+如果要代码库的文件完全覆盖本地版本。 
+git reset –hard 
+git pull
+
+
+
+## 13.git中的一些问题
+
+**git add 和 git stage 有什么区别**
+
+在回答这个问题之前需要先了解 git 仓库的三个组成部分：工作区（Working Directory）、暂存区（Stage）和历史记录区（History）：
+
+- 工作区：在 git 管理下的正常目录都算是工作区，我们平时的编辑工作都是在工作区完成。
+- 暂存区：临时区域。里面存放将要提交文件的快照。
+- 历史记录区：git commit 后的记录区。
+
+然后是这三个区的转换关系以及转换所使用的命令：
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-1ae5633b50e2a991.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+然后我们就可以来说一下 git add 和 git stage 了。其实，他们两是同义的，所以，惊不惊喜，意不意外？**这个问题竟然是个陷阱…**引入 git stage 的原因其实比较有趣：是因为要跟 svn add 区分，两者的功能是完全不一样的，svn add 是将某个文件加入版本控制，而 git add 则是把某个文件加入暂存区，因为在 git 出来之前大家用 svn 比较多，所以为了避免误导，git 引入了git stage，然后把 git diff --staged 做为 git diff --cached 的相同命令。基于这个原因，我们建议使用 git stage 以及 git diff --staged。
+
+**考察关键点：**
+
+- 对 git 工作区（Working Directory）、暂存区（Stage）和历史记录区（History）以及转换关系的了解；
+- 对 git add 和 git stage 的了解。
+
+**回答关键点：**
+
+- 工作区（Working Directory）、暂存区（Stage）和历史记录区（History）以及转换关系不能少；
+- git stage 是 git add 的同义指令；
+- 我用 git stage。
+
+**git reset、git revert 和 git checkout 有什么区别**
+
+这个问题同样也需要先了解 git 仓库的三个组成部分：工作区（Working Directory）、暂存区（Stage）和历史记录区（History）。
+
+首先是它们的共同点：用来撤销代码仓库中的某些更改。
+
+然后是不同点：
+
+首先，从 commit 层面来说：
+
+- git reset 可以将一个分支的末端指向之前的一个 commit。然后再下次 git 执行垃圾回收的时候，会把这个 commit 之后的 commit 都扔掉。git reset 还支持三种标记，用来标记 reset 指令影响的范围：
+
+- --mixed：会影响到暂存区和历史记录区。也是默认选项；
+- --soft：只影响历史记录区；
+- --hard：影响工作区、暂存区和历史记录区。
+
+注意：因为 git reset 是直接删除 commit 记录，从而会影响到其他开发人员的分支，所以不要在公共分支（比如 develop）做这个操作。
+
+- git checkout 可以将 HEAD 移到一个新的分支，并更新工作目录。因为可能会覆盖本地的修改，所以执行这个指令之前，你需要 stash 或者 commit 暂存区和工作区的更改。
+- git revert 和 git reset 的目的是一样的，但是做法不同，它会以创建新的 commit 的方式来撤销 commit，这样能保留之前的 commit 历史，比较安全。另外，同样因为可能会覆盖本地的修改，所以执行这个指令之前，你需要 stash 或者 commit 暂存区和工作区的更改。
+
+然后，从文件层面来说：
+
+- git reset 只是把文件从历史记录区拿到暂存区，不影响工作区的内容，而且不支持 --mixed、--soft 和 --hard。
+- git checkout 则是把文件从历史记录拿到工作区，不影响暂存区的内容。
+- git revert 不支持文件层面的操作。
+
+**回答关键点：**
+
+- 对于 commit 层面和文件层面，这三个指令本身功能差别很大。
+- git revert 不支持文件层面的操作。
+- 不要在公共分支做 git reset 操作。
+
+![QQ截图20171023095831.png](http://api.cocoachina.com/uploads//20171023/1508723940305561.png)
+
+**GitFlow 基本流程和你的理解**
+
+GitFlow 是由 Vincent Driessen 提出的一个 git操作流程标准。包含如下几个关键分支：
+
+![QQ截图20171023094620.png](http://api.cocoachina.com/uploads//20171023/1508723212319082.png)
+
+GitFlow 的优势有如下几点：
+
+- 并行开发：GitFlow 可以很方便的实现并行开发：每个新功能都会建立一个新的 feature 分支，从而和已经完成的功能隔离开来，而且只有在新功能完成开发的情况下，其对应的 feature 分支才会合并到主开发分支上（也就是我们经常说的 develop 分支）。另外，如果你正在开发某个功能，同时又有一个新的功能需要开发，你只需要提交当前 feature 的代码，然后创建另外一个 feature 分支并完成新功能开发。然后再切回之前的 feature 分支即可继续完成之前功能的开发。
+- 协作开发：GitFlow 还支持多人协同开发，因为每个 feature 分支上改动的代码都只是为了让某个新的 feature 可以独立运行。同时我们也很容易知道每个人都在干啥。
+- 发布阶段：当一个新 feature 开发完成的时候，它会被合并到 develop 分支，这个分支主要用来暂时保存那些还没有发布的内容，所以如果需要再开发新的 feature，我们只需要从 develop 分支创建新分支，即可包含所有已经完成的 feature 。
+- 支持紧急修复：GitFlow 还包含了 hotfix 分支。这种类型的分支是从某个已经发布的 tag 上创建出来并做一个紧急的修复，而且这个紧急修复只影响这个已经发布的 tag，而不会影响到你正在开发的新 feature。
+
+然后就是 GitFlow 最经典的几张流程图，一定要理解：
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-c5cd904f0b2c2cd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+feature 分支都是从 develop 分支创建，完成后再合并到 develop 分支上，等待发布。
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-4533145a3f9ce5b4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+当需要发布时，我们从 develop 分支创建一个 release 分支
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-bc6d36585ed8d8a0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+然后这个 release 分支会发布到测试环境进行测试，如果发现问题就在这个分支直接进行修复。在所有问题修复之前，我们会不停的重复**发布->测试->修复->重新发布->重新测试**这个流程。
+
+发布结束后，这个 release 分支会合并到 develop 和 master 分支，从而保证不会有代码丢失。
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-42a2ee57874a1fc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+master 分支只跟踪已经发布的代码，合并到 master 上的 commit 只能来自 release 分支和 hotfix 分支。
+
+hotfix 分支的作用是紧急修复一些 Bug。
+
+它们都是从 master 分支上的某个 tag 建立，修复结束后再合并到 develop 和 master 分支上。
+
+**考察关键点：**
+
+- GitFlow 包含的分支类型和功能；
+- GitFlow 的优势；
+- 对 GitFlow feature、release、hotfix 流程的理解。
+
+**回答关键点：**
+
+- GitFlow 的基本内容以及优势；
+- 对于 feature 流程，都是**从 develop 分支发起**，然后通过[ **PR／MR 的方式**](http://www.jianshu.com/p/e1e9692f3d88#pr-vs-mr)合并回 develop 分支；
+- 对于 release 流程，则是要注意几点：
+
+- 如果 release 分支上有 bug 需要修复，直接在 release 分支上完成；
+- release 分支上的 bug 修复要持续**通过 PR／MR 的方式**合并回 develop 分支；
+- 最后确认发版的时候才把 release 分支直接合并到 master 分支。
+
+- 对于 hotfix 流程，则是要注意几点：
+
+- 从 master 分支发起；
+- 修复完要同时合并到 develop 和 master。
+
+![1.png](http://api.cocoachina.com/uploads//20171023/1508723976903193.png)
+
+**解释下 PR 和 MR 的区别**
+
+PR 和 MR 的全称分别是 pull request 和 merge request。解释它们两者的区别之前，我们需要先了解一下 Code Review，因为 PR 和 MR 的引入正是为了进行 Code Review。
+
+Code Review 是指在开发过程中，对代码的系统性检查。通常的目的是查找系统缺陷，保证代码质量和提高开发者自身水平。 Code Review 是轻量级代码评审，相对于正式代码评审，轻量级代码评审所需要的各种成本要明显低的多，如果流程正确，它可以起到更加积极的效果。
+
+进行 Code Review 的原因：
+
+- 提高代码质量
+- 及早发现潜在缺陷与BUG，降低事故成本。
+- 促进团队内部知识共享，提高团队整体水平
+- 评审过程对于评审人员来说，也是一种思路重构的过程，帮助更多的人理解系统。
+
+然后我们需要了解下 fork 和 branch，因为这是 PR 和 MR 各自所属的协作流程。
+
+fork 是 git 上的一个协作流程。通俗来说就是把别人的仓库备份到自己仓库，修修改改，然后再把修改的东西提交给对方审核，对方同意后，就可以实现帮别人改代码的小目标了。fork 包含了两个流程：
+
+- fork 并更新某个仓库
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-a7548263f2745abb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+- 同步 fork
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-10f3c89e7d71a5c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+和 fork 不同，branch 并不涉及其他的仓库，操作都在当前仓库完成。
+
+![img](http://upload-images.jianshu.io/upload_images/4481019-add607b128b3ae5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+所以 PR 和 MR 的最大区别就在于此。
+
+**考察关键点：**
+
+- Code review；
+- PR 和 MR 所属流程的细节。
+

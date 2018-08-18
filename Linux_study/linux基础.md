@@ -240,11 +240,40 @@ Linux系统中使用以下命令来查看文件的内容：
 
 
 
-## 没学呢 linux添加个用户  删除用户等操作
 
-### 5.
+### 5.添加个用户  删除用户等操作
+
+1、建用户：
+
+adduser phpq                             //新建phpq用户
+passwd phpq                               //给phpq用户设置密码
+
+ 
+
+2、建工作组
+groupadd test                          //新建test工作组
+
+ 
+
+3、新建用户同时增加工作组
+useradd -g test phpq                      //新建phpq用户并增加到test工作组
+
+ 
+
+注：：-g 所属组 -d 家目录 -s 所用的SHELL
 
 
+
+4、给已有的用户增加工作组
+usermod -G groupname username
+
+ 
+
+或者：gpasswd -a user group
+
+
+
+6、永久性删除用户账号 userdel peter
 
 
 

@@ -215,45 +215,76 @@ chmod 755 rc.local
 
 
 
-#### 2.3 Python3.5安装
+#### 2.3 Python3.6安装
 
 ```
-安装Python3.5 
-不要删除自带的python2.7，否则会出问题，因为centos许多软件需要依赖系统自带python
-安装依赖工具 yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel
-下载 wget https://www.python.org/ftp/python/3.5.1/Python-3.5.1.tgz
-解压 tar -zxvf Python-3.5.1.tgz
-移动至规范的放软件的目录下 mv Python-3.5.1 /usr/local
-安装：
-cd /usr/local/Python-3.5.1/
-make & make install
-更新python的软连接：
-rm -rf /usr/bin/python
-ln -s /usr/local/bin/python3.5 /usr/bin/python
-验证
-python -V
+由于centos7原本就安装了Python2，而且这个Python2不能被删除，因为有很多系统命令，比如yum都要用到。
 
-这里需要注意的是安装完python3  会发现yum不好用了  是因为版本升级的原因
-yum里面指明python环境用python2来解析  
-vim /usr/bin/yum
-试一下 结果发现还报错 给改成 python
-vim /usr/libexec/urlgrabber-ext-down 
+    [root@VM_105_217_centos Python-3.6.2]# python
+    Python 2.7.5 (default, Aug  4 2017, 00:39:18)
+    [GCC 4.8.5 20150623 (Red Hat 4.8.5-16)] on linux2
+    Type "help", "copyright", "credits" or "license" for more information.
 
-```
+输入Python命令，查看可以得知是Python2.7.5版本
+
+输入
+
+    which python
+
+可以查看位置，一般是位于/usr/bin/python目录下。
+
+下面介绍安装Python3的方法
+
+首先安装依赖包
+
+    yum -y groupinstall "Development tools"
+    yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel
+
+然后根据自己需求下载不同版本的Python3，我下载的是Python3.6.2
+
+    wget https://www.python.org/ftp/python/3.6.2/Python-3.6.2.tar.xz
+
+如果速度不够快，可以直接去官网下载，利用WinSCP等软件传到服务器上指定位置，我的存放目录是/usr/local/python3，使用命令：
+
+    mkdir /usr/local/python3 
+
+建立一个空文件夹
+
+然后解压压缩包，进入该目录，安装Python3
+
+    tar -xvJf  Python-3.6.2.tar.xz
+    cd Python-3.6.2
+    ./configure --prefix=/usr/local/python3
+    make && make install
+
+最后创建软链接
+
+#这里需要注入的是如果出现报错软连接存在的话 
+
+#则需要把之前的python软连接进行移除
+
+     mv /usr/bin/python /usr/bin/python_old
+
+    ln -s /usr/local/python3/bin/python3 /usr/bin/python
+    ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
+
+在命令行中输入python3测试:
+
+成功！
+
+#之后因为升级了python所以yum安装报错
+
+- 新版的python安装好后要修改python的系统默认指向问题
+- 升级到最新版python后yum报错的问题
+
+	http://www.mamicode.com/info-detail-1454043.html
+
+    $vim /usr/bin/yum
+    $ vim  /usr/libexec/urlgrabber-ext-down
+    改成2.7 也就是说大的系统环境是3 yum用的2.7的python环境
+    #!/usr/bin/python2.7
 
 
-
-```
-#上面安装python 我记得这里有个坑 编译的时候  也记录了下来 到时候看吧
-make: *** No targets specified and no makefile found. Stop.解决方法
-2015年09月24日 14:34:03
-阅读数：33445 
-转载请注明出处:http://blog.csdn.net/l1028386804/article/details/48710993
-1、wget http://ftp.gnu.org/pub/gnu/ncurses/ncurses-5.6.tar.gz
-2.、tar zxvf ncurses-5.6.tar.gz
-3、 ./configure -prefix=/usr/local -with-shared-without-debug
-4、make
-5、make install
 ```
 
 
@@ -261,8 +292,8 @@ make: *** No targets specified and no makefile found. Stop.解决方法
 #### 2.4 Django2.1安装
 
 ```3
-#检查是否有pip 先给pip做一个软链  
-$ ln -s /usr/local/bin/python3.5 /usr/bin/python
+#检查是否有pip 先给pip做一个软链  (可忽略)
+$ ln -s /usr/local/bin/python3.6?  /usr/bin/python
 #之后 升级pip (18版本)
 $ pip install --upgrade  pip 
 #之后安装django （这里是2.1版本的django）

@@ -23,49 +23,49 @@
 1 卸载老版本的 docker 及其相关依赖
 
 ```
-sudo yum remove docker docker-common container-selinux docker-selinux docker-engine1
+sudo yum remove docker docker-common container-selinux docker-selinux docker-engine
 ```
 
 2 安装 yum-utils，它提供了 yum-config-manager，可用来管理yum源
 
 ```
-sudo yum install -y yum-utils1
+sudo yum install -y yum-utils
 ```
 
 3 添加yum源
 
 ```
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo1
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 ```
 
 4 更新yum索引
 
 ```
-sudo yum makecache fast1
+sudo yum makecache fast
 ```
 
 5 安装 docker-ce
 
 ```
-sudo yum install docker-ce1
+sudo yum install docker-ce
 ```
 
 6 启动 docker
 
 ```
-sudo systemctl start docker1
+sudo systemctl start docker
 ```
 
 7 验证是否安装成功
 
 ```
-sudo docker info1
+sudo docker info
 ```
 
 8 设置开机启动
 
 ```
-$systemctl enable docker1
+$systemctl enable docker
 ```
 
 # 2 使用Docker加速器

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-摘自简书：https://www.jianshu.com/p/83c8ef18a1e8
+摘自：https://www.jianshu.com/p/83c8ef18a1e8
 '''
 import  numpy  as  np
 '''

@@ -307,14 +307,17 @@ print (student)
 #### 3.2.8 示例8
 
 ```
+import numpy as np 
 
+student = np.dtype([('name','S20'),  ('age',  'i1'),  ('marks',  'f4')]) 
+a = np.array([('abc',  21,  50),('xyz',  18,  75)], dtype = student)  
+print a
+
+#输出如下：
+[('abc', 21, 50.0), ('xyz', 18, 75.0)]
 ```
 
-输出如下：
 
-```
-
-```
 
 每个内建类型都有一个唯一定义它的字符代码： 
 

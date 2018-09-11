@@ -1,9 +1,9 @@
 import redis, json, time
 from pymysql import connect
 
-# redisÊı¾İ¿âÁ´½Ó
+#redisæ•°æ®åº“è¿æ¥
 redis_client = redis.StrictRedis(host="127.0.0.1", port=6379, db=0)
-# mysqlÊı¾İ¿âÁ´½Ó
+# mysqlæ•°æ®åº“è¿æ¥
 mysql_client = connect(host="127.0.0.1", user="root", password="mysql",
                  database="sina", port=3306, charset='utf8')
 cursor = mysql_client.cursor()

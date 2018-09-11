@@ -93,7 +93,12 @@ numpy.array(object, dtype = None, copy = True, order = None, subok = False, ndmi
 #### 3.1.1 示例 1
 
 ```
+import numpy as np 
+a = np.array([1,2,3])  
+print a
 
+#输出如下
+[1, 2, 3]
 ```
 
 

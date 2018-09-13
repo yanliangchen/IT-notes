@@ -228,13 +228,98 @@ def strtest1(num):
 
 
 
-### 
+### 9. input()与raw_input()区别
+
+```
+内建函数input()是eval()和raw_input()的组合，等价于eval(raw_input())。类似于
+raw_input()，input()有一个可选的参数，该参数代表了给用户的字符串提示。如果不给定参数的
+话，该字符串默认为空串。
+从功能上看,input 不同于raw_input()，因为raw_input()总是以字符串的形式，逐字地返回用
+户的输入。input()履行相同的的任务；而且，它还把输入作为python 表达式进行求值。这意味着
+input()返回的数据是对输入表达式求值的结果：一个python 对象。
+
+input：你输入数字，不会报错  然而你输入一个字符串  系统不知道你输入的 ，会在系统库中寻找它，被理解了变量的名字，就会报错 ，数字是因为系统库里面有。
+```
 
 
 
 
 
+### 10. xrange()与range()
 
 
 
+```
+xrange() 内建函数
+xrange() 类似 range() , 不过当你有一个很大的范围列表时, xrange() 可能更为适合, 因为
+它不会在内存里创建列表的完整拷贝. 它只被用在 for 循环中, 在 for 循环外使用它没有意义。
+同样地, 你可以想到, 它的性能远高出 range(), 因为它不生成整个列表。
+```
+
+
+
+
+
+### 11.网络编程
+
+```
+from socket import * 比 import socket 化简代码
+tcpSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+化简为
+tcpSock = socket(AF_INET, SOCK_STREAM)
+[典型的通用服务端伪代码]：
+    ss = socket()       # 创建服务器套接字
+    ss.bind()           # 把地址绑定到套接字上
+    ss.listen()         # 监听连接
+    inf_loop:           # 服务器无限循环
+    cs = ss.accept()    # 接受客户的连接
+    comm_loop:          # 通讯循环
+    cs.recv()/cs.send() # 对话（接收与发送）
+    cs.close()          # 关闭客户套接字
+    ss.close()          # 关闭服务器套接字（可选）
+[典型的通用客户端伪代码]：
+    cs = socket()       # 创建客户套接字
+    cs.connect()        # 尝试连接服务器
+    comm_loop:          # 通讯循环
+    cs.send()/cs.recv() # 对话（发送／接收）
+    cs.close()          # 关闭客户套接字
+```
+
+
+
+### 12. Python 对象之间赋值
+
+```
+Python 中的对象之间赋值时是按引用传递的，如果需要拷贝对象，需要使用标准库中的 copy 模块。
+copy.copy 浅拷贝 只拷贝父对象，不会拷贝对象的内部的子对象。
+copy.deepcopy 深拷贝 拷贝对象及其子对象。
+```
+
+
+
+
+
+### 13. 关于自定义莫款相对路径引入报错
+
+```
+ 因为主 module 的 name 总是为 main , 并没有层次结构, 也就无从谈起相对引用了。 换句话, if name=="main": 和相对引用是不能并存的。
+ 
+#不写if  __name__ =='main':
+导入进来的代码就会被执行  写了 就不会执行
+```
+
+
+
+### 14. python中%r和%s的区别
+
+```
+%r用rper()方法处理对象
+%s用str()方法处理对象
+>>> import datetime
+>>> d = datetime.date.today()
+>>> print "%s" % d
+2015-10-30
+>>> print "%r" % d
+datetime.date(2015, 10, 30)
+```
 

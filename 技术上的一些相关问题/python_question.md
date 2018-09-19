@@ -407,3 +407,24 @@ print type(a),type(b),type(c) # <type 'list'> <type 'dict'> <type 'bool'>
 print isinstance(a,list)  # True
 ```
 
+
+
+### 17. 什么是鸭子类型
+
+```
+在鸭子类型中，关注的不是对象的类型本身，而是他如何使用的。例如，在不适用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为鸭的对象，并调用它的走和叫方法。在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的走和叫方法。
+
+class duck():
+   def walk(self):
+       print('I am duck,I can walk...')
+   def swim(self):
+       print('I am duck,I can swim...')
+   def call(self):
+       print('I am duck,I can call...')
+
+duck1=duck()
+duck1.walk()
+     # I am duck,I can walk...
+duck1.call()      # I am duck,I can call...
+```
+

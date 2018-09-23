@@ -2460,3 +2460,12 @@ fork 是 git 上的一个协作流程。通俗来说就是把别人的仓库备�
 - Code review；
 - PR 和 MR 所属流程的细节。
 
+
+
+
+
+
+
+## 14. github团队开发示例 
+
+ 摘自: https://www.cnblogs.com/greyzeng/p/6044837.html

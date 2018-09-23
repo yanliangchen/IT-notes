@@ -1,5 +1,3 @@
-原
-
 # centos7 安装docker
 
  	

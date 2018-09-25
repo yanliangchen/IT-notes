@@ -81,6 +81,7 @@ http://www.mamicode.com/info-detail-1454043.html
 
 ```
 $vim /usr/bin/yum
+$vim  /usr/libexec/urlgrabber-ext-down
 改成2.7 也就是说大的系统环境是3 yum用的2.7的python环境
 #!/usr/bin/python2.7
 ```

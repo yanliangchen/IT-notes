@@ -658,7 +658,7 @@ echo "两数之和为 : $val"
 两点注意：
 
 -  		表达式和运算符之间要有空格，例如 2+2 是不对的，必须写成 2 + 2，这与我们熟悉的大多数编程语言不一样。
--  		完整的表达式要被 ` ` 包含，注意这个字符不是常用的单引号，在 Esc 键下边。
+	  		完整的表达式要被 ` ` 包含，注意这个字符不是常用的单引号，在 Esc 键下边。
 
 ### 4.1算术运算符
 
@@ -746,7 +746,7 @@ a 不等于 b
  
 
 -  		乘号(*)前边必须加反斜杠(\)才能实现乘法运算；
--  		if...then...fi 是条件语句，后续将会讲解。
+	  		if...then...fi 是条件语句，后续将会讲解。
 - 在 MAC 中 shell 的 expr 语法是：**$((表达式))**，此处表达式中的 "*" 不需要转义符号 "\" 。
 
 
@@ -1121,4 +1121,322 @@ fi
 文件不是个目录
 文件不为空
 文件存在
+```
+
+
+## 5.Shell echo 命令
+
+Shell 的 echo 指令与 PHP 的 echo 指令类似，都是用于字符串的输出。命令格式：
+
+ 
+
+```
+echo string
+```
+
+ 
+
+ 您可以使用echo实现更复杂的输出格式控制。 
+
+ 
+
+###  5.1显示普通字符串:
+
+ 
+
+```
+echo "It is a test"
+```
+
+ 
+
+ 这里的双引号完全可以省略，以下命令与上面实例效果一致：
+
+ 
+
+```
+echo It is a test
+```
+
+###  5.2显示转义字符
+
+ 
+
+```
+echo "\"It is a test\""
+```
+
+ 
+
+ 结果将是:
+
+ 
+
+```
+"It is a test"
+```
+
+ 
+
+ 同样，双引号也可以省略
+
+ 
+
+###  5.3显示变量
+
+ 
+
+read 命令从标准输入中读取一行,并把输入行的每个字段的值指定给 shell 变量
+
+ 
+
+```
+#!/bin/sh
+read name 
+echo "$name It is a test"
+```
+
+ 
+
+以上代码保存为 test.sh，name 接收标准输入的变量，结果将是: 
+
+ 
+
+```
+[root@www ~]# sh test.sh
+OK                     #标准输入
+OK It is a test        #输出
+```
+
+ 
+
+###  5.4显示换行
+
+ 
+
+```
+echo -e "OK! \n" # -e 开启转义
+echo "It it a test"
+```
+
+ 
+
+输出结果：
+
+ 
+
+```
+OK!
+
+It it a test
+```
+
+ 
+
+### 5.5显示不换行 
+
+```
+#!/bin/sh
+echo -e "OK! \c" # -e 开启转义 \c 不换行
+echo "It is a test"
+```
+
+ 
+
+输出结果：
+
+ 
+
+```
+OK! It is a test
+```
+
+ 
+
+###  5.6显示结果定向至文件
+
+ 
+
+```
+echo "It is a test" > myfile
+```
+
+ 
+
+###  5.7原样输出字符串，不进行转义或取变量(用单引号)
+
+ 
+
+```
+echo '$name\"'
+```
+
+ 
+
+输出结果：
+
+ 
+
+```
+$name\"
+```
+
+ 
+
+###  5.8显示命令执行结果
+
+```
+echo `date`
+```
+
+ 
+
+**注意：** 这里使用的是反引号 `, 而不是单引号 '。
+
+ 
+
+ 结果将显示当前日期
+
+ 
+
+```
+Thu Jul 24 10:08:46 CST 2014
+```
+
+
+
+
+## 6. Shell printf命令
+
+实例如下：
+
+ 
+
+```
+$ echo "Hello, Shell"
+Hello, Shell
+$ printf "Hello, Shell\n"
+Hello, Shell
+$
+```
+
+ 
+
+接下来,我来用一个脚本来体现printf的强大功能：
+
+ 
+
+```
+#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+ 
+printf "%-10s %-8s %-4s\n" 姓名 性别 体重kg  
+printf "%-10s %-8s %-4.2f\n" 郭靖 男 66.1234 
+printf "%-10s %-8s %-4.2f\n" 杨过 男 48.6543 
+printf "%-10s %-8s %-4.2f\n" 郭芙 女 47.9876 
+```
+
+执行脚本，输出结果如下所示：
+
+ 
+
+```
+姓名     性别   体重kg
+郭靖     男      66.12
+杨过     男      48.65
+郭芙     女      47.99
+```
+
+ 
+
+ %s %c %d %f都是格式替代符
+
+ %-10s 指一个宽度为10个字符（-表示左对齐，没有则表示右对齐），任何字符都会被显示在10个字符宽的字符内，如果不足则自动以空格填充，超过也会将内容全部显示出来。
+
+ %-4.2f 指格式化为小数，其中.2指保留2位小数。
+
+  
+
+ 
+
+更多实例：
+
+ 
+
+```
+#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+ 
+# format-string为双引号
+printf "%d %s\n" 1 "abc"
+
+# 单引号与双引号效果一样 
+printf '%d %s\n' 1 "abc" 
+
+# 没有引号也可以输出
+printf %s abcdef
+
+# 格式只指定了一个参数，但多出的参数仍然会按照该格式输出，format-string 被重用
+printf %s abc def
+
+printf "%s\n" abc def
+
+printf "%s %s %s\n" a b c d e f g h i j
+
+# 如果没有 arguments，那么 %s 用NULL代替，%d 用 0 代替
+printf "%s and %d \n" 
+```
+
+执行脚本，输出结果如下所示：
+
+ 
+
+```
+1 abc
+1 abc
+abcdefabcdefabc
+def
+a b c
+d e f
+g h i
+j  
+ and 0
+```
+
+ 
+
+### 6.1printf的转义序列
+
+###  
+
+| 序列  | 说明                                                         |
+| ----- | ------------------------------------------------------------ |
+| \a    | 警告字符，通常为ASCII的BEL字符                               |
+| \b    | 后退                                                         |
+| \c    | 抑制（不显示）输出结果中任何结尾的换行字符（只在%b格式指示符控制下的参数字符串中有效），而且，任何留在参数里的字符、任何接下来的参数以及任何留在格式字符串中的字符，都被忽略 |
+| \f    | 换页（formfeed）                                             |
+| \n    | 换行                                                         |
+| \r    | 回车（Carriage return）                                      |
+| \t    | 水平制表符                                                   |
+| \v    | 垂直制表符                                                   |
+| \\    | 一个字面上的反斜杠字符                                       |
+| \ddd  | 表示1到3位数八进制值的字符。仅在格式字符串中有效             |
+| \0ddd | 表示1到3位的八进制值字符                                     |
+
+ 
+
+### 6.2 实例
+
+```
+$ printf "a string, no processing:<%s>\n" "A\nB"
+a string, no processing:<A\nB>
+
+$ printf "a string, no processing:<%b>\n" "A\nB"
+a string, no processing:<A
+B>
+
+$ printf "www.runoob.com \a"
+www.runoob.com $                  #不换行
 ```

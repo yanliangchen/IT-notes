@@ -1006,3 +1006,23 @@ sysyemctl  status  firewalld
 10. `#systemctl restart firewalld.service  //修改配置后需要重启服务使其生效`
 
 11. `firewall-cmd --zone=public --query-port=8080/tcp  //查看服务是否生效（例：添加的端口为8080)`
+
+
+
+
+
+## 12. ping 
+
+ping命令
+
+的-c参数和-s参数，其含义如下：
+
+-c 数目：在发送指定数目的包后停止。
+
+-s 字节数：指定发送的数据字节数，预设值是56，加上8字节的ICMP头，一共是64ICMP数据字节。
+
+用法示例：
+
+$ ping -c 4 -s 1500 [192.168.1.1](https://www.baidu.com/s?wd=192.168.1.1&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)
+
+[![img](https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=e3fd11f7cd1349547e4be062667ebe60/3bf33a87e950352a7b7e8c7e5543fbf2b2118bad.jpg)](https://gss0.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/3bf33a87e950352a7b7e8c7e5543fbf2b2118bad.jpg)

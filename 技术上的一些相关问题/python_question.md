@@ -428,3 +428,32 @@ duck1.walk()
 duck1.call()      # I am duck,I can call...
 ```
 
+### 18. lamda
+
+```
+foo = [2, 18, 9, 22, 17, 24, 8, 12, 27]
+print filter(lambda x: x % 3 == 0, foo)
+[18, 9, 24, 12, 27]
+print map(lambda x: x * 2 + 10, foo)
+[14, 46, 28, 54, 44, 58, 26, 34, 64]
+#求和
+print reduce(lambda x, y: x + y, foo)
+139
+
+lambda 定义了一个匿名函数
+　　lambda 并不会带来程序运行效率的提高，只会使代码更简洁。
+　　如果可以使用for...in...if来完成的，坚决不用lambda。
+　　如果使用lambda，lambda内不要包含循环，如果有，我宁愿定义函数来完成，使代码获得可重用性和更好的可读性。
+　　总结：lambda 是为了减少单行函数的定义而存在的。
+
+```
+
+
+
+### 19. pass
+
+```
+Python pass是空语句，是为了保持程序结构的完整性。
+pass 不做任何事情，一般用做占位语句。
+```
+

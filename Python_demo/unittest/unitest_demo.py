@@ -1,7 +1,9 @@
 #-*- coding:utf-8 -*-
 #摘自 ：https://www.cnblogs.com/feng0815/p/8045850.html  （中间版本存在问题，这里python2.7）
 
-# python官方文档-unittest : https://docs.python.org/2/library/unittest.html#
+# python2官方文档-unittest : https://docs.python.org/2/library/unittest.html#
+
+# python3官方文档-unittest : https://docs.python.org/3/library/unittest.html
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')

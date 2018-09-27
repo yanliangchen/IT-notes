@@ -2469,3 +2469,50 @@ fork 是 git 上的一个协作流程。通俗来说就是把别人的仓库备�
 ## 14. github团队开发示例 
 
  摘自: https://www.cnblogs.com/greyzeng/p/6044837.html
+
+
+
+## 15. git团队开发示例 （纯手操)
+
+1. 一个新的仓库 
+
+2. master是已有的线上生产环境(有代码)
+
+3. 一个测试分支(test_dev)
+
+4. 一个开发分支develop(每个人保证这三个分支)
+
+5. 写好代码之后merge到测试分支，测试人员进行检测(针对测试分支)
+
+6. 测试不通过，测试分支进行代码回滚
+
+   ```
+   ###### 1.回滚之前先做备份 创建新的备份分支 拉取回滚前的代码 ...略 
+   
+   #进行回滚 （本地工作区）
+   git reflog  查看提交记录
+   
+   git reset --hard commit-id  //回滚到commit-id，讲commit-id之后提交的commit都去除
+   
+   git reset --hard HEAD~3 //将最近3次的提交回滚(补充)
+   
+   #远程回滚
+   git push origin HEAD --force
+   
+   
+   
+   ####### 2. 第二种回滚方式
+   git  reflog 查看commit id 
+   之后 git  checkout 到 当前id 
+   之后创建好分支 或者是直接在主分支或者test dev分支进行一个merge  这个当前的id 就能把回滚了， 因为你checkout这个id的时候 你只是HEAD指针发生了变化  然而你的工作区没有该内容  所以则需要merge一下当前的id到你目标工作区 
+   ```
+
+7. 开发人员继续修改代码 继续merge到测试分支 测试环境进行测试   不行再回滚 之后测试环境通过merge到master  
+
+8. 开发过程中 你只需要进行往一个你自己的分支去提交代码就行了 之后项目经理管理项目人员进行审核（即使他把你的代码给merge了，之后不好使,它那边也会进行一个revert 回退merge)
+
+9. 刚进入一个团队 只要把正在开发的分支代码拉下来到自己的分支就好了 之后push到自己的分支
+
+10. 离开一个团队 把你的代码给别人过一下  之后把代码所在的分支给进行一个git branch -d  branchname 删除操作 
+
+11. 远程分支也进行删除操作    git branch -d origin/BranchName

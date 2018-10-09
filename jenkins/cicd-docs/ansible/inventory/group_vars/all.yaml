@@ -1,0 +1,16 @@
+hostname: document.renkeju.com
+change_repo: "true"
+
+git_server_url: github.com
+git_server_ssh_user: git
+git_server_private_key_file: ansible_git
+git_server_public_key_file: ansible_git.pub
+
+git_project_user_or_group: 81192
+git_project_name: cicd-docs
+git_project_ssh: "ssh://{{ git_server_ssh_user }}@{{ git_server_url }}/{{ git_project_user_or_group }}/{{ git_project_name }}.git"
+
+nginx_http_listen_port: "80"
+nginx_server_name: cicd.renkeju.com
+
+html_file_path: /usr/share/nginx/html/{{ git_project_name }}

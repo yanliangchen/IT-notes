@@ -1,0 +1,4 @@
+nginx_http_listen_port: "80"
+nginx_server_name: "_"
+
+html_file_path: /usr/share/nginx/html

@@ -1,0 +1,29 @@
+---
+
+- name: Run sphinx make html
+  shell: |
+    source /opt/sphinx/bin/activate
+    make html
+    deactivate
+  args:
+    chdir: "/opt/{{ git_project_name }}"
+  register: result
+
+- name: shell scripts debug
+  debug:
+    var: result.stdout
+    verbosity: 0
+
+- name: remove {{ html_file_path }} directory
+  file:
+    path: "{{ html_file_path }}"
+    state: absent
+    
+- name: copy HTML to Nginx
+  shell: |
+    cp -rf "/opt/{{ git_project_name }}/build/html" "{{ html_file_path }}" 
+
+- name: remove git directory
+  file:
+    path: "/opt/{{ git_project_name }}"
+    state: absent

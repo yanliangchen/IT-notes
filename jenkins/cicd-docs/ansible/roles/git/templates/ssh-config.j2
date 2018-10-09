@@ -1,0 +1,4 @@
+Host {{ git_server_url }}
+  Hostname {{ git_server_url }}
+  User {{ git_server_ssh_user }}
+  IdentityFile ~/.ssh/{{ git_server_private_key_file }}

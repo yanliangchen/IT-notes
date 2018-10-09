@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>环境安装 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>环境安装</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/git/install.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>环境安装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>源码包安装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rhel-centos">
+<h3>RHEL/CentOS<a class="headerlink" href="#rhel-centos" title="Permalink to this headline">¶</a></h3>
+<p>类 RHEL 系统默认安装的版本是较旧的 1.8 版本，推荐使用 2.7 版本。</p>
+<ol class="arabic">
+<li><p class="first">安装依赖</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum upgrade -y
+yum install libcurl-devel <span class="se">\</span>
+expat-devel <span class="se">\</span>
+gettext-devel <span class="se">\</span>
+openssl-devel <span class="se">\</span>
+zlib-devel <span class="se">\</span>
+gcc <span class="se">\</span>
+perl-ExtUtils-MakeMaker <span class="se">\</span>
+bash-completion <span class="se">\</span>
+unzip
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">获取源码包</p>
+<blockquote>
+<div><p>注意不要使用 git 1.8 版本，推荐使用 2.7 版本</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/git/git/archive/v2.7.4.zip
+unzip v2.7.4.zip
+<span class="nb">cd</span> git-2.7.4
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">编译</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git all
+make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git install
+rm -rf /usr/bin/git
+ln -s /usr/local/git/bin/git /usr/bin/git
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">检查</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git --version
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="debian-ubuntu">
+<h3>Debian/Ubuntu<a class="headerlink" href="#debian-ubuntu" title="Permalink to this headline">¶</a></h3>
+<p>Ubuntu 发行版 apt repo 中 git 二进制安装包版本就是 2.7</p>
+<ol class="arabic">
+<li><p class="first">安装依赖</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt update
+sudo apt upgrade -y
+sudo apt -y install <span class="se">\</span>
+libcurl4-gnutls-dev <span class="se">\</span>
+libexpat1-dev <span class="se">\</span>
+gettext <span class="se">\</span>
+libz-dev <span class="se">\</span>
+libssl-dev <span class="se">\</span>
+unzip <span class="se">\</span>
+make <span class="se">\</span>
+gcc <span class="se">\</span>
+perl
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">获取源码包</p>
+<blockquote>
+<div><p>注意不要使用 git 1.8 版本，推荐使用 2.7 版本</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/git/git/archive/v2.7.4.zip
+unzip v2.7.4.zip
+<span class="nb">cd</span> git-2.7.4
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">编译</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git all
+sudo make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git install
+sudo rm -rf /usr/bin/git
+sudo ln -s /usr/local/git/bin/git /usr/bin/git
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">检查</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git --version
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>二进制包安装<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>RHEL/CentOS<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>添加额外的 git repo，安装指定版本的 git</p>
+<ol class="arabic">
+<li><p class="first">添加 repo 源</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat &gt; /etc/yum.repos.d/WANdisco-git.repo <span class="s">&lt;&lt; EOF</span>
+<span class="s">[WANdisco-git]</span>
+<span class="s">name=WANdisco Replicated Git</span>
+<span class="s">baseurl=http://opensource.wandisco.com/replication/rhel/\$releasever/git/\$basearch</span>
+<span class="s">gpgcheck=1</span>
+<span class="s">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-WANdisco</span>
+<span class="s">EOF</span>
+curl -s http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco &gt; RPM-GPG-KEY-WANdisco
+rpm --import RPM-GPG-KEY-WANdisco
+rm -f RPM-GPG-KEY-WANdisco
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">安装 git</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum install git-&lt;version&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>Debian/Ubuntu<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>使用 apt 包管理器直接安装</p>
+<ol class="arabic simple">
+<li>添加 PPA 源</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>安装 git</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt -y install git
+git --versio
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

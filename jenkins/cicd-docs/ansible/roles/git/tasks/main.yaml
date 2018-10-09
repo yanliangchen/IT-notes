@@ -1,0 +1,37 @@
+---
+
+- name: set authorized key took from file
+  authorized_key:
+    user: "{{ ansible_env.USER }}"
+    state: present
+    manage_dir: yes
+    validate_certs: yes
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/{{ git_server_public_key_file }}') }}"
+
+- name: copy private git ssh key file
+  copy:
+    src: "{{ lookup('env', 'HOME') + '/.ssh/' + git_server_private_key_file }}"
+    dest: "{{ ansible_env.HOME }}/.ssh/{{ git_server_private_key_file }}"
+    mode: 0600
+
+- name: setup global known_hosts
+  known_hosts:
+    path: "{{ ansible_env.HOME }}/.ssh/known_hosts"
+    name: "{{ item }}"
+    key: "{{ lookup('pipe', 'ssh-keyscan -T 10 -H -t rsa ' + item) }}"
+    state: present
+  with_items:
+    - github.com
+
+- name: add ssh config templates
+  template:
+    src: ssh-config.j2 
+    dest: "{{ ansible_env.HOME }}/.ssh/config"
+    mode: 0600
+
+- name: git clone {{ git_project_ssh }} 
+  git:
+    repo: "{{ git_project_ssh }}"
+    dest: "/opt/{{ git_project_name }}"
+    clone: yes
+    update: yes

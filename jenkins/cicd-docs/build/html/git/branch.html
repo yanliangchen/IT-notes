@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>分支管理 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>分支管理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/git/branch.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>分支管理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<img alt="../_images/分支.png" src="../_images/分支.png" />
+<p>当我们提交了多次，通过 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> 查看，提示我们工作在 master 分支上，为什么每次提交都会提交到 master 分支上？因为 HEAD 指针指向的是 master 分支。</p>
+<div class="section" id="id2">
+<h2>创建分支<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/创建分支.png" src="../_images/创建分支.png" />
+<p>当开发者添加新的功能，这可能需要修改以前的代码，如果继续在 master 分支上开发的话，首选会导致 master 分支上提交特别多，其次多人协同开发，大家都在 master 分支上进行开发，功能会比较混乱。所以切记当你要开发一个新的功能的时候，不要在 master 主分支上进行开发，一定要创建一个新的分支。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git branch &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>切换分支<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/切换分支.png" src="../_images/切换分支.png" />
+<p>切换分支就是将 HEAD 指针从原来指向 master 切换为指向 about。</p>
+<p>切换分支时，一定要注意你工作目录里的文件会被改变。如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的状态。如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>合并分支<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/合并分支.png" src="../_images/合并分支.png" />
+<p>在提交 C1、C2 两次之后，创建了一个分支，C3、C4 与 C5、C6 是平行的，当使用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code> 提交的时候，C7 两个分支进行了合并提交。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git merge &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>分支命令<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">命令</th>
+<th class="head">内容</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></td>
+<td>查看所有分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-v</span></code></td>
+<td>查看所有分支详细内容</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">--merged</span></code></td>
+<td>查看已被合并的分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">--no-merged</span></code></td>
+<td>查看未被合并的分支</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-d</span> <span class="pre">about</span></code></td>
+<td>删除指定分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code></td>
+<td>切换分支</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code></td>
+<td>分支合并</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></td>
+<td>查看分支日志</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">stash</span></code></td>
+<td>制作暂存区域</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code></td>
+<td>打标签</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

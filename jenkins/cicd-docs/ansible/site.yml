@@ -1,0 +1,36 @@
+---
+
+- name: Apply common role
+  gather_facts: yes 
+  hosts: all
+
+  roles:
+    - common
+
+- name: deploy nginx App
+  gather_facts: no
+  hosts: all
+
+  roles:
+    - nginx
+
+- name: deploy sphinx App
+  gather_facts: no
+  hosts: all
+
+  roles:
+    - sphinx
+
+- name: git clone
+  gather_facts: yes
+  hosts: all
+  
+  roles:
+    - git 
+
+- name: Sphinx Make File
+  gather_facts: no
+  hosts: all
+  
+  roles:
+    - make

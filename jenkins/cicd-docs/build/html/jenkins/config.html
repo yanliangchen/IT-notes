@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>基础配置 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>基础配置</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/jenkins/config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>基础配置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p class="first">什么是 jenkins?</p>
+<blockquote>
+<div><p>持续集成、自动测试、持续部署的超级引擎，支持自定义工具集、多种交付通道。</p>
+</div></blockquote>
+</li>
+</ul>
+<div class="section" id="id2">
+<h2>镜像管理<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins 官方提供了一个 <a class="reference external" href="http://mirrors.jenkins-ci.org/status.html">镜像列表</a> ，会列出最快的镜像。</p>
+<p>进入 Jenkins 页面，点击 Manager Jenkisn –&gt; Manager Plugins –&gt; Advanced</p>
+<p>将 <code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">site</span></code> 更换为</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/current/update-center.json
+</pre></div>
+</div>
+</div>
+<div class="section" id="jenkins">
+<h2>Jenkins 目录<a class="headerlink" href="#jenkins" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="76%" />
+<col width="24%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>目录</td>
+<td>内容</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins</span></code></td>
+<td>主目录</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/workspace</span></code></td>
+<td>工作空间</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/etc/init.d/jenkins</span></code></td>
+<td>启动文件</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/jenkins</span></code></td>
+<td>配置文件</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/cache/jenkins</span></code></td>
+<td>程序文件</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/var/log/jenkins</span></code></td>
+<td>日志文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h2>卡启动问题<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线，但是 Jenkins 不能访问 <a class="reference external" href="https://jenkins-ci.io">https://jenkins-ci.io</a>
+这时关闭网络，离线就能正常安装</p>
+</div>
+<div class="section" id="id5">
+<h2>备份<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar zcvf jenkins.tar.gz /var/lib/jenkins
+</pre></div>
+</div>
+<p>写一个每天定时备份的脚本，保留 15 天的备份。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nv">BACKUP_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/jenkins_backup&quot;</span>
+<span class="nv">JENKINS_HOME_PATH</span><span class="o">=</span><span class="s2">&quot;/var/lib/jenkins&quot;</span>
+<span class="nv">BACKUP_ROTATE</span><span class="o">=</span><span class="s2">&quot;15&quot;</span>
+<span class="nv">DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date +%F<span class="sb">`</span>
+
+<span class="k">function</span> check_backup_dir<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">test</span> -d <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>
+<span class="o">}</span>
+
+<span class="k">function</span> backup_rotate<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;-</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
+    <span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELETE_DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        rm -rf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELET_DATE_DAY</span><span class="si">}</span>.tar.gz
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="k">function</span> Backup<span class="o">()</span> <span class="o">{</span>
+    check_backup_dir
+    backup_rotate
+    <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] start backup&quot;</span>
+    <span class="k">if</span> <span class="o">[</span> ! -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nv">start_backup_second</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
+        <span class="nb">cd</span> <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span> <span class="o">&amp;&amp;</span> tar -zcPf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DATE_DAY</span><span class="si">}</span>.tar.gz .
+        <span class="nv">stop_backup_second</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
+        <span class="nb">let</span> <span class="nv">use_time</span><span class="o">=</span><span class="si">${</span><span class="nv">stop_backup_second</span><span class="si">}</span>-<span class="si">${</span><span class="nv">start_backup_second</span><span class="si">}</span>
+        <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] use time </span><span class="si">${</span><span class="nv">use_time</span><span class="si">}</span><span class="s2">s&quot;</span>
+        <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] file size `du -h </span><span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span><span class="s2">/jenkins_</span><span class="si">${</span><span class="nv">DATE_DAY</span><span class="si">}</span><span class="s2">.tar.gz`&quot;</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] Backup completed today!&quot;</span>
+    <span class="k">fi</span>
+    <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] stop backup&quot;</span>
+<span class="o">}</span>
+
+<span class="k">function</span> Recovery<span class="o">()</span> <span class="o">{</span>
+    find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> nl
+    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>find /opt/jenkins_backup/ -name jenkins*.tar.gz <span class="p">|</span> wc -l<span class="sb">`</span>
+        <span class="nb">read</span> -p <span class="s2">&quot;Select date recovery &gt;&gt;&gt; &quot;</span> number
+    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="nv">$number</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$number</span> -gt <span class="nv">$list_length</span> -o <span class="nv">$number</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+            <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] The selected date does not exist!&quot;</span>
+        <span class="k">else</span>
+            <span class="nv">date</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            tar -zvxf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">date</span><span class="si">}</span>.tar.gz -C <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span>
+        <span class="k">fi</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Please enter the correct number&quot;</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in
+    backup<span class="o">)</span>
+        Backup
+    <span class="p">;;</span>
+    recovery<span class="o">)</span>
+        Recovery
+    <span class="p">;;</span>
+    *<span class="o">)</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery}&quot;</span>
+            <span class="nb">exit</span> <span class="m">1</span>
+    <span class="p">;;</span>
+<span class="k">esac</span>
+</pre></div>
+</div>
+<p>设置定时任务</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>0 2 * * * bash /opt/jenkins_backup/jenkins_toolbox.sh backup
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>构建状态<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins 会基于一些后处理器任务为构建发布一个稳健指数（从 0 ~ 100），这些任务一般以插件的方式实现。</p>
+<p>他们可能包括单元测试（JUnit）、覆盖率（Cobertura）和静态代码分析（FindBugs）。</p>
+<p>分数越高，表明构建越稳定。下图中分级符号概述了稳定性的评分范围。任何构建作业的状态（总分100）低于80分就是不稳定的。</p>
+<img alt="../_images/构建状态.png" src="../_images/构建状态.png" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">颜色</th>
+<th class="head">状态</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>蓝色</td>
+<td>完成构建，被认为是稳定构建</td>
+</tr>
+<tr class="row-odd"><td>黄色</td>
+<td>完成构建，被认为是不稳定的构建</td>
+</tr>
+<tr class="row-even"><td>红色</td>
+<td>构建失败</td>
+</tr>
+<tr class="row-odd"><td>灰色</td>
+<td>禁用了构建</td>
+</tr>
+</tbody>
+</table>
+<img alt="../_images/构建稳定性.png" src="../_images/构建稳定性.png" />
+<p>图例可以在 <a class="reference external" href="https://jenkins.renkeju.com:8080/legend">https://jenkins.renkeju.com:8080/legend</a> 中查看</p>
+</div>
+<div class="section" id="id7">
+<h2>系统设置<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h3>工作目录设置<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>在 Linux 环境中，Jenkins 的默认工作目录在 <code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/</span></code>，但是我们有些需要特殊指定工作目录的项目，需要默认的 JENKINS_HOME 分开。</p>
+<ol class="arabic">
+<li><p class="first">进入一个项目，在【Genaral】里点击“高级”按钮</p>
+<blockquote>
+<div><img alt="../_images/全局配置高级按钮.png" src="../_images/全局配置高级按钮.png" />
+</div></blockquote>
+</li>
+<li><p class="first">配置指定自定义工作目录空间，但是需要特别注意目录权限</p>
+<blockquote>
+<div><img alt="../_images/使用指定的目录.png" src="../_images/使用指定的目录.png" />
+</div></blockquote>
+</li>
+</ol>
+<ul class="simple">
+<li>Maven 项目设置</li>
+<li>设置系统 JDK ANT Maven</li>
+<li>Jenkins Location</li>
+<li>邮件通知</li>
+<li>Configure Global Security</li>
+</ul>
+</div>
+<div class="section" id="nginx-jenkins">
+<h3>nginx 反向代理 Jenkins<a class="headerlink" href="#nginx-jenkins" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">nginx 反向代理 jenkins 配置</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>upstream jenkins_server {
+    server 127.0.0.1:8080 fail_timeout=0;
+}
+
+server {
+    listen 80;
+    server_name jenkins.example.com;
+
+    access_log      /var/log/nginx/jenkins/access.log;
+    error_log       /var/log/nginx/jenkins/error.log;
+
+    location / {
+        proxy_set_header        Host $host:$server_port;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_pass              http://jenkins_server;
+    }
+}
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">nginx 反向代理 jenkins ssl 配置</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>upstream app_server {
+    server 127.0.0.1:8080 fail_timeout=0;
+}
+
+server {
+    listen 80;
+    server_name jenkins.example.com;
+    return 301 https://$host/$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name jenkins.example.com;
+
+    access_log      /var/log/nginx/jenkins/access.log;
+    error_log       /var/log/nginx/jenkins/error.log;
+
+    location / {
+        proxy_set_header        Host $host:$server_port;
+        proxy_set_header        X-Real-IP $remote_addr;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+        proxy_redirect http:// https://;
+        proxy_pass              http://app_server;
+    }
+}
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<ol class="last arabic simple">
+<li>重启nginx或重新加载nginx配置之前，需要创建 <code class="docutils literal notranslate"><span class="pre">/var/log/nginx/jenkins</span></code> 目录，否则nginx启动失败并报错。</li>
+<li>配置完成后，访问 web 页面，还是会报出“反向代理设置有误”，这是因为之前我们通过 8080 端口访问 Jenkins，当使用 Nginx 进行反向代理后，在【系统管理】–&gt; 【系统设置】的 jenkins URL 配置中还是 8080 端口，我们需要更改为 nginx 所指定的端口号。</li>
+</ol>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>主题设置<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 <a class="reference external" href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a> 。</p>
+<ol class="arabic">
+<li><p class="first">选择主题颜色</p>
+<blockquote>
+<div><img alt="../_images/jenkins主题颜色.png" src="../_images/jenkins主题颜色.png" />
+</div></blockquote>
+</li>
+<li><p class="first">将 URL 中的 <code class="docutils literal notranslate"><span class="pre">{{your-color-name}}``更换为你选择的颜色：``https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css</span></code></p>
+</li>
+<li><p class="first">安装 ` Jenkins Simple Theme 插件 &lt;<a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin">https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin</a>&gt;`_</p>
+</li>
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Manager</span> <span class="pre">Jenkins</span></code></p>
+</li>
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Configure</span> <span class="pre">System</span></code> 并找到 <code class="docutils literal notranslate"><span class="pre">Theme</span></code></p>
+</li>
+<li><p class="first">使用第三方的CSS样式有两种方式</p>
+<blockquote>
+<div><ul class="simple">
+<li>添加 <code class="docutils literal notranslate"><span class="pre">CSS</span> <span class="pre">URL</span></code> ，将字段设置为生成的 CSS URL</li>
+<li>下载 URL 的 CSS 样式文件，将文件内容黏贴入 <code class="docutils literal notranslate"><span class="pre">Extra</span> <span class="pre">CSS</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Save</span></code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

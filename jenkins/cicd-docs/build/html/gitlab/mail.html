@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>邮件配置 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>邮件配置</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/mail.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>邮件配置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>邮件是 Gitlab 不可或缺的一个部分，它提供了代码提交提醒，用户密码找回等功能。Gitlab 也提供了几种邮件配置方案，有 sendmail，postfix 和 smtp 。这里只介绍 smtp，其中 sendmail 太过于古老，现在几乎被 postfix 替代了，而 postfix 配置没有 smtp 方便。</p>
+<div class="section" id="id2">
+<h2>修改配置文件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1"># gitlab_rails[&#39;time_zone&#39;] = &#39;UTC&#39;</span>
+
+<span class="c1">### Email Settings</span>
+<span class="c1"># gitlab_rails[&#39;gitlab_email_enabled&#39;] = true</span>
+<span class="c1"># gitlab_rails[&#39;gitlab_email_from&#39;] = &#39;example@example.com&#39;</span>
+<span class="c1"># gitlab_rails[&#39;gitlab_email_display_name&#39;] = &#39;Example&#39;</span>
+<span class="c1"># gitlab_rails[&#39;gitlab_email_reply_to&#39;] = &#39;noreply@example.com&#39;</span>
+<span class="c1"># gitlab_rails[&#39;gitlab_email_subject_suffix&#39;] = &#39;&#39;</span>
+
+<span class="c1">### GitLab email server settings</span>
+<span class="c1">###! Docs: https://docs.gitlab.com/omnibus/settings/smtp.html</span>
+<span class="c1">###! **Use smtp instead of sendmail/postfix.**</span>
+
+<span class="c1"># gitlab_rails[&#39;smtp_enable&#39;] = true</span>
+<span class="c1"># gitlab_rails[&#39;smtp_address&#39;] = &quot;smtp.server&quot;</span>
+<span class="c1"># gitlab_rails[&#39;smtp_port&#39;] = 465</span>
+<span class="c1"># gitlab_rails[&#39;smtp_user_name&#39;] = &quot;smtp user&quot;</span>
+<span class="c1"># gitlab_rails[&#39;smtp_password&#39;] = &quot;smtp password&quot;</span>
+<span class="c1"># gitlab_rails[&#39;smtp_domain&#39;] = &quot;example.com&quot;</span>
+<span class="c1"># gitlab_rails[&#39;smtp_authentication&#39;] = &quot;login&quot;</span>
+<span class="c1"># gitlab_rails[&#39;smtp_enable_starttls_auto&#39;] = true</span>
+<span class="c1"># gitlab_rails[&#39;smtp_tls&#39;] = false</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="72%" />
+<col width="28%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>关键字</td>
+<td>含义</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['time_zone']</span></code></td>
+<td>时区设置</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['gitlab_email_enabled']</span></code></td>
+<td>开启邮件服务</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['gitlab_email_from']</span></code></td>
+<td>发送邮件来源地址</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['gitlab_email_display_name']</span></code></td>
+<td>邮件显示用户名</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['gitlab_email_reply_to']</span></code></td>
+<td>邮件回复地址</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['gitlab_email_subject_suffix']</span></code></td>
+<td>邮件主体后缀</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_enable']</span></code></td>
+<td>开启 smtp 服务</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_address']</span></code></td>
+<td>smtp 服务器地址</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_port']</span></code></td>
+<td>smtp 服务端口</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_user_name']</span></code></td>
+<td>smtp 账户用户名称</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_password']</span></code></td>
+<td>smtp 账户密码</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_domain']</span></code></td>
+<td>smtp 服务域</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_authentication']</span></code></td>
+<td>smtp 认证方式</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_enable_starttls_auto']</span></code></td>
+<td>开启自动tls认证</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['smtp_tls']</span></code></td>
+<td>tls 认证</td>
+</tr>
+</tbody>
+</table>
+<p>修改完成后，重新加载配置文件并重启</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-ctl reconfigure
+sudo gitlab-ctl restart
+</pre></div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">126邮箱和163邮箱都没有TLS加密设置，所以默认只能使用 25 端口。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

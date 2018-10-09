@@ -1,0 +1,35 @@
+---
+
+- name: install python to yum 
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - python34
+    - python34-pip
+    - python34-virtualenv
+
+- name: touch pip configuration directory
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config/pip/"
+    state: directory
+    mode: "0644"
+    recurse: yes
+
+- name: copy pip configuration templates
+  template:
+    src: pip.conf.j2
+    dest: "{{ lookup('env', 'HOME') }}/.config/pip/pip.conf"
+    mode: "0644"
+     
+- name: install sphinx to pip
+  pip:
+    name: "{{ packages }}" 
+    virtualenv: /opt/sphinx
+    virtualenv_command: /usr/bin/virtualenv-3.4
+  vars:
+    packages:
+    - sphinx 
+    - livereload
+    - sphinx_rtd_theme

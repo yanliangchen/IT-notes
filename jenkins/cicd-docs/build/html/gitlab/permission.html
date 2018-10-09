@@ -1,0 +1,595 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>权限管理 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>权限管理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/permission.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>权限管理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">root</span></code> 用户进入 Gitlab 服务首页，如下所示</p>
+<img alt="../_images/gitlab首页.png" src="../_images/gitlab首页.png" />
+<p>点击导航栏中的 <code class="docutils literal notranslate"><span class="pre">admin</span> <span class="pre">area</span></code> 小扳手进入管理界面</p>
+<img alt="../_images/管理界面.png" src="../_images/管理界面.png" />
+<div class="section" id="id2">
+<h2>创建用户<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">User</span></code> 按钮，创建新的用户。</p>
+<blockquote>
+<div><img alt="../_images/新建组按钮.png" src="../_images/新建组按钮.png" />
+</div></blockquote>
+</li>
+<li><p class="first">进入新建用户配置页面</p>
+<blockquote>
+<div><img alt="../_images/新建用户配置页面.png" src="../_images/新建用户配置页面.png" />
+</div></blockquote>
+</li>
+<li><p class="first">配置选项</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="18%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">内容</th>
+<th class="head">选项</th>
+<th class="head">含义与作用</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="3">Account</td>
+<td>Name</td>
+<td>账户名称</td>
+</tr>
+<tr class="row-odd"><td>Username</td>
+<td>用户名</td>
+</tr>
+<tr class="row-even"><td>Email</td>
+<td>邮箱地址</td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Password</td>
+<td>Password</td>
+<td>密码</td>
+</tr>
+<tr class="row-even"><td>Password confirmation</td>
+<td>确认密码</td>
+</tr>
+<tr class="row-odd"><td rowspan="5">Access</td>
+<td>Projects limit</td>
+<td>项目限制</td>
+</tr>
+<tr class="row-even"><td>Can create group</td>
+<td>是否能创建组</td>
+</tr>
+<tr class="row-odd"><td>Access level</td>
+<td>Regular (普通用户)</td>
+</tr>
+<tr class="row-even"><td>Access level</td>
+<td>Admin（管理员）</td>
+</tr>
+<tr class="row-odd"><td>External</td>
+<td>除非明确授予访问权限，否则外部用户无法查看内部或私有项目。此外，外部用户无法创建项目或组。</td>
+</tr>
+<tr class="row-even"><td rowspan="5">Profile</td>
+<td>Acatar</td>
+<td>头像</td>
+</tr>
+<tr class="row-odd"><td>Skype</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Linkedin</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>Twitter</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Website</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id3">
+<h2>创建组<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>为什么需要有组？比如公司现在有开发团队，有不同项目，可以按照不同项目来分配组，组内包含了不同的成员。</p>
+<ol class="arabic">
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Group</span></code> 按钮，创建新的用户组。</p>
+<blockquote>
+<div><img alt="../_images/新建组按钮.png" src="../_images/新建组按钮.png" />
+</div></blockquote>
+</li>
+<li><p class="first">进入新建组配置页面</p>
+<blockquote>
+<div><img alt="../_images/组配置信息.png" src="../_images/组配置信息.png" />
+</div></blockquote>
+</li>
+<li><p class="first">配置选项</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">选项</th>
+<th class="head">含义与作用</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Group path</td>
+<td>组项目 URL 路径</td>
+</tr>
+<tr class="row-odd"><td>Group name</td>
+<td>组项目名称</td>
+</tr>
+<tr class="row-even"><td>Description</td>
+<td>组项目描述</td>
+</tr>
+<tr class="row-odd"><td>Group avatar</td>
+<td>组项目图标</td>
+</tr>
+<tr class="row-even"><td rowspan="4">Visibility Level</td>
+<td>Private（该组及其项目只能由成员查看）</td>
+</tr>
+<tr class="row-odd"><td>Internal（任何登录用户都可以查看该组和任何内部项目）</td>
+</tr>
+<tr class="row-even"><td>Public（无需任何身份验证即可查看该组和任何公共项目）</td>
+</tr>
+<tr class="row-odd"><td>Allow users to request access（如果公开或内部可见性，则允许用户请求访问权限）</td>
+</tr>
+<tr class="row-even"><td>Large File Storage</td>
+<td>允许该组中的项目使用Git LFS</td>
+</tr>
+<tr class="row-odd"><td>Two-factor authentication</td>
+<td>要求此组中的所有用户都设置双因素身份验证</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+<li><p class="first">组创建成功</p>
+<blockquote>
+<div><img alt="../_images/组详细页面.png" src="../_images/组详细页面.png" />
+</div></blockquote>
+</li>
+<li><p class="first">组授权</p>
+<blockquote>
+<div><p>组创建完成后，组内是没有用户的，创建组的用户就要赋权给其他的用户</p>
+<ul>
+<li><p class="first">选择用户加入组</p>
+<blockquote>
+<div><img alt="../_images/选择用户加入组.png" src="../_images/选择用户加入组.png" />
+</div></blockquote>
+</li>
+<li><p class="first">设置用户在组中的角色</p>
+<blockquote>
+<div><img alt="../_images/设置用户角色.png" src="../_images/设置用户角色.png" />
+</div></blockquote>
+</li>
+<li><p class="first">查看组成员</p>
+<blockquote>
+<div><img alt="../_images/查看组成员.png" src="../_images/查看组成员.png" />
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2>创建项目<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">project</span></code> 按钮，创建新的项目。</p>
+<blockquote>
+<div><img alt="../_images/新建项目按钮.png" src="../_images/新建项目按钮.png" />
+</div></blockquote>
+</li>
+<li><p class="first">进入新建项目配置页面</p>
+<blockquote>
+<div><img alt="../_images/新建项目.png" src="../_images/新建项目.png" />
+</div></blockquote>
+</li>
+<li><p class="first">选项配置</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="58%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">选项</th>
+<th class="head">含义与作用</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Project name</td>
+<td>项目名称</td>
+</tr>
+<tr class="row-odd"><td>Project URL</td>
+<td>项目URL</td>
+</tr>
+<tr class="row-even"><td>Project slug</td>
+<td>项目块</td>
+</tr>
+<tr class="row-odd"><td>Project description</td>
+<td>项目描述</td>
+</tr>
+<tr class="row-even"><td rowspan="3">Visibility Level</td>
+<td>Private（私有）</td>
+</tr>
+<tr class="row-odd"><td>Internal（内部）</td>
+</tr>
+<tr class="row-even"><td>Public（公有）</td>
+</tr>
+<tr class="row-odd"><td>Initialize repository with a README、</td>
+<td>初始化存储库的 README 文件</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h2>项目密钥<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">给用户添加密钥</p>
+<blockquote>
+<div><p>当我们创建完成了组、用户与项目之后，用户需要上传公钥，否则 SSH 协议不能使用。</p>
+<ul>
+<li><p class="first">点击页面右上方的用户头像</p>
+<blockquote>
+<div><img alt="../_images/用户设置.png" src="../_images/用户设置.png" />
+</div></blockquote>
+</li>
+<li><p class="first">进入用户配置页面，查看左侧用户配置选项</p>
+<blockquote>
+<div><img alt="../_images/用户配置选项.png" src="../_images/用户配置选项.png" />
+</div></blockquote>
+</li>
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">SSH</span> <span class="pre">keys</span></code> ，为用户添加 SSH 公钥</p>
+<blockquote>
+<div><img alt="../_images/SSH公钥配置.png" src="../_images/SSH公钥配置.png" />
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">本地生成密钥对</p>
+<blockquote>
+<div><ul>
+<li><p class="first">用户本地主机生成密钥对</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ssh-keygen -b 4096 -t rsa -f ~/.ssh/gitlab -N &#39;&#39;
+Generating public/private rsa key pair.
+Your identification has been saved in /Users/renkeju/.ssh/gitlab.
+Your public key has been saved in /Users/renkeju/.ssh/gitlab.pub.
+The key fingerprint is:
+SHA256:s427VY2KNaGXemMwu3ird02IK4/lo7OHCA7vLHfcAmI renkeju@laptop.local
+The key&#39;s randomart image is:
++---[RSA 4096]----+
+|                 |
+|                 |
+|          .      |
+|         . o o   |
+|        S.=.o .  |
+|oEo     .&amp;.+.    |
+|.= + o .B.Bo     |
+|..+ = ==**...    |
+| +o. .*@B=       |
++----[SHA256]-----+
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">查看密钥对</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ll .ssh/gitlab*
+-rw-------  1 renkeju  staff   3.2K  9 27 15:46 .ssh/gitlab
+-rw-r--r--  1 renkeju  staff   746B  9 27 15:46 .ssh/gitlab.pub
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">复制公钥</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ cat .ssh/gitlab.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDIAmL6Hgb1hyi8ErvF2kd0o4lYVwn8EecdyMBrSViOjj0FxFz5NBXVZgZziuKiYN9EBQt+cf+ehbUquLJY/w5S3Rg08x8QMKnJCtQ0vK8vmuO6ljUxHlBzyQiSs4dQWIwhAUL5hJ+BrAHp+PbPvuX7nwZILPCGLZTlMIBTWIQtUwdZQDQmWZ0xxsXlHoa0w4NNgUcJOgrFF2A0E4jrzAOdUKWQfhCSBXEd6BZJ+QGOcRmIL3fPasJL3+B8X5GNs56DpXeByXLGSwgU605bog9oU6N3WqHvoLa1LwwUmpfospEB1DimS/7a31nMPera026Hvr851QUUAxZGjpYxZodJ1QcscH4ZOgafFZnH+8UiU6LWreb4cj/o56i+TuKntOAlQNb6R0M9C4E3B5BQI8l6Ob5nkr7ltujDTJGtTFPlF0oBxEqgkpnvjkLicZ6biCDa3f2bEU7k5Ez/kyrA1w639gnfF58KzyZuuhM9HG1ANK4KO9LGr/5MMqjbkr8ksiqcNG17YSmdQVWqmLU5Ai2tEnA5KLjHwiv2MXrzpBe1elIUXW7AHps+Tx+e/Q56K3vfJ43adxh+E+cFDqPyjpsBWdc6m7Js7hXuQ2Z5iFSVfyh9YxwmJudHLTkhTZhJi18qjnPyNy9Q/WwKVRq0NWXfqcd3aWjvmNXLe7HAXfhi7Q== renkeju@laptop.local
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">配置公钥</p>
+<blockquote>
+<div><ul>
+<li><p class="first">将公钥黏贴到文本框内</p>
+<blockquote>
+<div><img alt="../_images/将公钥黏贴到文本框内.png" src="../_images/将公钥黏贴到文本框内.png" />
+</div></blockquote>
+</li>
+<li><p class="first">已添加的公钥列表</p>
+<blockquote>
+<div><img alt="../_images/已添加公钥列表.png" src="../_images/已添加公钥列表.png" />
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h2>部署密钥<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="repository">
+<h3>每个 Repository 部署密钥<a class="headerlink" href="#repository" title="Permalink to this headline">¶</a></h3>
+<p>deploy keys 允许使用单个 SSH 密钥对 对一个或多个项目进行只读或读写（如果已启用）访问。</p>
+<p>这对于将Repository克隆岛 Continuous Integration (CI) 服务器非常有用。通过使用部署密钥，您不必设置虚拟用户账户。如果您是项目维护者或所有者，则可以在”Repository“部分下的项目设置中添加部署密钥。为新部署密钥指定标题并黏贴 SSH 公钥。在这之后，使用相应的 SSH 私钥的计算机具有对项目有只读和读写（如果启用）访问权限。</p>
+<img alt="../_images/项目部署密钥.png" src="../_images/项目部署密钥.png" />
+<p>您无法使用表单两次添加相同的部署密钥。如果要将相同的密钥添加到另一个项目，请在”从可用项目部署密钥“列表中启用它。您可以访问的所有项目的所有部署密钥都可用。该项目访问可以通过称为项目的直接成员或通过组来实现。</p>
+<p>部署密钥可以在项目之间共享，您只需要将它们添加到每个项目中。</p>
+</div>
+<div class="section" id="id7">
+<h3>全局共享部署密钥<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Global Shared Deploy keys 允许在整个 Gitlab 安装中的任何Repository上配置只读或读写（如果启用）访问。</p>
+<p>这对于将Repository集成到安全的共享持续集成（CI）服务或其他共享服务非常有用。Gitlab 管理员可以在 Gitlab 中设置 Global Shared Deploy keys，并将私钥添加到任何共享系统。当项目维护者（或更高级别）授权将 Global Shared Deploy keys 用于其项目时，各个Repository会选择使用这些密钥公开其Repository。</p>
+<p>与每个项目部署密钥相比，全局共享密钥可以提供更高的安全性，因为目标集成系统的管理员是唯一需要知道和配置私钥的人。</p>
+<p>Gitlab 管理员在”部署密钥“部分下的”管理“区域中设置 Global Depoly keys 。确保密钥具有有意义的标题，因为这将是项目维护者和所有者识别要添加的正确 Global Deploy keys 的主要方式。例如，如果密钥提供对 SaaS CI 实例的访问权限，则在密钥名称中使用该服务的名称（如果它是用于全局）。在创建全局共享部署密钥时，请考虑密钥的粒度 —— 它们的使用范围非常狭窄，例如知识特定服务或更广泛的用途，例如“您需要提供对Repository的读取访问权限”。</p>
+<p>一旦 Gitlab 管理员添加全局部署密钥，项目维护人员和所有者就可以通过展开 “部署密钥” 部分并单击任何项目可用的公共部署密钥下列出的相应密钥旁边的“启用”，将其添加到项目的 “Settings” -&gt; “Repository” 部分中。</p>
+<ol class="arabic">
+<li><p class="first">导航栏选择小扳手</p>
+<blockquote>
+<div><p>使用具有管理员权限的用户登录才可以看到小扳手</p>
+<img alt="../_images/导航栏.png" src="../_images/导航栏.png" />
+</div></blockquote>
+</li>
+<li><p class="first">左侧导航栏选择 <code class="docutils literal notranslate"><span class="pre">Deploy</span> <span class="pre">keys</span></code> 选项</p>
+<blockquote>
+<div><img alt="../_images/左侧选择栏.png" src="../_images/左侧选择栏.png" />
+</div></blockquote>
+</li>
+<li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">deploy</span> <span class="pre">key</span></code> 按钮</p>
+<blockquote>
+<div><img alt="../_images/新建公共部署密钥.png" src="../_images/新建公共部署密钥.png" />
+</div></blockquote>
+</li>
+<li><p class="first">黏贴公钥到框内，点击 <code class="docutils literal notranslate"><span class="pre">Create</span></code> 按钮创建</p>
+<blockquote>
+<div><img alt="../_images/公共部署密钥.png" src="../_images/公共部署密钥.png" />
+</div></blockquote>
+</li>
+<li><p class="first">切换到其他用户，添加公共权限部署密钥</p>
+<blockquote>
+<div><img alt="../_images/添加公共权限部署密钥.png" src="../_images/添加公共权限部署密钥.png" />
+</div></blockquote>
+</li>
+<li><p class="first">启用公共部署密钥</p>
+<blockquote>
+<div><img alt="../_images/启用公共部署密钥.png" src="../_images/启用公共部署密钥.png" />
+</div></blockquote>
+</li>
+<li><p class="first">查看已启用部署密钥</p>
+<blockquote>
+<div><img alt="../_images/已启用部署密钥.png" src="../_images/已启用部署密钥.png" />
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">只有配置了至少一个 Global Deploy keys 时，才会显示 可用于任何项目 的标题公共部署密钥。</p>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">定义全局部署密钥不会通过密钥公开任何给定的 Repository ，知道该 Repository 将 Global Deploy keys 添加到其项目中。通过这种方式，全局部署密钥可以启用其他系统的访问，但不要仅通过它们来隐式地提供任何访问。</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

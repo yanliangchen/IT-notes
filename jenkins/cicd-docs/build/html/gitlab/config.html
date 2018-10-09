@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>配置 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>配置</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>配置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>安装完成后需要进行的配置，配置文件如下表所示：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>路径</td>
+<td>内容</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/opt/gitlab/git-data/repostitories/root</span></code></td>
+<td>库默认存储目录</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/opt/gitlab</span></code></td>
+<td>应用代码和相应的依赖程序</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/opt/gitlab</span></code></td>
+<td><code class="docutils literal notranslate"><span class="pre">gitlab</span> <span class="pre">reconfigure</span></code> 命令编译后的应用数据和配置文件，不需要人为修改配置</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/etc/gitlab</span></code></td>
+<td>配置文件目录</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/log/gitlab</span></code></td>
+<td>此目录下存放了 gitlab 各个组件产生的日志</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/var/opt/gitlab/backups/</span></code></td>
+<td>备份文件生成的目录</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id2">
+<h2>修改配置文件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>因为 gitlab 是使用 ruby 编写的，所以它的配置文件后缀名是 rb。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>vim /etc/gitlab/gitlab.rb
+external_url <span class="s1">&#39;your_ip_address_or_domain_name&#39;</span>
+</pre></div>
+</div>
+<p>修改完成之后，需要重新加载配置文件，执行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-ctl reconfigure
+</pre></div>
+</div>
+<p>执行完成后，通过浏览器访问IP地址或域名，因为首次访问，Gitlab 需要你为 <code class="docutils literal notranslate"><span class="pre">root</span></code> 设置一个新的密码。</p>
+<img alt="../_images/设置密码.png" src="../_images/设置密码.png" />
+<p>注册完成之后，就会跳转到访问页面，此时你可以使用 <code class="docutils literal notranslate"><span class="pre">root</span></code> 用户访问，但是建议额外注册一个管理员用户来管理 Gitlab 服务。</p>
+<img alt="../_images/注册新用户.png" src="../_images/注册新用户.png" />
+</div>
+<div class="section" id="id3">
+<h2>变更主配置文件<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>每当我们要变更配置文件，需要执行以下步骤</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">reconfigure</span></code> 重置配置文件</li>
+<li><code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">show-config</span></code> 验证配置文件</li>
+<li><code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">restart</span></code>  重启配置文件</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

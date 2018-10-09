@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>issues &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>issues</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/issues.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="issues">
+<h1>issues<a class="headerlink" href="#issues" title="Permalink to this headline">¶</a></h1>
+<p>Gitlabn 除了提供基于 git 的基本代码托管服务外。还具备很多与软件开发协作相关的其他功能。比如 issues、Merge Requests 等。</p>
+<p>利用 Gitlab 提供的这些功能，我们可以时间一些简单的项目管理和协作流程。这套流程借鉴很多成功的开源项目，非常适合在小型开发团队里面使用。</p>
+<div class="section" id="id1">
+<h2>使用 issues 来管理需求与缺陷<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Gitlab issues 类似于”工单系统“，是一个发布相关信息的地方。项目的所有成员都可以创建新的 issue，其他成员可以在 issue 下进行相关的讨论。</p>
+<p>issue 本身是一个非常简单的功能，但是如果配合”标签“、”里程碑“等功能一起使用，就可以承担起一定的项目管理工作。</p>
+<div class="section" id="issue">
+<h3>录入 issue<a class="headerlink" href="#issue" title="Permalink to this headline">¶</a></h3>
+<p>在项目的开发过程中，我们会碰到很多新的需求，软件 bug 等。这些需求与 bug，就是 issue 最大的来源，它们都可以作为 issue 录入到项目的 issues 中。</p>
+<p>因为 issue 的录入门槛很低，鼓励项目成员录入 issue 后，项目很容易就会出现大量的 issues。所以我们应该严格控制每个 issue 的内容质量，确保其他人可以通过这个 issue 获取足够多的信息，提高沟通效率。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">不光是需求和 bug，任何和项目有关的内容都可以录入到 issue 中。</p>
+</div>
+<div class="section" id="id2">
+<h4>编写优秀的 ”需求“ issue<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>如果你要录入一个需求类的 issue，最好在内容的主体中包含下面的这些内容：</p>
+<ol class="arabic simple">
+<li>用一句话描述你的需求，并用它作为标题</li>
+<li>这个需求是解决什么问题的？</li>
+<li>这个需求对软件现有的功能会造成什么影响？</li>
+<li>这个需求应该实现什么样的功能？</li>
+<li>这个需求是否依赖其他模块提供相关的支持？</li>
+<li>这个需求有哪些实现方式？【可选】</li>
+<li>这些可选的实现方式分别有哪些优缺点？【可选】</li>
+</ol>
+</div>
+<div class="section" id="bug-issue">
+<h4>编写优秀的 “bug” issue<a class="headerlink" href="#bug-issue" title="Permalink to this headline">¶</a></h4>
+<p>如果你要录入一个 bug issue，最好在内容主题中包含下面这些内容：</p>
+<ol class="arabic simple">
+<li>提供出现问题的软件版本号、操作系统环境等相关信息</li>
+<li>提供能够稳定复现问题的相关步骤</li>
+<li>描述期待行为与当前行文</li>
+<li>你对这个 bug 原因的相关分析【可选】</li>
+</ol>
+</div>
+</div>
+<div class="section" id="review-issue">
+<h3>Review issue 并为其打上标签<a class="headerlink" href="#review-issue" title="Permalink to this headline">¶</a></h3>
+<p>当 issue 被创建后，应该等待项目的 owner（owner 指项目的所有者，是对项目各方面都比较了解的人，可以为多个人）对 issue 进行 Review。</p>
+<p>Review 时，如果 owner 觉得这个 issue 满足下面的任意条件：</p>
+<ol class="arabic simple">
+<li>与项目本身的功能、市场定位有冲突</li>
+<li>与现存 issue 有重复</li>
+<li>其他不应该被保留的情况</li>
+</ol>
+<p>则应该在评论中说明相关情况，并关闭该 issue。如果讲过上面的过滤后，觉得 issue 应该被继续跟进，那就应该为它打上标签，方便之后的筛选、排期等工作。</p>
+<p>“标签”是 issue 的核心特性，为了更好的使用它，我建议采用 <code class="docutils literal notranslate"><span class="pre">{type}/{value}</span></code> 这样的二维标签来取代传统的 <code class="docutils literal notranslate"><span class="pre">{value}</span></code> 单维标签，下面是一些常用的 issue 标签：</p>
+<div class="section" id="priority">
+<h4>优先级：priority<a class="headerlink" href="#priority" title="Permalink to this headline">¶</a></h4>
+<p>优先级（priority）是最重要的标签之一。它直接影响 bug 需要被响应的速度、或需求的具体排期。</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">priority/P0</span></code> 十分紧急</li>
+<li><code class="docutils literal notranslate"><span class="pre">priority/P1</span></code> 较为紧急</li>
+<li><code class="docutils literal notranslate"><span class="pre">priority/P2</span></code> 普通</li>
+<li><code class="docutils literal notranslate"><span class="pre">priority/P3</span></code> 不紧急</li>
+</ul>
+</div>
+<div class="section" id="kind">
+<h4>类型：kind<a class="headerlink" href="#kind" title="Permalink to this headline">¶</a></h4>
+<p>kind（类别）表示 issue 属于哪种类型</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">kind/bug</span></code> 软件缺陷</li>
+<li><code class="docutils literal notranslate"><span class="pre">kind/featrue</span></code> 新功能</li>
+<li><code class="docutils literal notranslate"><span class="pre">kind/enhancement</span></code> 改进项，模块代码重构等不影响项目功能但是改善工程质量的 issue 可归入此类</li>
+<li><code class="docutils literal notranslate"><span class="pre">kind/research</span></code> 技术调研类，一般以输出某类结论或报告视为结束</li>
+</ul>
+</div>
+<div class="section" id="size">
+<h4>工作量：size<a class="headerlink" href="#size" title="Permalink to this headline">¶</a></h4>
+<p>size（工作量）表示 issue 需要大约花费多少时间/精力，可以用来简单的工作量评估参考。</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">size/XL</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">size/M</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">size/SM</span></code></li>
+</ul>
+</div>
+<div class="section" id="area">
+<h4>领域/模块：area<a class="headerlink" href="#area" title="Permalink to this headline">¶</a></h4>
+<p>area 用于标记当前 issue 属于项目中什么领域/模块。这个分类下的具体标签有项目本身决定。比如 <code class="docutils literal notranslate"><span class="pre">area/apiserver</span></code> 、 <code class="docutils literal notranslate"><span class="pre">area/controller</span></code> 等。给 issue 打上 area 标签后，项目不同模块的相关负责人可以更方便的找到自己负责相关的 issues。</p>
+<p>Gitlab 的标签是一个非常灵活的功能，在具体的使用中，不必拘泥于上面列出来的几种标签，可以根据当前项目特点随意调整。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Issue 的后续操作<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>当 issue 被创建、打上标签以后，就可以进行后续操作了。issue 的后续操作主要包括下面几种：</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">认领</span> <span class="pre">issue</span></code> 每一个 issue 都有一个 Assignee（受理人），表示当前 issue 由谁在处理。在你准备开始具体工作前，一定要记得 issue 认领为自己所有。</li>
+<li><code class="docutils literal notranslate"><span class="pre">在</span> <span class="pre">issue</span> <span class="pre">下进行讨论</span></code> 在 issue 下可以围绕 issue 进行讨论，在讨论过程中，可以通过 <code class="docutils literal notranslate"><span class="pre">&#64;USERNAME</span></code> 的方式通知其他人关注当前 issue。</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>使用 issue 做项目里程碑管理<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>除了为 issue 打上标签以外，你还可以为 issue 绑定上 milestone（里程碑），来将 issue 与某些特定的项目节点关联起来。之后便可以在 milestones 页面查看每一个里程碑的进展。</p>
+<p>和 labels 一样，里程碑也是一个十分灵活的功能，你可以根据项目需要建立不同的里程碑，比如：</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">基于软件版本号</span></code>：基于未来将要发布的版本号建立里程碑，比如 <code class="docutils literal notranslate"><span class="pre">v1.0.3</span></code> 、 <code class="docutils literal notranslate"><span class="pre">v2.0.1</span></code> 等等</li>
+<li><code class="docutils literal notranslate"><span class="pre">基于时间周期</span></code>：基于特定的时间周期 - 比如敏捷开发中的一个 sprint - 来建立里程碑，比如 <code class="docutils literal notranslate"><span class="pre">Y2017-M7W3</span></code> 、 <code class="docutils literal notranslate"><span class="pre">Y2017-M7W4</span></code> 等等</li>
+</ul>
+</div>
+<div class="section" id="issue-board">
+<h3>使用 issue board<a class="headerlink" href="#issue-board" title="Permalink to this headline">¶</a></h3>
+<p>随着项目越来越大，项目累积的 issue 也会越来越多。而这些 issue 中有很多已经失去它的价值。</p>
+<p>所以，为了避免有价值的 issue 淹没在这些过时的信息当中，我们应该定期 Review 现有的 issues，关闭掉那些已经过时的 issues。</p>
+</div>
+</div>
+<div class="section" id="merge-request">
+<h2>基于 Merge Request 的开发流程<a class="headerlink" href="#merge-request" title="Permalink to this headline">¶</a></h2>
+<p>在 Gitlab 上创建的项目，所有人都不应该直接往 master 分支推送代码。而是应该在其他分支（或者 fork 项目的分支）进行开发。并最终通过创建 Merge Request（类似 Github pull request）将代码合并到 master 分支。</p>
+<div class="section" id="merge-request-code-review">
+<h3>创建 Merge Request 并进行 Code Review<a class="headerlink" href="#merge-request-code-review" title="Permalink to this headline">¶</a></h3>
+<p>基于 MR 的开发流程如下：</p>
+<ul class="simple">
+<li>开发者在自己的分支下进行开发，开发完成后，创建将该分支合并到 Master 的 Merge Request，改动进入 Review 状态。</li>
+<li>进入 Review 状态的代码，将由团队内的其他一位成员（经验比较丰富、或者对该工作模块比较熟悉）对代买改动进行 Code Review。</li>
+<li>大家对 Review 结果进行讨论，并提交新的修改。</li>
+<li>最终达成一致后，代码被 Merge 进 Master 分支。</li>
+</ul>
+</div>
+<div class="section" id="mr">
+<h3>灵活创建新分支来避免 MR 冲突<a class="headerlink" href="#mr" title="Permalink to this headline">¶</a></h3>
+<p>我们一般会用类似与 <code class="docutils literal notranslate"><span class="pre">dev_piglei</span></code> 这样的分支名称进行开发，遵循着 “开发” -&gt; “push 并创建 MR” -&gt; “开发” 这样的工作流程。</p>
+<p>但是，因为一个分支是严格对应到一个 MR 的，当你在同一个分支上开发不同功能时，如果 MR 一直处于 open 状态，那这些不同功能都会被推送到同一个 MR 上，对 Review 过程产生困扰。</p>
+<p>为了避免这种情况，最好为不同的功能项创建不同的分支并各自创建 MR，比如
+<code class="docutils literal notranslate"><span class="pre">dev_feature_add_member</span></code> 、 <code class="docutils literal notranslate"><span class="pre">dev_featrue_disabled_user</span></code> 。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">在 git 工作流方面，<a class="reference external" href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">git-flow workflow</a> 是一个值得学习的内容。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>分拆大的 Merge Request<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>如果开发一些比较大的需求，我们通常会将他们一次实现完，然后作为一个大的 MR 来提交 Review。</p>
+<p>但是如果每个 MR 过于复杂，会大大影响 Code Review 的效率。所以，如果你要实现一个比较复杂的特性，建议将它拆解为多个比较小的 MR 来依次提交。</p>
+<p>假如，你要为网站的 feed 页面从零开始添加 redis 缓存功能。可能一开始想的提交这个大 MR：</p>
+<ul>
+<li><p class="first">[MR] 添加基于 redis 的缓存模块并为 feed 页面添加缓存并主动过期</p>
+<blockquote>
+<div><p>但这个 MR 里面包含了太多内容，会增加 Review 的难度。所以可以试着将这个功能拆解为下面三个更小的 MR：</p>
+<ul class="simple">
+<li>[MR] 添加基于缓存的模块</li>
+<li>[MR] 为缓存模块添加 Redis 作为存储后端</li>
+<li>[MR] 为 feed 页面提供缓存，并主动过期</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<ul class="last simple">
+<li>超过 1000 行的代码改动 Review 起来非常困难</li>
+<li>可以使用 feature flag（功能开关）在 PR 完全完成前屏蔽部分功能</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>安装 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>安装</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/install.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>安装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>组件</td>
+<td>作用</td>
+</tr>
+<tr class="row-even"><td>nginx</td>
+<td>静态 Web 服务器</td>
+</tr>
+<tr class="row-odd"><td>gitlab-shell</td>
+<td>用于处理 Git 命令和修改 authorized keys 列表</td>
+</tr>
+<tr class="row-even"><td>gitlab-workhorse</td>
+<td>轻量级的反向代理服务器</td>
+</tr>
+<tr class="row-odd"><td>logrotate</td>
+<td>日志文件管理工具</td>
+</tr>
+<tr class="row-even"><td>postgresql</td>
+<td>数据库</td>
+</tr>
+<tr class="row-odd"><td>redis</td>
+<td>缓存数据库</td>
+</tr>
+<tr class="row-even"><td>sidekiq</td>
+<td>用于在后台执行队列任务（异步执行）</td>
+</tr>
+<tr class="row-odd"><td>unicorn</td>
+<td>Gitlab Rails 应用是托管在这个服务器上面的</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="rhel-centos">
+<h2>RHEL/CentOS<a class="headerlink" href="#rhel-centos" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">安装并配置必要的依赖项</p>
+<blockquote>
+<div><p>在 CentOS7/RHEL&nbsp;系统中，下面的命令将会在系统防火墙中开放 HTTP/HTTPS 和 SSH 端口</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo yum install -y curl policycoreutils-python openssh-server
+sudo systemctl <span class="nb">enable</span> sshd
+sudo systemctl start sshd
+sudo firewall-cmd --permanent --add-service<span class="o">=</span>http
+sudo firewall-cmd --permanent --add-service<span class="o">=</span>https
+sudo systemctl reload firewalld
+</pre></div>
+</div>
+<p>接下来，安装Postfix以发送通知电子邮件。如果要使用其他解决方案发送电子邮件，请跳过此步骤并在安装GitLab后配置外部SMTP服务器。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo yum install postfix
+sudo systemctl <span class="nb">enable</span> postfix
+sudo systemctl start postfix
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">添加 GitLab 软件包存储库并安装软件包</p>
+<blockquote>
+<div><p>新建 <code class="docutils literal notranslate"><span class="pre">/etc/yum.repos.d/gitlab-ce.repo</span></code> , 内容为：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat &lt;&lt; <span class="s2">&quot;EOF&quot;</span> &gt; /etc/yum.repos.d/gitlab-ce.repo
+<span class="o">[</span>gitlab-ce<span class="o">]</span>
+<span class="nv">name</span><span class="o">=</span>Gitlab CE Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/yum/el<span class="nv">$releasever</span>/
+<span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+EOF
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo yum makecache
+sudo yum install -y gitlab-ce
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">浏览主机并登陆</p>
+<blockquote>
+<div><p>首次访问时，您将被重定向到密码重置屏幕。提供初始管理员帐户的密码，您将被重定向回登录屏幕。使用默认帐户的用户名 <code class="docutils literal notranslate"><span class="pre">root</span></code> 登录。</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="ubuntu">
+<h2>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">安装并配置必要的依赖项</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install -y curl openssh-server ca-certificates
+</pre></div>
+</div>
+<p>接下来，安装Postfix以发送通知电子邮件。如果要使用其他解决方案发送电子邮件，请跳过此步骤并在安装GitLab后配置外部SMTP服务器。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get install -y postfix
+</pre></div>
+</div>
+<p>在Postfix安装期间，可能会出现配置屏幕。选择 “Internet Site” 并按Enter键。使用服务器的外部DNS作为“邮件名称”，然后按Enter键。如果出现其他屏幕，请继续按Enter键接受默认值。</p>
+</div></blockquote>
+</li>
+<li><p class="first">添加GitLab软件包存储库并安装软件包</p>
+<blockquote>
+<div><p>首先信任 GitLab 的 GPG 公钥:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl https://packages.gitlab.com/gpg.key <span class="m">2</span>&gt; /dev/null <span class="p">|</span> sudo apt-key add - <span class="p">&amp;</span>&gt;/dev/null
+</pre></div>
+</div>
+<p>再选择你的 Debian/Ubuntu 版本，文本框中内容写进 <code class="docutils literal notranslate"><span class="pre">/etc/apt/sources.list.d/gitlab-ce.list</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo cat <span class="s">&lt;&lt; EOF &gt; /etc/apt/sources.list.d/gitlab-ce.list</span>
+<span class="s">deb https://mirrors.tuna.tsinghua.edu.cn/gitlab-ce/ubuntu xenial main</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>安装 gitlab-ce ：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install gitlab-ce
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">浏览主机并登陆</p>
+<blockquote>
+<div><p>首次访问时，您将被重定向到密码重置屏幕。提供初始管理员帐户的密码，您将被重定向回登录屏幕。使用默认帐户的用户名 <code class="docutils literal notranslate"><span class="pre">root</span></code> 登录。</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

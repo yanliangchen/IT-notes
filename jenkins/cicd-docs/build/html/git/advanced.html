@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>高级管理 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>高级管理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/git/advanced.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>高级管理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>查看<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> 用于切换分支</p>
+<blockquote>
+<div><img alt="../_images/分支修复.png" src="../_images/分支修复.png" />
+<p>checkout 一个文件和带文件路径执行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> 相似，除了它更改的是工作目录而不是缓冲区。不像提交层面的 checkout 命令，它不会移动 HEAD 引用，也就是你不会切换到别的分支上去。</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">--</span> <span class="pre">file.ext</span></code> 撤销对文件的修改</p>
+<blockquote>
+<div><img alt="../_images/分支撤销.png" src="../_images/分支撤销.png" />
+<p>如果你缓存并且提交了checkout 的文件，它具备将某个文件回撤到之前版本的效果。注意它撤销了这个文件后面所有的更改，而 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> 命令只撤销某个特定提交的更改。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>回滚<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/reset参数影响.png" src="../_images/reset参数影响.png" />
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> 默认选项。缓存区域和你指定的提交同步，但工作目录不受影响</li>
+<li><code class="docutils literal notranslate"><span class="pre">--soft</span></code> 缓存区和工作目录都不会改变</li>
+<li><code class="docutils literal notranslate"><span class="pre">--hard</span></code> 缓存区域和工作目录都同步到你指定的提交</li>
+</ul>
+<img alt="../_images/版本回滚.png" src="../_images/版本回滚.png" />
+<p>这些参数在工作当中都有什么不同的意义呢？虽然在调用时加上 <code class="docutils literal notranslate"><span class="pre">--hard</span></code> 选项可以令 git reset 成为一个危险的命令（注释：可能导致工作目录中所有当前进度丢失！）不加选项默认调用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code> 并不危险，它只会修改暂存区域。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git reset HEAD~2
+</pre></div>
+</div>
+<p>上面示例命令中 <code class="docutils literal notranslate"><span class="pre">HEAD~2</span></code> 是语法糖，含义是将 HEAD 向前移动两个提交。</p>
+</div>
+<div class="section" id="id4">
+<h2>文件层操作<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/回滚文件.png" src="../_images/回滚文件.png" />
+<p>当检测到文件路径时，<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> 将缓存区同步到你指定的那个提交。比如，下面这个命令会将倒数第二个提交中的 foo.py 加入缓存区中，供下一个提交使用。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git reset HEAD~2 foo.py
+</pre></div>
+</div>
+<p>运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">HEAD</span> <span class="pre">foo.py</span></code> 会将当前的 foo.py 从缓存区域中移除出去，而不会影响工作目录中对 foo.py 的更改。</p>
+<p>–soft、–mixed 和 –hard 对文件层面的 git reset 毫无作用，因为缓存区域中的文件一定会变化，而工作目录中的文件一定不变。</p>
+</div>
+<div class="section" id="id5">
+<h2>使用场景<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="14%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">命令</th>
+<th class="head">作用域</th>
+<th class="head">常用场景</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></td>
+<td>提交层面</td>
+<td>版本回滚，在私有分支上舍弃一些没有提交的更改</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>将文件从缓存区中移除</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code></td>
+<td>提交层面</td>
+<td>切换分支或查看旧版本</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>舍弃工作目录中的更改</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></td>
+<td>提交层面</td>
+<td>在公共分支上回滚更改</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>（没有）</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reflog</span></code> 命令分析你所有分支的头指针的日志来查找出你在重写历史上可能丢失的提交。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>git &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gitlab" href="../gitlab/gitlab.html" />
+    <link rel="prev" title="CI/CD" href="../index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">git</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">版本管理的发展历史</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">git 原理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">四个区域</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">环境安装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">源码包安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rhel-centos">RHEL/CentOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debian-ubuntu">Debian/Ubuntu</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">二进制包安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id7">RHEL/CentOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">Debian/Ubuntu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">分支管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">创建分支</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">切换分支</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">合并分支</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">分支命令</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">高级管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">查看</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">回滚</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">文件层操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">使用场景</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id19">远程仓库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id20">远程管理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">标签管理</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>git</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/git/git.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="git">
+<h1>git<a class="headerlink" href="#git" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Linus 用 C 语言编写而成</li>
+<li>2005 年诞生</li>
+<li>分布式版本管理系统</li>
+<li>速度快，适合大规模，跨地区多人协同开发</li>
+</ul>
+<div class="section" id="id1">
+<h2>版本管理的发展历史<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">本地版本管理</p>
+<blockquote>
+<div><img alt="../_images/本地化版本管理.png" src="../_images/本地化版本管理.png" />
+<p>用简单的数据库来记录文件的历次更新差异。
+本地版本控制系统存在的问题，只要整个项目的历史记录被保存在单一位置，就有丢失所有历史更新记录的风险。</p>
+</div></blockquote>
+</li>
+<li><p class="first">集中化的版本控制系统</p>
+<blockquote>
+<div><img alt="../_images/集中化版本管理.png" src="../_images/集中化版本管理.png" />
+<p>用单一的几种管理的服务器，来保存所有文件的修订版本，而协同工作的人们都通过客户端连接到这台服务器，下载最新的代码或者是更新提交。
+但是如果中央服务器宕机了，那宕机的这一段时间，大舅都没有办法提交更新，没办法协同工作。而且中央服务器的数据么有做备份而且损坏，所有记录就会丢失了。</p>
+</div></blockquote>
+</li>
+<li><p class="first">分布式版本控制</p>
+<blockquote>
+<div><img alt="../_images/分布式版本管理.png" src="../_images/分布式版本管理.png" />
+<p>分布式最大的特点就是客户端并不只是提取最新版本的文件快照，而是把代码仓库完整的镜像下来，每个客户端其实都可以当做是中央服务器，当中央服务器数据损坏了，从任何一个本地客户端都可以重新恢复。而且我们这样过在家也可以提交代码了，我们提交代码是提交到本地服务器，所以效率大大提高。近乎所有操作都是在本地执行、保证完整性、一般只添加数据库。</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2>git 原理<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>四个区域<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>需要关注 git 实现机制中的一块就是 git 的四个区域：工作区域、暂存区域、本地仓库、远程仓库。</p>
+<img alt="../_images/git四个区域一.png" src="../_images/git四个区域一.png" />
+<img alt="../_images/git四个区域二.png" src="../_images/git四个区域二.png" />
+<ul>
+<li><p class="first">工作区域</p>
+<blockquote>
+<div><p>工作区就是我们当前项目目录内，所有修改都是在工作区内进行。</p>
+</div></blockquote>
+</li>
+<li><p class="first">暂存区域</p>
+<blockquote>
+<div><p>暂存区（stage）也叫索引区（index），本地文件修改之后，add 操作会将修改添加大暂存区，那么本地和暂存区修改保持一致。</p>
+<img alt="../_images/暂存区.png" src="../_images/暂存区.png" />
+</div></blockquote>
+</li>
+<li><p class="first">本地仓库</p>
+<blockquote>
+<div><p>通过 clone 或者 init 目录之后，本地仓库便建立了，我们所有的修改，都要先提交到本地，是通过暂存区提交的（可以通过工作区直接提交到本地仓库）。</p>
+<p>如暂存区域图片所示，通过 git commit 即可把 stage 区域的修改提交到本地仓库。每一次提交都会生成一个版本号，版本号是 SHA-1 编码的编号。</p>
+</div></blockquote>
+</li>
+<li><p class="first">远程仓库</p>
+<blockquote>
+<div><p>远程仓库是放在远程服务器上，虽然说 git 是一个分布式版本控制系统，但是一般我们 worker 都会使用同一个远程仓库，这点感觉和 svn 并没有太大差别，只是 remote 挂掉之后，我们每个 worker 可以互相用对方的 repo (修改 repo 地址即可)。
+通过 clone 可以把远程仓库 clone 下拉，push 操作将本地的仓库版本提交到远程仓库。</p>
+</div></blockquote>
+</li>
+<li><p class="first">本地远程分支和远程分支</p>
+<blockquote>
+<div><p>git 本地仓库其实还会分为本地分支、本地远程分支。git fetch 拉下来的代码会放到本地远程分支上而不是直接合并到本地分支。</p>
+<p>可以通过 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> 查看本地远程分支。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git pull orgin master = git fetch origin master + git merge origin/master
+</pre></div>
+</div>
+<p>这个比较重要，一定要引起注意。</p>
+</div></blockquote>
+</li>
+<li><p class="first">常用命令</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">命令</th>
+<th class="head">内容</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code></td>
+<td>加入暂存区域（索引区）</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code></td>
+<td>查看状态</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span> <span class="pre">-s</span></code></td>
+<td>状态概览</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></td>
+<td>尚未暂存的文件</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span> <span class="pre">--staged</span></code></td>
+<td>暂存区域文件</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code></td>
+<td>提交更新</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></td>
+<td>回滚</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rm</span></code></td>
+<td>从版本库中移除</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rm</span> <span class="pre">--cached</span> <span class="pre">README</span></code></td>
+<td>从暂存区域中移除</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">mv</span></code></td>
+<td>相当于 <code class="docutils literal notranslate"><span class="pre">mv</span></code> <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rm</span></code> <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code> 三个命令</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>环境安装<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>源码包安装<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="rhel-centos">
+<h4>RHEL/CentOS<a class="headerlink" href="#rhel-centos" title="Permalink to this headline">¶</a></h4>
+<p>类 RHEL 系统默认安装的版本是较旧的 1.8 版本，推荐使用 2.7 版本。</p>
+<ol class="arabic">
+<li><p class="first">安装依赖</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum upgrade -y
+yum install libcurl-devel <span class="se">\</span>
+expat-devel <span class="se">\</span>
+gettext-devel <span class="se">\</span>
+openssl-devel <span class="se">\</span>
+zlib-devel <span class="se">\</span>
+gcc <span class="se">\</span>
+perl-ExtUtils-MakeMaker <span class="se">\</span>
+bash-completion <span class="se">\</span>
+unzip
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">获取源码包</p>
+<blockquote>
+<div><p>注意不要使用 git 1.8 版本，推荐使用 2.7 版本</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/git/git/archive/v2.7.4.zip
+unzip v2.7.4.zip
+<span class="nb">cd</span> git-2.7.4
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">编译</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git all
+make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git install
+rm -rf /usr/bin/git
+ln -s /usr/local/git/bin/git /usr/bin/git
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">检查</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git --version
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="debian-ubuntu">
+<h4>Debian/Ubuntu<a class="headerlink" href="#debian-ubuntu" title="Permalink to this headline">¶</a></h4>
+<p>Ubuntu 发行版 apt repo 中 git 二进制安装包版本就是 2.7</p>
+<ol class="arabic">
+<li><p class="first">安装依赖</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt update
+sudo apt upgrade -y
+sudo apt -y install <span class="se">\</span>
+libcurl4-gnutls-dev <span class="se">\</span>
+libexpat1-dev <span class="se">\</span>
+gettext <span class="se">\</span>
+libz-dev <span class="se">\</span>
+libssl-dev <span class="se">\</span>
+unzip <span class="se">\</span>
+make <span class="se">\</span>
+gcc <span class="se">\</span>
+perl
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">获取源码包</p>
+<blockquote>
+<div><p>注意不要使用 git 1.8 版本，推荐使用 2.7 版本</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget https://github.com/git/git/archive/v2.7.4.zip
+unzip v2.7.4.zip
+<span class="nb">cd</span> git-2.7.4
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">编译</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git all
+sudo make <span class="nv">prefix</span><span class="o">=</span>/usr/local/git install
+sudo rm -rf /usr/bin/git
+sudo ln -s /usr/local/git/bin/git /usr/bin/git
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">检查</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git --version
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>二进制包安装<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h4>RHEL/CentOS<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>添加额外的 git repo，安装指定版本的 git</p>
+<ol class="arabic">
+<li><p class="first">添加 repo 源</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat &gt; /etc/yum.repos.d/WANdisco-git.repo <span class="s">&lt;&lt; EOF</span>
+<span class="s">[WANdisco-git]</span>
+<span class="s">name=WANdisco Replicated Git</span>
+<span class="s">baseurl=http://opensource.wandisco.com/replication/rhel/\$releasever/git/\$basearch</span>
+<span class="s">gpgcheck=1</span>
+<span class="s">gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-WANdisco</span>
+<span class="s">EOF</span>
+curl -s http://opensource.wandisco.com/RPM-GPG-KEY-WANdisco &gt; RPM-GPG-KEY-WANdisco
+rpm --import RPM-GPG-KEY-WANdisco
+rm -f RPM-GPG-KEY-WANdisco
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">安装 git</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yum install git-&lt;version&gt;
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id8">
+<h4>Debian/Ubuntu<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>使用 apt 包管理器直接安装</p>
+<ol class="arabic simple">
+<li>添加 PPA 源</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>安装 git</li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo apt -y install git
+git --versio
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>分支管理<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/分支.png" src="../_images/分支.png" />
+<p>当我们提交了多次，通过 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code> 查看，提示我们工作在 master 分支上，为什么每次提交都会提交到 master 分支上？因为 HEAD 指针指向的是 master 分支。</p>
+<div class="section" id="id10">
+<h3>创建分支<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/创建分支.png" src="../_images/创建分支.png" />
+<p>当开发者添加新的功能，这可能需要修改以前的代码，如果继续在 master 分支上开发的话，首选会导致 master 分支上提交特别多，其次多人协同开发，大家都在 master 分支上进行开发，功能会比较混乱。所以切记当你要开发一个新的功能的时候，不要在 master 主分支上进行开发，一定要创建一个新的分支。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git branch &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>切换分支<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/切换分支.png" src="../_images/切换分支.png" />
+<p>切换分支就是将 HEAD 指针从原来指向 master 切换为指向 about。</p>
+<p>切换分支时，一定要注意你工作目录里的文件会被改变。如果是切换到一个较旧的分支，你的工作目录会恢复到该分支最后一次提交时的状态。如果 Git 不能干净利落地完成这个任务，它将禁止切换分支。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git checkout &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>合并分支<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/合并分支.png" src="../_images/合并分支.png" />
+<p>在提交 C1、C2 两次之后，创建了一个分支，C3、C4 与 C5、C6 是平行的，当使用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code> 提交的时候，C7 两个分支进行了合并提交。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git merge &lt;branch_name&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h3>分支命令<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">命令</th>
+<th class="head">内容</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></td>
+<td>查看所有分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-v</span></code></td>
+<td>查看所有分支详细内容</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">--merged</span></code></td>
+<td>查看已被合并的分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">--no-merged</span></code></td>
+<td>查看未被合并的分支</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-d</span> <span class="pre">about</span></code></td>
+<td>删除指定分支</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code></td>
+<td>切换分支</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code></td>
+<td>分支合并</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></td>
+<td>查看分支日志</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">stash</span></code></td>
+<td>制作暂存区域</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code></td>
+<td>打标签</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>高级管理<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>查看<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> 用于切换分支</p>
+<blockquote>
+<div><img alt="../_images/分支修复.png" src="../_images/分支修复.png" />
+<p>checkout 一个文件和带文件路径执行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> 相似，除了它更改的是工作目录而不是缓冲区。不像提交层面的 checkout 命令，它不会移动 HEAD 引用，也就是你不会切换到别的分支上去。</p>
+</div></blockquote>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">--</span> <span class="pre">file.ext</span></code> 撤销对文件的修改</p>
+<blockquote>
+<div><img alt="../_images/分支撤销.png" src="../_images/分支撤销.png" />
+<p>如果你缓存并且提交了checkout 的文件，它具备将某个文件回撤到之前版本的效果。注意它撤销了这个文件后面所有的更改，而 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> 命令只撤销某个特定提交的更改。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>回滚<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/reset参数影响.png" src="../_images/reset参数影响.png" />
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> 默认选项。缓存区域和你指定的提交同步，但工作目录不受影响</li>
+<li><code class="docutils literal notranslate"><span class="pre">--soft</span></code> 缓存区和工作目录都不会改变</li>
+<li><code class="docutils literal notranslate"><span class="pre">--hard</span></code> 缓存区域和工作目录都同步到你指定的提交</li>
+</ul>
+<img alt="../_images/版本回滚.png" src="../_images/版本回滚.png" />
+<p>这些参数在工作当中都有什么不同的意义呢？虽然在调用时加上 <code class="docutils literal notranslate"><span class="pre">--hard</span></code> 选项可以令 git reset 成为一个危险的命令（注释：可能导致工作目录中所有当前进度丢失！）不加选项默认调用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code> 并不危险，它只会修改暂存区域。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git reset HEAD~2
+</pre></div>
+</div>
+<p>上面示例命令中 <code class="docutils literal notranslate"><span class="pre">HEAD~2</span></code> 是语法糖，含义是将 HEAD 向前移动两个提交。</p>
+</div>
+<div class="section" id="id17">
+<h3>文件层操作<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<img alt="../_images/回滚文件.png" src="../_images/回滚文件.png" />
+<p>当检测到文件路径时，<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> 将缓存区同步到你指定的那个提交。比如，下面这个命令会将倒数第二个提交中的 foo.py 加入缓存区中，供下一个提交使用。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git reset HEAD~2 foo.py
+</pre></div>
+</div>
+<p>运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">HEAD</span> <span class="pre">foo.py</span></code> 会将当前的 foo.py 从缓存区域中移除出去，而不会影响工作目录中对 foo.py 的更改。</p>
+<p>–soft、–mixed 和 –hard 对文件层面的 git reset 毫无作用，因为缓存区域中的文件一定会变化，而工作目录中的文件一定不变。</p>
+</div>
+<div class="section" id="id18">
+<h3>使用场景<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="14%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">命令</th>
+<th class="head">作用域</th>
+<th class="head">常用场景</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></td>
+<td>提交层面</td>
+<td>版本回滚，在私有分支上舍弃一些没有提交的更改</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>将文件从缓存区中移除</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code></td>
+<td>提交层面</td>
+<td>切换分支或查看旧版本</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>舍弃工作目录中的更改</td>
+</tr>
+<tr class="row-even"><td rowspan="2"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></td>
+<td>提交层面</td>
+<td>在公共分支上回滚更改</td>
+</tr>
+<tr class="row-odd"><td>文件层面</td>
+<td>（没有）</td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reflog</span></code> 命令分析你所有分支的头指针的日志来查找出你在重写历史上可能丢失的提交。</p>
+</div>
+</div>
+<div class="section" id="id19">
+<h2>远程仓库<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/远程仓库.png" src="../_images/远程仓库.png" />
+<div class="section" id="id20">
+<h3>远程管理<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/respawner/looking-glass
+git pull
+git fetch
+git push origin master
+git remote
+git remote -v
+git remote add xxx http://xxx
+git remote show origin
+git remote rename pb paul
+git tag -a v1.0 -m <span class="s2">&quot;abc&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>标签管理<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git tag -a v1.4 -m <span class="s1">&#39;my version 1.4&#39;</span>
+git show v1.4
+git tag -a v1.2 9fceb01
+<span class="c1"># 对历史打标签</span>
+git push origin v1.5
+<span class="c1"># 将标签推向远程</span>
+git push origin --tags
+<span class="c1"># 推送多个标签</span>
+git checkout -b version2 v2.0.0
+<span class="c1"># 检出标签</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../gitlab/gitlab.html" class="btn btn-neutral float-right" title="gitlab" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="CI/CD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

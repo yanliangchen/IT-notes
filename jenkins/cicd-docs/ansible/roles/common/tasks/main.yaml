@@ -1,0 +1,32 @@
+---
+
+- name: change host name
+  hostname:
+    name: "{{ hostname }}"
+  when: ansible_fqdn != hostname 
+
+- name: stop postfix mail server
+  systemd:
+    name: postfix
+    state: stopped
+    enabled: false
+  when: ansible_distribution == 'CentOS'
+
+- name: install rpm packages
+  yum:
+    name: "{{ packages }}"
+    update_cache: yes
+    state: latest
+  vars:
+    packages:
+    - deltarpm
+    - vim
+    - net-tools
+    - epel-release
+    - git
+  when: ansible_distribution == 'CentOS'
+
+- include_tasks: repo.yaml
+  when: change_repo == 'true'
+
+

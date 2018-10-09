@@ -1,0 +1,29 @@
+---
+
+- name: install nginx to yum
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - nginx
+    - httpd-tools
+
+- name: copy nginx configuration templates
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: copy {{ nginx_server_name }}.conf to Nginx subnet configuration
+  template:
+    src: website.conf.j2
+    dest: "/etc/nginx/conf.d/{{ nginx_server_name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify:
+    - restart nginx

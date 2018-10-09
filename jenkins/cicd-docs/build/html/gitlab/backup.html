@@ -1,0 +1,383 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>备份管理 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>备份管理</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/backup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>备份管理<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>对 gitlab 进行备份将会创建一个包含所有库和附件的文档文件。对备份的恢复只能恢复到与备份时的 gitlab 相同的版本。将 gitlab 迁移到另一台服务器上的最佳方法就是通过备份和还原。</p>
+<p>gitlab 提供了一个简单的命令来备份整个 gitlab，并且能灵活的满足需求。</p>
+<div class="section" id="id2">
+<h2>配置文件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ruby notranslate"><div class="highlight"><pre><span></span><span class="c1">### Backup Settings</span>
+<span class="c1">###! Docs: https://docs.gitlab.com/omnibus/settings/backups.html</span>
+
+<span class="c1"># gitlab_rails[&#39;manage_backup_path&#39;] = true</span>
+<span class="c1"># gitlab_rails[&#39;backup_path&#39;] = &quot;/var/opt/gitlab/backups&quot;</span>
+
+<span class="c1">###! Docs: https://docs.gitlab.com/ce/raketasks/backup_restore.html#backup-archive-permissions</span>
+<span class="c1"># gitlab_rails[&#39;backup_archive_permissions&#39;] = 0644</span>
+
+<span class="c1"># gitlab_rails[&#39;backup_pg_schema&#39;] = &#39;public&#39;</span>
+
+<span class="c1">###! The duration in seconds to keep backups before they are allowed to be deleted</span>
+<span class="c1"># gitlab_rails[&#39;backup_keep_time&#39;] = 604800</span>
+
+<span class="c1"># gitlab_rails[&#39;backup_upload_connection&#39;] = {</span>
+<span class="c1">#   &#39;provider&#39; =&gt; &#39;AWS&#39;,</span>
+<span class="c1">#   &#39;region&#39; =&gt; &#39;eu-west-1&#39;,</span>
+<span class="c1">#   &#39;aws_access_key_id&#39; =&gt; &#39;AKIAKIAKI&#39;,</span>
+<span class="c1">#   &#39;aws_secret_access_key&#39; =&gt; &#39;secret123&#39;</span>
+<span class="c1"># }</span>
+<span class="c1"># gitlab_rails[&#39;backup_upload_remote_directory&#39;] = &#39;my.s3.bucket&#39;</span>
+<span class="c1"># gitlab_rails[&#39;backup_multipart_chunk_size&#39;] = 104857600</span>
+
+<span class="c1">###! **Turns on AWS Server-Side Encryption with Amazon S3-Managed Keys for</span>
+<span class="c1">###!   backups**</span>
+<span class="c1"># gitlab_rails[&#39;backup_encryption&#39;] = &#39;AES256&#39;</span>
+
+<span class="c1">###! **Specifies Amazon S3 storage class to use for backups. Valid values</span>
+<span class="c1">###!   include &#39;STANDARD&#39;, &#39;STANDARD_IA&#39;, and &#39;REDUCED_REDUNDANCY&#39;**</span>
+<span class="c1"># gitlab_rails[&#39;backup_storage_class&#39;] = &#39;STANDARD&#39;</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>关键字</td>
+<td>含义</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['manage_backup_path']</span></code></td>
+<td>管理备份文件路径</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['backup_path']</span></code></td>
+<td>定义备份文件路径</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['backup_archive_permissions']</span></code></td>
+<td>指定备份文件权限</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['backup_pg_schema']</span></code></td>
+<td>指定备份 postgresql 数据库表名称</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">gitlab_rails['backup_keep_time']</span></code></td>
+<td>备份文件保存时间</td>
+</tr>
+</tbody>
+</table>
+<p>备份文件还支持上传到云端，支持 AWS、google、openstack swift 和 rackspace。</p>
+<p>配置文件修改完成之后，请重新执行下面的命令使配置文件生效。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-ctl reconfigure
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>备份时间戳<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>从 gitlab 9.2 版本开始，时间戳格式由 <code class="docutils literal notranslate"><span class="pre">EPOCH_YYYY_MM_DD</span></code> 更改为 <code class="docutils literal notranslate"><span class="pre">EPOCH_YYYY_MM_DD_Gitlab-version</span></code>。</p>
+<p>备份文件将保存在 gitlab.yml 文件中定义的 backup_path 中，文件名为 <code class="docutils literal notranslate"><span class="pre">TIMESTAMP_gitlab_backup.tar</span></code> ，TIMESTAMP 为备份时的时间戳。</p>
+<ol class="arabic">
+<li><p class="first">使用二进制软件包安装</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-rake gitlab:backup:create
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">在 docker 中运行的 gitlab</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker <span class="nb">exec</span> -c &lt;container name&gt; gitlab-rake gitlab:backup:create
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2>备份策略选项<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>该选项对 gitlab 8.17 及以上版本有效。</p>
+<p>默认的备份策略是使用 linux 的 tar/gzip 命令。这在大多数情况下是没有问题的，但是当数据在打包过程中发生变化时，将会有错误抛出 <code class="docutils literal notranslate"><span class="pre">file</span> <span class="pre">changed</span> <span class="pre">as</span> <span class="pre">we</span> <span class="pre">read</span> <span class="pre">it</span></code> ，这会导致备份进程失败。</p>
+<p>为了解决这个问题，8.17 引入了一个名为 copy 的备份策略，就是在调用 tar、gzip 时将数据拷贝到一个临时位置。不过也引入了另外一个问题，将额外占用一倍的磁盘空间。</p>
+<p>要使用复制策略而不是默认流策略，可以指定：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-rake gitlab:backup:create <span class="nv">STRATEGY</span><span class="o">=</span>copy
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>排除特定目录<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>通过加环境变量选择跳过要备份的内容。可用的选项有：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>选项</td>
+<td>内容</td>
+</tr>
+<tr class="row-even"><td>db</td>
+<td>数据库</td>
+</tr>
+<tr class="row-odd"><td>uploads</td>
+<td>附件</td>
+</tr>
+<tr class="row-even"><td>repositories</td>
+<td>Git repositories 数据</td>
+</tr>
+<tr class="row-odd"><td>builds</td>
+<td>CI job output logs</td>
+</tr>
+<tr class="row-even"><td>artifacts</td>
+<td>CI job artifacts</td>
+</tr>
+<tr class="row-odd"><td>lfs</td>
+<td>LFS objects</td>
+</tr>
+<tr class="row-even"><td>registry</td>
+<td>Container Registry images</td>
+</tr>
+<tr class="row-odd"><td>pages</td>
+<td>Pages content</td>
+</tr>
+</tbody>
+</table>
+<p>指定多个选项使用逗号分隔</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-rake gitlab:backup:create <span class="nv">SKIP</span><span class="o">=</span>db,uploads
+</pre></div>
+</div>
+</div>
+<div class="section" id="crontab">
+<h2>使用 crontab 定时备份<a class="headerlink" href="#crontab" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">0</span> <span class="m">2</span> * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create <span class="nv">CRON</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+<p>环境变量 <code class="docutils literal notranslate"><span class="pre">CRON=1</span></code> 的作用是如果没有任何错误发生时，避免备份脚本的所有进度输出。将以将 /etc/gitlab 备份到安全的地方。如果要还原 gitlab 应用程序，还需要还原 gitlab-secrets.json 。如果没有，那么使用双重身份验证的 Gitlab 用户将无法访问 Gitlab 服务器，而存储在 Gitlab 中的“安全变量”将被丢失。</p>
+<p>所有配置都存储在 <code class="docutils literal notranslate"><span class="pre">/etc/gitlab</span></code> 中，只需要备份此目录</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo sh -c <span class="s1">&#39;umask 0077; tar -cf $(date &quot;+etc-gitlab-%s.tar&quot;)  /etc/gitlab&#39;</span>
+</pre></div>
+</div>
+<p>使用 crontab</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">0</span> <span class="m">2</span> * * *  <span class="nb">umask</span> <span class="m">0077</span><span class="p">;</span> tar cfz /secret/gitlab/backups/<span class="k">$(</span>date <span class="s2">&quot;+etc-gitlab-\%s.tgz&quot;</span><span class="k">)</span>  /etc/gitlab
+</pre></div>
+</div>
+<p>服务器的 SSH 主机密钥存储在 <code class="docutils literal notranslate"><span class="pre">/etc/ssh/</span></code> 目录中，如果必须执行完整的服务器还原，请确保备份和还原这些密钥，以避免中间人攻击的警告。</p>
+</div>
+<div class="section" id="id6">
+<h2>恢复备份<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>只能还原到与备份文件相同的 gitlab 版本。</p>
+<p>首先有安装与备份文件相同的 gitlab，执行 <code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">reconfigure</span></code>。如果 gitlab 没有运行，需要执行 <code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">start</span></code>。并确保备份文件位于 <code class="docutils literal notranslate"><span class="pre">gitlab_rails['backup_path']</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo gitlab-ctl stop unicorn
+sudo gitlab-ctl stop sidekiq
+sudo gitlab-ctl status
+sudo gitlab-rake gitlab:backup:restore <span class="nv">BACKUP</span><span class="o">=</span>1493107454_2017_04_25_9.1.0
+sudo gitlab-ctl start
+sudo gitlab-rake gitlab:check <span class="nv">SANITIZE</span><span class="o">=</span><span class="nb">true</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

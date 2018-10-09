@@ -1,0 +1,8 @@
+git_server_url: git.bih.cn
+git_server_ssh_user: git
+git_server_private_key_file: ansible_git
+git_server_public_key_file: ansible_git.pub
+
+git_project_user_or_group: translation
+git_project_name: harborcloud
+git_project_ssh: "ssh://{{ git_server_ssh_user }}@{{ git_server_url }}/{{ git_project_user_or_group }}/{{ git_project_name }}.git"

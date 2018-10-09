@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>命令 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>命令</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/gitlab/command.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>命令<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>状态查询<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>通过命令可以查看各服务组件的运行状态</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl status
+run: alertmanager: <span class="o">(</span>pid <span class="m">12966</span><span class="o">)</span> 4279s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12980</span><span class="o">)</span> 4279s
+run: gitaly: <span class="o">(</span>pid <span class="m">12895</span><span class="o">)</span> 4281s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12978</span><span class="o">)</span> 4279s
+run: gitlab-monitor: <span class="o">(</span>pid <span class="m">12928</span><span class="o">)</span> 4280s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12936</span><span class="o">)</span> 4280s
+run: gitlab-workhorse: <span class="o">(</span>pid <span class="m">12877</span><span class="o">)</span> 4281s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12950</span><span class="o">)</span> 4280s
+run: logrotate: <span class="o">(</span>pid <span class="m">20523</span><span class="o">)</span> 726s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12952</span><span class="o">)</span> 4280s
+run: nginx: <span class="o">(</span>pid <span class="m">12398</span><span class="o">)</span> 4332s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12951</span><span class="o">)</span> 4280s
+run: node-exporter: <span class="o">(</span>pid <span class="m">12620</span><span class="o">)</span> 4314s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12924</span><span class="o">)</span> 4280s
+run: postgres-exporter: <span class="o">(</span>pid <span class="m">12987</span><span class="o">)</span> 4279s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">13069</span><span class="o">)</span> 4278s
+run: postgresql: <span class="o">(</span>pid <span class="m">12125</span><span class="o">)</span> 4372s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12864</span><span class="o">)</span> 4281s
+run: prometheus: <span class="o">(</span>pid <span class="m">12943</span><span class="o">)</span> 4280s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12961</span><span class="o">)</span> 4279s
+run: redis: <span class="o">(</span>pid <span class="m">12050</span><span class="o">)</span> 4378s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12863</span><span class="o">)</span> 4281s
+run: redis-exporter: <span class="o">(</span>pid <span class="m">12705</span><span class="o">)</span> 4302s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">13068</span><span class="o">)</span> 4279s
+run: sidekiq: <span class="o">(</span>pid <span class="m">12371</span><span class="o">)</span> 4334s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12931</span><span class="o">)</span> 4280s
+run: unicorn: <span class="o">(</span>pid <span class="m">12328</span><span class="o">)</span> 4340s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12930</span><span class="o">)</span> 4280s
+</pre></div>
+</div>
+<p>也可以指定查看某个服务</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl status nginx
+run: nginx: <span class="o">(</span>pid <span class="m">12398</span><span class="o">)</span> 4463s<span class="p">;</span> run: log: <span class="o">(</span>pid <span class="m">12951</span><span class="o">)</span> 4411s
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>查看日志<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>如果想查看某个服务的日志，可以使用如下命令</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl tail <span class="nv">nginx</span>
+<span class="o">==</span>&gt; /var/log/gitlab/nginx/current &lt;<span class="o">==</span>
+
+<span class="o">==</span>&gt; /var/log/gitlab/nginx/error.log &lt;<span class="o">==</span>
+
+<span class="o">==</span>&gt; /var/log/gitlab/nginx/gitlab_access.log &lt;<span class="o">==</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:37 +0800<span class="o">]</span> <span class="s2">&quot;POST /profile/preferences HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">585</span> <span class="s2">&quot;http://192.168.47.132/profile/preferences&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:42 +0800<span class="o">]</span> <span class="s2">&quot;POST /profile/preferences HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">585</span> <span class="s2">&quot;http://192.168.47.132/profile/preferences&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:43 +0800<span class="o">]</span> <span class="s2">&quot;GET /profile/keys HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">7587</span> <span class="s2">&quot;http://192.168.47.132/profile/preferences&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:43 +0800<span class="o">]</span> <span class="s2">&quot;GET /assets/webpack/pages.profiles.keys.963cb5f3.chunk.js HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">803</span> <span class="s2">&quot;http://192.168.47.132/profile/keys&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:45 +0800<span class="o">]</span> <span class="s2">&quot;GET /profile/chat_names HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">6725</span> <span class="s2">&quot;http://192.168.47.132/profile/keys&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:11:59:47 +0800<span class="o">]</span> <span class="s2">&quot;GET / HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">7539</span> <span class="s2">&quot;http://192.168.47.132/profile/chat_names&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:12:01:58 +0800<span class="o">]</span> <span class="s2">&quot;GET /projects/new HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">13013</span> <span class="s2">&quot;http://192.168.47.132/&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:12:01:58 +0800<span class="o">]</span> <span class="s2">&quot;GET /assets/webpack/commons~pages.projects~pages.projects.activity~pages.projects.artifacts.browse~pages.projects.artifa~1485fd35.d346ca1a.chunk.js HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">7340</span> <span class="s2">&quot;http://192.168.47.132/projects/new&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:12:01:58 +0800<span class="o">]</span> <span class="s2">&quot;GET /assets/webpack/pages.projects.new.0fa98a30.chunk.js HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">1667</span> <span class="s2">&quot;http://192.168.47.132/projects/new&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+<span class="m">192</span>.168.47.1 - - <span class="o">[</span><span class="m">27</span>/Sep/2018:12:02:11 +0800<span class="o">]</span> <span class="s2">&quot;GET /import/github/new HTTP/1.1&quot;</span> <span class="m">200</span> <span class="m">6206</span> <span class="s2">&quot;http://192.168.47.132/projects/new&quot;</span> <span class="s2">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36&quot;</span>
+
+<span class="o">==</span>&gt; /var/log/gitlab/nginx/gitlab_error.log &lt;<span class="o">==</span>
+
+<span class="o">==</span>&gt; /var/log/gitlab/nginx/access.log &lt;<span class="o">==</span>
+</pre></div>
+</div>
+<p>也可以前往服务组件的日志目录进行查看：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ll /var/log/gitlab/
+total <span class="m">0</span>
+drwx------ <span class="m">2</span> gitlab-prometheus root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 alertmanager
+drwx------ <span class="m">2</span> git               root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 gitaly
+drwx------ <span class="m">2</span> git               root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 gitlab-monitor
+drwx------ <span class="m">2</span> git               root       <span class="m">216</span> Sep <span class="m">27</span> <span class="m">11</span>:00 gitlab-rails
+drwx------ <span class="m">2</span> git               root        <span class="m">30</span> Sep <span class="m">27</span> <span class="m">10</span>:59 gitlab-shell
+drwx------ <span class="m">2</span> git               root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 gitlab-workhorse
+drwx------ <span class="m">2</span> root              root        <span class="m">47</span> Sep <span class="m">27</span> <span class="m">11</span>:00 logrotate
+drwxr-x--- <span class="m">2</span> root              gitlab-www <span class="m">131</span> Sep <span class="m">27</span> <span class="m">11</span>:00 nginx
+drwx------ <span class="m">2</span> gitlab-prometheus root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 node-exporter
+drwx------ <span class="m">2</span> gitlab-psql       root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 postgres-exporter
+drwx------ <span class="m">2</span> gitlab-psql       root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 postgresql
+drwx------ <span class="m">2</span> gitlab-prometheus root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 prometheus
+drwxr-xr-x <span class="m">2</span> root              root        <span class="m">28</span> Sep <span class="m">27</span> <span class="m">10</span>:59 reconfigure
+drwx------ <span class="m">2</span> gitlab-redis      root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 redis
+drwx------ <span class="m">2</span> gitlab-redis      root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 redis-exporter
+drwx------ <span class="m">2</span> git               root        <span class="m">82</span> Sep <span class="m">27</span> <span class="m">11</span>:01 sidekiq
+drwx------ <span class="m">2</span> git               root       <span class="m">134</span> Sep <span class="m">27</span> <span class="m">11</span>:01 unicorn
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>启动服务<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>可以启动指定的服务，也可以启动全部服务</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl start
+gitlab-ctl start nginx
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>关闭服务<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>可以关闭指定的服务，也可以关闭全部服务</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl stop
+gitlab-ctl stop nginx
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>重启服务<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>可以重启指定的服务，也可以重启全部服务</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gitlab-ctl restart
+gitlab-ctl restart nginx
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

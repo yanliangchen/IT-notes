@@ -802,3 +802,233 @@ str和repr区别：
 	一种是通过str函数，他会把值转换为合理形式的字符串，以便用户可以理解；另一种是通过repr函数，她会创建一个字符串，以合法的Python表达式的形式来表示值。
 ```
 
+
+
+### 26. 理解GIL全局锁
+
+```
+熟悉python的都知道，在C语言写的python解释器中存在全局解释器锁，由于全局解释器锁的存在，在同一时间内，python解释器只能运行一个线程的代码，这大大影响了python多线程的性能。而这个解释器锁由于历史原因，现在几乎无法消除。
+python GIL 之所以会影响多线程等性能，是因为在多线程的情况下，只有当线程获得了一个全局锁的时候，那么该线程的代码才能运行，而全局锁只有一个，所以使用python多线程，在同一时刻也只有一个线程在运行，因此在即使在多核的情况下也只能发挥出单核的性能。
+既然python在同一时刻下只能运行一个线程的代码，那线程之间是如何调度的呢？ 
+对于有io操作的线程，当一个线程在做io操作的时候，因为io操作不需要cpu，所以，这个时候，python会释放python全局锁，这样其他需要运行的线程就会使用该锁。 
+对于cpu密集型的线程，比如一个线程可能一直需要使用cpu做计算，那么python中会有一个执行指令的计数器，当一个线程执行了一定数量的指令时，该线程就会停止执行并让出当前的锁，这样其他的线程就可以执行代码了。 
+由上面可知，至少有两种情况python会做线程切换，一是一但有IO操作时，会有线程切换，二是当一个线程连续执行了一定数量的指令时，会出现线程切换。当然此处的线程切换不一定就一定会切换到其他线程执行，因为如果当前线程 优先级比较高的话，可能在让出锁以后，又继续获得锁，并优先执行。
+在做科学计算的时候是用的单线程，因为这种计算是需要CPU一直做计算的，如果用多线程反而会降低计算速度。
+
+```
+
+
+
+
+
+### 27. martch 和 search的区别
+
+```
+1. match()函数只检测字符串开头位置是否匹配，匹配成功才会返回结果，否则返回None
+
+import re
+print(re.match("func", "function"))
+# 打印结果 <_sre.SRE_Match object; span=(0, 4), match='func'>
+
+print(re.match("func", "function").span())
+# 打印结果  (0, 4)
+
+print(re.match("func1", "function"))
+# 打印结果 None
+
+注意：print(re.match("func1", "function").span())会报错，因为取不到span
+
+
+2. search()函数会在整个字符串内查找模式匹配,只到找到第一个匹配然后返回一个包含匹配信息的对象,该对象可以通过调用group()方法得到匹配的字符串,如果字符串没有匹配，则返回None。
+
+import re
+print(re.search("tion", "function"))
+# 打印结果 <_sre.SRE_Match object; span=(4, 8), match='tion'>
+
+print(re.search("tion", "function").span())
+# 打印结果  (4, 8)
+
+print(re.search("tion1", "function"))
+# 打印结果 None
+
+注意：print(re.search("tion1", "function").span())会报错，因为取不到tion1
+
+
+3.re模块下的其他常用方法
+import re
+
+print(re.findall("a", "a aa ab ac"))  # 返回所有满足匹配条件的结果,放在列表里
+# ['a', 'a', 'a', 'a', 'a']
+
+print(re.split('[ab]', 'abcd'))  # 先按'a'分割得到''和'bcd',在对''和'bcd'分别按'b'分割
+# ['', '', 'cd']
+
+ret = re.sub('\d', 'H', 'eva3egon4yuan4', 1)#将数字替换成'H'，参数1表示只替换1个
+print(ret) #evaHegon4yuan4
+
+ret = re.subn('\d', 'H', 'eva3egon4yuan4')#将数字替换成'H'，返回元组(替换的结果,替换了多少次)
+print(ret)
+
+obj = re.compile('\d{3}')  #将正则表达式编译成为一个 正则表达式对象，规则要匹配的是3个数字
+ret = obj.search('abc123eeee') #正则表达式对象调用search，参数为待匹配的字符串
+print(ret.group())  #结果 ： 123
+
+import re
+ret = re.finditer('\d', 'ds3sy4784a')   #finditer返回一个存放匹配结果的迭代器
+print(ret)  # <callable_iterator object at 0x10195f940>
+print(next(ret).group())  #查看第一个结果
+print(next(ret).group())  #查看第二个结果
+print([i.group() for i in ret])  #查看剩余的左右结果
+
+
+
+注意：
+1 findall的优先级查询：
+
+import re
+
+ret = re.findall('www.(baidu|jd).com', 'www.jd.com')
+print(ret)  # ['jd']     这是因为findall会优先把匹配结果组里内容返回,如果想要匹配结果,取消权限即可
+
+ret = re.findall('www.(?:baidu|jd).com', 'www.jd.com')
+print(ret)  # ['www.jd.com']
+
+2 split的优先级查询
+
+ret=re.split("\d+","eva3egon4yuan")
+print(ret) #结果 ： ['eva', 'egon', 'yuan']
+
+ret=re.split("(\d+)","eva3egon4yuan")
+print(ret) #结果 ： ['eva', '3', 'egon', '4', 'yuan']
+
+#在匹配部分加上（）之后所切出的结果是不同的，
+#没有（）的没有保留所匹配的项，但是有（）的却能够保留了匹配的项，
+#这个在某些需要保留匹配部分的使用过程是非常重要的。
+
+```
+
+
+
+
+
+### 28. 协程(摘自廖雪峰老师)
+
+
+
+协程，又称微线程，纤程。英文名Coroutine。
+
+协程的概念很早就提出来了，但直到最近几年才在某些语言（如Lua）中得到广泛应用。
+
+子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。
+
+所以子程序调用是通过栈实现的，一个线程就是执行一个子程序。
+
+子程序调用总是一个入口，一次返回，调用顺序是明确的。而协程的调用和子程序不同。
+
+协程看上去也是子程序，但执行过程中，在子程序内部可中断，然后转而执行别的子程序，在适当的时候再返回来接着执行。
+
+注意，在一个子程序中中断，去执行其他子程序，不是函数调用，有点类似CPU的中断。比如子程序A、B：
+
+```
+def A():
+    print '1'
+    print '2'
+    print '3'
+
+def B():
+    print 'x'
+    print 'y'
+    print 'z'
+```
+
+假设由协程执行，在执行A的过程中，可以随时中断，去执行B，B也可能在执行过程中中断再去执行A，结果可能是：
+
+```
+1
+2
+x
+y
+3
+z
+```
+
+但是在A中是没有调用B的，所以协程的调用比函数调用理解起来要难一些。
+
+看起来A、B的执行有点像多线程，但协程的特点在于是一个线程执行，那和多线程比，协程有何优势？
+
+最大的优势就是协程极高的执行效率。因为子程序切换不是线程切换，而是由程序自身控制，因此，没有线程切换的开销，和多线程比，线程数量越多，协程的性能优势就越明显。
+
+第二大优势就是不需要多线程的锁机制，因为只有一个线程，也不存在同时写变量冲突，在协程中控制共享资源不加锁，只需要判断状态就好了，所以执行效率比多线程高很多。
+
+因为协程是一个线程执行，那怎么利用多核CPU呢？最简单的方法是多进程+协程，既充分利用多核，又充分发挥协程的高效率，可获得极高的性能。
+
+Python对协程的支持还非常有限，用在generator中的yield可以一定程度上实现协程。虽然支持不完全，但已经可以发挥相当大的威力了。
+
+来看例子：
+
+传统的生产者-消费者模型是一个线程写消息，一个线程取消息，通过锁机制控制队列和等待，但一不小心就可能死锁。
+
+如果改用协程，生产者生产消息后，直接通过yield跳转到消费者开始执行，待消费者执行完毕后，切换回生产者继续生产，效率极高：
+
+```
+import time
+
+def consumer():
+    r = ''
+    while True:
+        n = yield r
+        if not n:
+            return
+        print('[CONSUMER] Consuming %s...' % n)
+        time.sleep(1)
+        r = '200 OK'
+
+def produce(c):
+    c.next()
+    n = 0
+    while n < 5:
+        n = n + 1
+        print('[PRODUCER] Producing %s...' % n)
+        r = c.send(n)
+        print('[PRODUCER] Consumer return: %s' % r)
+    c.close()
+
+if __name__=='__main__':
+    c = consumer()
+    produce(c)
+```
+
+执行结果：
+
+```
+[PRODUCER] Producing 1...
+[CONSUMER] Consuming 1...
+[PRODUCER] Consumer return: 200 OK
+[PRODUCER] Producing 2...
+[CONSUMER] Consuming 2...
+[PRODUCER] Consumer return: 200 OK
+[PRODUCER] Producing 3...
+[CONSUMER] Consuming 3...
+[PRODUCER] Consumer return: 200 OK
+[PRODUCER] Producing 4...
+[CONSUMER] Consuming 4...
+[PRODUCER] Consumer return: 200 OK
+[PRODUCER] Producing 5...
+[CONSUMER] Consuming 5...
+[PRODUCER] Consumer return: 200 OK
+```
+
+注意到consumer函数是一个generator（生成器），把一个consumer传入produce后：
+
+1. 首先调用c.next()启动生成器；
+2. 然后，一旦生产了东西，通过c.send(n)切换到consumer执行；
+3. consumer通过yield拿到消息，处理，又通过yield把结果传回；
+4. produce拿到consumer处理的结果，继续生产下一条消息；
+5. produce决定不生产了，通过c.close()关闭consumer，整个过程结束。
+
+整个流程无锁，由一个线程执行，produce和consumer协作完成任务，所以称为“协程”，而非线程的抢占式多任务。
+
+最后套用Donald Knuth的一句话总结协程的特点：
+
+“子程序就是协程的一种特例。”
+

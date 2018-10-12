@@ -6,7 +6,7 @@
 
 ps : 我这里用的是centos7，方便修改，我直接沾过来啦~
 
-![img](https://mmbiz.qpic.cn/mmbiz_jpg/UFM3uMlAXxOf1busc8gJY8wnTpxEBTldWEPu0IlJtpCNBYByXSicEVPULZVogC9piaXXzjnVZlpEJkwDCA1JQz1A/640?tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+![img](./image-sphinx/01.jpg)
 
 本文来源：python编程时光，欢迎大家关注
 

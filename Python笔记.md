@@ -1544,6 +1544,15 @@ kan()
 
 ---
 
+### 6.6.8名称空间与作用域
+
+- 什么是名称空间 - 名称空间：存放名字的地方，三种名称空间。
+- 名称空间的加载顺序 - python 解释器先启动，因而首先加载的是：内置空间名称 - 执行 test.py 文件，然后以文件为基础，加载全局名称空间 - 在执行文件的过程中如果调用函数，则临时产生局部名称空间
+- 名字查找的顺序 - 局部名称空间 -> 全局名称空间 -> 内置名称空间 - 需要注意的是：在全局无法查看局部的，在局部可以查看全局的
+- 作用域即范围 - 全局范围（内置名称空间与全局名称空间属于该范围）：全局存活，全局有效 - 局部范围（局部名称空间属于该范围）：临时存活，局部有效
+- 作用域关系是在函数自定义节点就已经固定的，与函数的调用位置无关
+- 查看作用域：globals(), locals() - LEGB 代表名字查找顺序：locals -> enclosing function -> globals -> __builtins__ - locals 是函数内的名字空间，包括局部变量和形参 - enclosing 外部嵌套函数的名字空间（闭包中常见） - globals 全局变量，函数定义所在模块的名字空间 - buitins 内置模块的名字空间
+
 ## 6.7 lambda 表达式
 
 1. 基本格式:
@@ -1580,7 +1589,6 @@ kan()
    large = lambda no1,no2,no3: no1 if no1 > no2 and no1 > no3 else no2 if no2 > no3 else no3
    ```
 
-
 ----
 
 ## 6.8 递归函数
@@ -1604,7 +1612,50 @@ def digui(num):
 
 
 
+## 6.9 函数进阶
+
+### 6.9.1函数对象
+
+- 函数是第一类对象，即函数可以当做数据传递 - 可有被引用 - 可以当做参数传递 - 返回值可以是函数 - 可以当做容器类型的元素
+
+利用该特性，优雅的取代多分支的 if
+
+```
+def foo():
+    print('foo')
+
+def bar():
+    print('bar')
+
+dic={
+    'foo':foo,
+    'bar':bar,
+}
+while True:
+    choice=input('>>: ').strip()
+    if choice in dic:
+        dic[choice]()
+```
+
+### 6.9.2函数嵌套
+
+#### 6.9.2.1函数的嵌套调用
+
+```
+def max(x,y):
+    return x if x > y else y
+
+def max4(a,b,c,d):
+    res1=max(a,b)
+    res2=max(res1,c)
+    res3=max(res2,d)
+    return res3
+print(max4(1,2,3,4))
+```
+
 ----
+
+## 
 
 # 7. 字符串
 
@@ -1645,7 +1696,6 @@ def digui(num):
    string3 = string1[::2]
 
    ```
-
 
 ---
 
@@ -3971,6 +4021,91 @@ print(result)
 
 # 15. 文件操作
 
+## IO编程(后加)
+
+I/O 在计算机中指的是 Input/Output，也就是输入和输出。由于程序和运行时数据是在内存中驻留，有CPU这个超快的计算核心来执行，涉及到数据交换的地方，通常是磁盘、网络等，就需要 I/O 接口。
+
+比如你打开浏览器，访问新浪页面，浏览这个程序就需要通过 I/O 获取新浪的网页。浏览器首先会发送数据给新浪服务器，告诉它我想首页的 HTML，这个动作是往外发送数据，叫 Output，随后新浪服务器把网页发过来，这个动作是从外面接收数据，叫 Input。所以通常程序完成I/O操作会有 Input 和 Output 两个数据流。当然也有只用一个情况的，比如，从磁盘读取文件到内存，就只有 Input 操作，反过来，把数据写到磁盘文件里，就只有一个 Output 操作。
+
+I/O 编程中，Stream（流）是一个很重要的概念，可以把流想象成一个水管，数据就是水管里的水，但是只能单向流动。Input Stream 就是数据从外面（磁盘、网络）流进内存，Output Stream 就是数据从内存流到外面去。对于浏览页面来说，浏览器和新浪服务器之间至少需要建立两个水管，才可以技能发数据，又能收数据。
+
+由于 CPU 和内存的速度远远高于外设的速度，所以，在I/O编程中，就存在速度严重不匹配的问题。举个例子来说，比如要把 100M 的数据写入磁盘，CPU 输出 100M 的数据只需要 0.01 秒，可是磁盘要接收这个 100M 数据可能需要 10 秒，怎么办呢？有两种办法：
+
+第一种是CPU等着，也就是程序暂停执行后续的代码，等100M的数据在10秒后写入磁盘，再接着往下执行，这种模式称为同步IO;
+
+另一种方法是CPU不等待，知识告诉硬盘，“您老慢慢写，不着急，我接着干别的事去了”，于是，后续代码可以立刻接着执行，这中模式称为异步I/O。
+
+同步和异步的区别就在于是否等待I/O执行的结果。好比你去麦当劳点餐，你说“来个汉堡”，服务员告诉你，对不起，汉堡要先做，需要等待5分钟，于是你站在收银台前等了5分钟，拿到汉堡再去逛商场，这是同步I/O。
+
+你说“来个汉堡”，服务员告诉你，汉堡需要等5分钟，你可以选取逛商场，等做好了，我们再通知你，这样你可以立刻去干别的事情（逛商场），这事异步I/O。
+
+很明显，使用异步 I/O 来编写程序性能会远远高于同步I/O，但是异步I/O 的缺点是编程模型复杂。想想看，你得知道什么时候通知你“汉堡做好了”，而通知你的方法也各不相同。如果是服务员跑过来找到你，这是回掉模式，如果服务员发短信通知你，你就得不停得检查手机，这事轮循模式。总之，异步I/O的复杂度远远高于同步I/O。
+
+操作I/O的能力都是由操作系统提供的，每一种编程语言都会把操作系统提供的低级C接口封装起来方便使用，Python 也不例外。我们后面会详细讨论Python的IO编程接口。
+
+注意，本章的IO编程都是同步模式，异步IO由于复杂度太高，后续涉及到服务器端程序开发时我们再讨论。
+
+
+
+### StringIO
+
+很多时候，数据读取不一定是文件，也可以在内存中读写。
+
+StringIO 顾名思义就是在内存中读写 str。
+
+要把 str 写入 StringIO，我们需要先创建一个 StringIO，然后，像文件一样写入即可：
+
+```
+>>> from io import StringIO
+>>> f = StringIO()
+>>> f.write('hello')
+5
+>>> f.write(' ')
+1
+>>> f.write('world!')
+6
+>>> print(f.getvalue())
+hello world!
+```
+
+`getvalue()` 方法用于获取写入后的 str. 要读取 StringIO，可以用一个 str 初始化 StringIO，然后，像读文件一样读取：
+
+```
+>>> from io import StringIO
+>>> f = StringIO('Hello!\nHi!\nGoodbye!')
+>>> while True:
+...     s = f.readline()
+...     if s == '':
+...         break
+...     print(s.strip())
+...
+Hello!
+Hi!
+Goodbye!
+```
+
+### BytesIO
+
+StringIO 操作的只能是 str，如果是操作二进制数据，就需要使用 BytesIO，然后写入一些 bytes：
+
+```
+>>> from io import BytesIO
+>>> f = BytesIO()
+>>> f.write('中文'.encode('utf-8'))
+6
+>>> print(f.getvalue())
+b'\xe4\xb8\xad\xe6\x96\x87'
+```
+
+请注意，写入的不是 str，而是经过 UTF-8 编码的 bytes。 和 StringIO 类似，可以用一个 bytes 初始化 BytesIO，然后，像读文件一样读取：
+
+```
+>>> from io import BytesIO
+>>> f = BytesIO(b'\xe4\xb8\xad\xe6\x96\x87')
+>>> f.read()
+b'\xe4\xb8\xad\xe6\x96\x87'
+```
+
 ## 15.1 文件操作的步骤
 
 1. 打开文件
@@ -3979,12 +4114,42 @@ print(result)
 
 ### 15.1.1 文件写入操作
 
+读写文件是最常见的IO操作。Python 内置了读写文件的函数，用法和C是兼容的。
+
+读写文件前，我们必须先了解一下，在磁盘上读写文件的功能都是由操作系统提供的，现代操作系统不允许普通的程序直接操作磁盘。所以，读写文件就是请求操作系统打开一个文件对象（通常称为文件描述符），然后，通过操作系统提供的接口从这个文件对象中读取数据（读文件），或者把数据写入这个文件对象（写文件）。
+
+
+
+
+
+写文件和读文件是一样的，唯一区别是调用 `open()` 函数时，传入标识符 `'w'` 或者 `'wb'` 表示写文本文件或二进制文件：
+
+```
+>>> f = open('/Users/michael/test.txt', 'w')
+>>> f.write('Hello, world!')
+>>> f.close()
+```
+
+你可以反复调用 `write()` 来写入文件，但是务必要调用 `f.close()` 来关闭文件。当我们写文件时，操作系统往往不会立刻把数据写入磁盘，而是放到内存缓存起来，空闲的时候再慢慢写入。只有调用 `close()` 方法时，操作系统才保证把没有写入的数据全部写入磁盘。忘记调用 `close()` 的后果是数据可能只写了一部分到磁盘，剩下的丢失了。所以，还是用 `with` 语句来得保险：
+
+```
+with open('/Users/michael/test.txt', 'w') as f:
+    f.write('Hello, world!')
+```
+
+要写入特定编码的文本文件，请给 `open()` 函数传入 `encoding` 参数，将字符串自动转换成指定编码。
+
+细心的同学会发现，以 `'w'` 模式写入文件时，如果文件已经存在，会直接覆盖（相当于删掉后新写入一个文件）。如果我们希望追加到文件末尾怎么办？可以传入 `'a'` 以追加（append）模式写入。
+
+
+
 ```
 # 1. 使用open()打开指定文件
 fp = open('/Users/apple/desktop/01.txt','w')
 
 # 2. 对文件进行写入操作
 fp.write('写入操作,输入........')
+
 
 # 3. 关闭文件
 fp.close()
@@ -3996,17 +4161,97 @@ fp.close()
 # 1. 使用open()打开指定文件
 fp = open('/Users/apple/desktop/01.txt','r')
 
+
+如果文件打开成功，接下来，调用 read() 方法可以一次读取文件的全部内容，Python 把内容读到内存，用一个 str 对象表示：
 # 2. 对文件进行读取操作
 result = fp.read()
 print(result)
 
+最后一步调用 close() 方法关闭文件。文件使用完毕后必须关闭，因为文件对象会占用操作系统的资源，并且操作系统同一时间能打开的文件数量也是有限的：
 # 3. 关闭文件
 fp.close()
 ```
 
 
 
+### 15.1.3 with
+
+如果文件打开成功，接下来，调用 `read()` 方法可以一次读取文件的全部内容，Python 把内容读到内存，用一个 `str` 对象表示：
+
+```
+with open('/path/to/file', 'r') as f:
+    print(f.read())
+```
+
+
+
+### 15.1.4 file-like object 
+
+像 `open()` 函数返回的这种有个 `read()` 方法的对象，在 Python 中统称为 file-like Object。除了 file 外，还可以是内存的字节流，网络流，自定义流等等。file-like Object 不要求从特定类继承，只要写个 `read()` 方法就行。
+
+`StringIO` 就是在内存中创建的 file-like Object，常用作临时缓冲。
+
+
+
+### 15.1.5 fileno()
+
+fileno() 方法返回一个整型的文件描述符(file descriptor FD 整型)，可用于底层操作系统的 I/O 操作。
+
+语法：`fileObject.fileno()`
+
+```
+# 打开文件
+fo = open("test.txt", "wb")
+print ("文件名为: ", fo.name)
+
+fid = fo.fileno()
+print ("文件描述符为: ", fid)
+
+# 关闭文件
+fo.close()
+```
+
+
+
+### 15.1.6 flush()
+
+flush() 方法是用来刷新缓冲区的，即将缓冲区中的数据立刻写入文件，同时清空缓冲区，不需要是被动的等待输出缓冲区写入。
+
+一般情况下，文件关闭后会自动刷新缓冲区，但有时你需要在关闭前刷新它，这时就可以使用 flush() 方法。
+
+语法：`fileObject.flush()`
+
+```
+# 打开文件
+fo = open("test.txt", "wb")
+print ("文件名为: ", fo.name)
+
+# 刷新缓冲区
+fo.flush()
+
+# 关闭文件
+fo.close()
+```
+
+
+
 ## 15.2 文件操作函数
+
+### 0.字符编码
+
+要读取非 UTF-8 编码的文本文件，需要给 `open()` 函数传入 `encoding` 参数，例如，读取 GBK 编码的文件：
+
+```
+>>> f = open('/Users/michael/gbk.txt', 'r', encoding='gbk')
+>>> f.read()
+'测试'
+```
+
+遇到有些编码不规范的文件，可能会出现 `UnicodeDecodeError` ，因为在文本文件中可能夹杂了一些非法编码的字符。遇到这种情况，`open()` 函数还接收一个 `errors` 参数，表示如果遇到编码错误后如何处理。最简单的方式是直接忽略：
+
+```
+>>> f = open('/Users/michael/gbk.txt', 'r', encoding='gbk', errors='ignore')
+```
 
 ### 1. open() 打开或新建文件
 
@@ -7107,6 +7352,26 @@ print(YaoJie.__bases__)
 
 # 29.装饰器
 
+**装饰器理解**
+
+```
+装饰器就是闭包函数的一种应用场景
+1.为啥用用装饰器：开放封闭原则，对修改封闭，对扩展开放
+2.什么是装饰器
+
+
+•装饰他人的器具，本身可以是任意可调用对象，被装饰者也可以是任意可调用对象
+•强调装饰器的原则：◦不修改被装饰对象的源代码
+◦不修改被装饰对象的调用功能
+
+•装饰器的目的：在遵循1和2的前提下，为被装饰对象添加上新功能
+
+```
+
+
+
+**装饰器demo**
+
 ```
 #装饰器  增加函数的功能
 
@@ -8253,6 +8518,279 @@ try:
 except:
     print('文件操失败')
 ```
+
+
+
+# 32. 迭代器
+
+迭代器即迭代的工具，那什么是迭代呢？ 迭代是一个重复的过程，每次重复即一次迭代，并且每次迭代的结果都是下一次迭代的初始值。
+
+```
+•如何从列表、字典中取值的
+    ◦index索引 ，key
+    ◦for循环
+
+•凡是可以使用for循环取值的都是可迭代的
+     ◦可迭代协议 ：内部含有__iter__方法的都是可迭代的
+     ◦迭代器协议 ：内部含有__iter__方法和__next__方法的都是迭代器
+
+
+```
+
+### 32.1 demo
+
+```
+In [1]: print(dir([1, 2, 3]))
+['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']
+
+In [2]: lst_iter = [1, 2, 3].__iter__()
+
+In [3]: print(lst_iter.__next__())
+1
+
+In [4]: print(lst_iter.__next__())
+2
+
+In [5]: print(lst_iter.__next__())
+```
+
+下方两个代码块作用相等。
+
+```
+#1. 
+for i in [1,2,3]:   #  [1,2,3].__iter__()
+    print(i)
+    
+# 2.  
+l = [1,2,3]
+lst_iter = iter(l)   # l.__iter__()
+while True:
+    try:
+       print(next(lst_iter)) # lst_iter.__next__()
+    except StopIteration:
+       break
+```
+
+
+
+### 32.2 可迭代
+
+什么是迭代器     迭代器 = iter(可迭代的)，自带一个__next__方法 可迭代 最大的优势 节省内存
+
+```
+>>> from collections import Iterable,Iterator
+>>> print(range(100000000))
+range(0, 100000000)
+>>> print(isinstance(range(100000000),Iterable))  # 可迭代的
+True
+>>> print(isinstance(range(100000000),Iterator))  # 迭代器
+False
+```
+
+
+
+py2 range 不管range多少 会生成一个列表 这个列表将用来存储所有的值，py3 range 不管range多少 都不会实际的生成任何一个值
+
+- 迭代器的优势: - 节省内存 - 取一个值就能进行接下来的计算 ，而不需要等到所有的值都计算出来才开始接下来的运算 —— 
+
+
+
+### 32.3 迭代器的特性：惰性运算
+
+
+
+\# f = open() # for line in f:
+
+\# 列表 字典 元组 字符串 集合 range 文件句柄 enumerate
+
+\# 生成器  Generator # 自己写的迭代器 就是一个生成器 # 两种自己写生成器(迭代器)的机制：生成器函数 生成器表达式
+
+```
+def cloth(num):
+   ret = []
+   for i in range(num):
+       ret.append('cloth%s'%i)
+   return ret
+```
+
+
+
+# 33. 生成器（yield关键字）
+
+```
+
+凡是带有 yield 的函数就是一个生成器函数
+
+
+def func():
+    print('****')
+    yield 1
+    print('^^^^')
+    yield 2   # 记录当前所在的位置，等待下一次next来触发函数的状态
+
+g = func()
+print('--',next(g))
+print('--',next(g))
+
+```
+
+
+
+生成器函数的调用不会触发代码的执行，而是会返回一个生成器(迭代器) 想要生成器函数执行，需要用next
+
+```
+def cloth_g(num):
+    for i in range(num):
+        yield 'cloth%s'%i
+
+
+g = cloth_g(1000)
+print(next(g))
+print(next(g))
+print(next(g))
+```
+
+
+
+使用生成器监听文件输入的例子
+
+```
+import time
+def listen_file():
+    with open('userinfo') as f:
+        while True:
+            line = f.readline()
+            if line.strip():
+                yield line.strip()
+            time.sleep(0.1)
+
+g = listen_file()
+for line in g:
+    print(line)
+```
+
+
+
+### 33.1 send关键字
+
+```
+def func():
+    print(11111)
+    ret1 = yield 1
+    print(22222,'ret1 :')
+    ret2 = yield 2
+    print(33333,'ret2 :',ret2)
+    yield 3
+
+g = func()
+ret = next(g)
+print(ret)
+print(g.send('alex'))  # 在执行next的过程中 传递一个参数 给生成器函数的内部
+print(g.send('金老板'))
+```
+
+想生成器中传递值 有一个激活的过程 第一次必须要用next触发这个生成器
+
+
+
+计算移动平均值
+
+12 13 15 18 月度 的 天平均收入
+
+```
+def average():
+    sum_money = 0
+    day = 0
+    avg = 0
+    while True:
+        money = yield avg
+        sum_money += money
+        day += 1
+        avg = sum_money/day
+
+g = average()
+next(g)
+print(g.send(200))
+print(g.send(300))
+print(g.send(600))
+```
+
+
+
+### 33.2 预激生成器
+
+```
+def init(func):
+    def inner(*args,**kwargs):
+        ret = func(*args,**kwargs)
+        next(ret)  # 预激活
+        return ret
+    return inner
+
+@init
+def average():
+    sum_money = 0
+    day = 0
+    avg = 0
+    while True:
+        money = yield avg
+        sum_money += money
+        day += 1
+        avg = sum_money/day
+
+g = average()
+print(g.send(200))
+print(g.send(300))
+print(g.send(600))
+```
+
+
+
+### 33.3 yield from
+
+```
+def generator_func():
+    yield from range(5)
+    yield from 'hello'
+    # for i in range(5):
+    #     yield i
+    # for j in 'hello':
+    #     yield j
+
+g = generator_func()
+for i in generator_func():
+    print(i)
+
+g1 = generator_func()
+g2 = generator_func()
+next(generator_func())
+next(generator_func())
+```
+
+### 33.4 如何从生成器中取值
+
+第一种 ：next  随时都可以停止 最后一次会报错
+
+```
+print(next(g))
+print(next(g))
+```
+
+第二种 ：for循环 从头到尾遍历一次 不遇到break、return不会停止
+
+```
+for i in g:
+    print(i)
+```
+
+第三种 ：list tuple 数据类型的强转  会把所有的数据都加载到内存里 非常的浪费内存
+
+```
+print(g)
+print(list(g))
+```
+
+生成器函数 是我们python程序员实现迭代器的一种手段 主要特征是 在函数中 含有yield 调用一个生成器函数 不会执行这个函数中的带码 只是会获得一个生成器（迭代器） 只有从生成器中取值的时候，才会执行函数内部的带码，且每获取一个数据才执行得到这个数据的带码 获取数据的方式包括 next send 循环 数据类型的强制转化 yield返回值的简便方法，如果本身就是循环一个可迭代的，且要把可迭代数据中的每一个元素都返回 可以用yield from 使用send的时候，在生成器创造出来之后需要进行预激，这一步可以使用装饰器完成 生成器的特点 ： 节省内存 惰性运算 生成器用来解决 内存问题 和程序功能之间的解耦
 
 # -------------------------------------------
 
@@ -19969,15 +20507,15 @@ Class  Person(models.Model):
 
 
     ​	p=Person()
-
+    
     ​	p.name="liyanliang"
-
+    
     ​	p.age=18
-
+    
     ​	p.phone="123456789"
-
+    
     ​	p.save()
-
+    
     ​	Person.objects.all()//查看是添加成功 
 
 8. 路由操作   

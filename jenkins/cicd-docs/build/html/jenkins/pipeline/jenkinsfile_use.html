@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>jenkinsfile 使用 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>jenkinsfile 使用</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/jenkins/pipeline/jenkinsfile_use.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="jenkinsfile">
+<h1>jenkinsfile 使用<a class="headerlink" href="#jenkinsfile" title="Permalink to this headline">¶</a></h1>
+<p>本节基于 “Jenkins 入门” 中介绍的信息，并介绍更有用的步骤，常见的模式，并演示一些非平凡的 Jenkinsfile 示例。</p>
+<p>创建一个 Jenkinsfile 被检入源代码控制，提供了一些直接的好处：</p>
+<ul class="simple">
+<li>Pipeline 上的代码审查/迭代</li>
+<li>Pipeline 的审计跟踪</li>
+<li>Pipeline 的唯一真实来源，可以由项目的多个成员查看和编辑。</li>
+</ul>
+<p>Pipeline 支持两种语法：Declarative（在 Pipeline 2.5 中引入）和 Scripted Pipeline。两者都支持建立连续输送 Pipeline。两者都可以用于在 Web UI 或者 a 中定义一个流水线 Jenkinsfile，尽管通常被认为是 Jenkinsfile 将文件创建并检查到源代码控制库中的最佳做法。</p>
+<div class="section" id="id1">
+<h2>创建 Jenkinsfile<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>如”入门“部分所述， <code class="docutils literal notranslate"><span class="pre">Jenkinsfile</span></code> 是一个包含 Jenkins Pipeline 定义的文本文件，并被检入源代码控制，考虑以下 Pipeline，实施基本的三个阶段连续输送 Pipeline。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                echo &quot;Building..&quot;
+            }
+        }
+        stage(&#39;Test&#39;) {
+            steps {
+                echo &quot;Testing..&quot;
+            }
+        }
+        stage(&quot;Deploy&quot;) {
+            steps {
+                echo &quot;Deploying....&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    stage(&#39;build&#39;) {
+        echo &#39;Building....&#39;
+    }
+    stage(&#39;Test&#39;) {
+        echo &#39;Testing....&#39;
+    }
+    stage(&#39;Deploy&#39;) {
+        echo &#39;Deploying....&#39;
+    }
+}
+</pre></div>
+</div>
+<p>并非所有的 Pipeline 都将具有相同的三个阶段，但是对于大多数项目来说，这是一个很好的起点。以下部分将演示在 Jenkins 的测试安装中创建和执行简单的 Jenkins。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">假设已经有一个项目的源代码管理库，并且已经在 Jenkins 中按照这些说明定义了一个 Jenkins。</p>
+</div>
+<p>使用文本编辑器，理想的是支持 Groovy 语法突出显示文本编辑器，项目的根目录中创建一个新的 Jenkinsfile。</p>
+<p>上述声明性 Pipeline 示例包含实现连续传送 Pipeline 的最小必要结构。需要的代理指令指示 Jenkins 为 Pipeline 分配一个执行器和工作区。没有 agent 指令，不仅声明 Pipeline 无效，所以不能做任何工作！默认情况下，该 agent 伪指令确保源存储库已被检出并可用于后续阶段的步骤。</p>
+<p>该阶段的指令，和步骤的指令也需要一个有效的声明 Pipeline，因为他们指示 Jenkins 如何执行并在哪个阶段应该执行。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">要使用 Scripted Pipeline 进行更高级的使用，上面的示例 node 是为 Pipeline 分配执行程序和工作空间的关键第一步。在本质上，没有 node Pipeline 不能做的工作！从内部 node，业务的第一个顺序是检查此项目的源代码。由于 Jenkinsfile 直接从源代码控制中抽取，所以 Pipeline 提供了一种快速简便的方式来访问源代码的正确版本</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    checkout scm
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<p>checkout 步骤将检出从源控制代码；scm 是一个特殊边领，指示 checkout 步骤克隆触发此 Pipeline 运行的特定修订。</p>
+</div>
+<div class="section" id="id2">
+<h2>建立<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>对于许多项目，Pipeline “工作” 的开始就是“构建”阶段。通常，Pipeline 在这个阶段将是源代码组装，编译或打包的过程。Jenkinsfile 中有不是现有的构建工具，如 GNU/make，Maven，Gradle 等的替代品，而是可以被看作是一个胶层结合项目的开发生命周期的多个阶段（构建，测试，部署等）一起。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                sh &#39;make&#39;
+                archiveArtifacts artifacts: &#39;**/target/*.jar&#39;, fingerprint: true
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>该 sh 步骤调用 make 命令，只有在命令返回退出代码零时才会继续下一步。pipeline中任何不为零的退出代码都属于失败。</li>
+<li>archiveArtifacts 捕获与 include pattern( <code class="docutils literal notranslate"><span class="pre">**/target/*.jar</span></code> ) 匹配文件，并将他们保存到 Jenkins 主文件以供后面检索。</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">存档工件不能替代使用诸如 artifactory 或 Nexus 之类的外部工件存储库，只能用于基本报告和文件归档。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>测试<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>运行自动化测试是任何成功的连续传送过程的重要组成部分。因此，Jenkins 有许多插件提供的测试记录，报告和可视化设备。在基本层面上，当有测试失败时，让 Jenkins 在 Web UI 中记录报告和可视化的故障是有用的。下面的示例使用 junit 由 JUnit 插件提供的步骤。</p>
+<p>在下面的示例中，如果测试失败，则Pipeline 被标记为“不稳定”，如 Web UI 中的黄色球。根据记录的测试报告，Jenkins 还可以提供历史趋势分析和可视化。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        steps {
+            /* `make check` returns non-zero on test failures,
+            * using `true` to allow the Pipeline to continue nonetheless
+            */
+            sh &#39;make check || true&#39;
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Test&#39;) {
+        /* `make check` returns non-zero on test failures,
+        * using `true` to allow the Pipeline to continue nonetheless
+        */
+        sh &#39;make check || true&#39;
+        junit &#39;**/target/*.xml&#39;
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>使用内联 shell conditional(sh ‘make check || true’) 确保该 sh 步骤始终看到退出代码零，从而使该 junit 步骤有机会捕获和处理测试报告。下面的“故障处理”部分将详细介绍其他方法。</li>
+<li>junit 捕获并关联与包含 pattern( <code class="docutils literal notranslate"><span class="pre">**/target/*.xml</span></code> ) 匹配的 JUnit XML 文件</li>
+</ol>
+</div>
+<div class="section" id="id4">
+<h2>部署<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>部署可能意味着各种步骤，具体取决于项目或组织的要求，并且可能是从构建的工件发送到 Artifactory 服务器，将代码推送到生产系统的任何步骤。</p>
+<p>在 Pipeline 示例的这个阶段，“构建”和“测试”阶段都已成功执行。实际上，“部署”阶段只能在上一阶段完成，否则 Pipeline 将提前退出。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Deploy&#39;) {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == &#39;SUCCESS&#39;
+                }
+            }
+            steps {
+                sh &#39;make publish&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Deploy&#39;) {
+        if (currentBuild.result == null || currentBuild.result == &#39;SUCCESS&#39;) {
+            sh &#39;make publish&#39;
+        }
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>访问该 <code class="docutils literal notranslate"><span class="pre">currentBuild.result</span></code> 变量允许 Pipeline 确定是否有任何测试失败。在这种情况下，值将是 <code class="docutils literal notranslate"><span class="pre">UNSTABLE</span></code> 。</li>
+</ol>
+<p>假设一切都在 Jenkins Pipeline 示例中成功执行，每个成功的 Pipeline 运行都将会存档关联构建工件，报告的测试结果和完整的控制台输出全部放在 Jenkins 中。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">脚本 Pipeline 可以包括条件测试（如上所示），循环，try/catch/finally 块甚至函数。下一节将详细介绍这种高级脚本 Pipeline 语法。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>管道高级语法<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>字符串插值<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins Pipeline 使用于 Groovy 相同的规则进行字符串插值。Groovy 的字符串插值支持可能会让很多新来的语言搞到困惑。虽然 Groovy 支持使用单引号或双引号声明一个字符串，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def singlyQuoted = &#39;Hello&#39;
+def doublyQuoted = &quot;World&quot;
+</pre></div>
+</div>
+<p>只有后一个字符串将支持基于 dollar-sign($) 的字符串插值，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def username = &#39;Jenkins&#39;
+echo &#39;Hello Mr. ${username}&#39;
+echo &quot;I said, Hello Mr. ${username}&quot;
+</pre></div>
+</div>
+<p>会导致</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hello Mr. ${username}
+I said, Hello Mr. Jenkins
+</pre></div>
+</div>
+<p>了解如何使用字符串插值对于使用一些管道更高级的功能至关重要。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>工作环境<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins Pipeline 通过全局变量公开环境变量，该变量 env 可以从任何地方获得 Jenkinsfile。假设 Jenkins 主机正在运行，在 <a class="reference external" href="http://localhost:8080/pipeline-syntax/globals#env">http://localhost:8080/pipeline-syntax/globals#env</a> 中记录了可从 Jenkins Pipeline 中访问的环境变量的完整列表 localhots:8080，其中包括：</p>
+<ul>
+<li><p class="first">BUILD_ID</p>
+<blockquote>
+<div><p>当前版本ID，与 Jenkins 版本 1.597+ 中创建的构建相同，为 BUILD_NUMBER</p>
+</div></blockquote>
+</li>
+<li><p class="first">JOB_NAME</p>
+<blockquote>
+<div><p>此构建项目的名称，如 “foo” 或 “foo/bar”</p>
+</div></blockquote>
+</li>
+<li><p class="first">JENKINS_URL</p>
+<blockquote>
+<div><p>完整的 Jenkins 网址，例如 example.com:port/jenkins/ (注意：只有在“系统配置”中设置了 Jenkins 网址时才可用)</p>
+</div></blockquote>
+</li>
+</ul>
+<p>参考或使用这些环境变量可以像访问 Groovy Map 的任何键一样，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage(&#39;Example&#39;) {
+            steps {
+                echo &quot;Running ${env.BUILD_ID} on ${env.JENKINS_URL}&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    echo &quot;Running ${env.BUILD_ID} on ${env.JENKINS_URL}&quot;
+}
+</pre></div>
+</div>
+<div class="section" id="id8">
+<h3>设置环境变量<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>根据是否使用 Declarative 或 Scripted Pipeline，在 Jenkins Pipeline 中设置环境变量是不同的。
+声明式 Pipeline 支持环境指令，而 Scripted pipeline 的用户必须使用该 withEnv 步骤。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    environment {
+        CC = &#39;clang&#39;
+    }
+
+    stages {
+        stage(&#39;Example&#39;) {
+            environment {
+                DEBUG_FLAGS = &#39;-g&#39;
+            }
+            steps {
+                sh &#39;printenv&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    withEnv([&quot;PATH+MAVEN=${tool &#39;M3&#39;}/bin&quot;]) {
+        sh &#39;mvn -B verify&#39;
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>environment 顶级 pipeline 块中使用的指令将适用于 Pipeline 中的所有步骤。</li>
+<li>在一个 environment 意图中定义的一个指令 stage 仅将给定的环境变量应用与该过程中的步骤 stage</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

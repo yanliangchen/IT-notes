@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>入门 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>入门</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/jenkins/pipeline/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>入门<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Jenkins Pipeline 是一套插件，支持将连续输送 Pipeline 实施和整合到 Jenkins。Pipeline 提供了一组可扩展的工具，用于通过 Pipeline DSL 为代码创建简单到复杂的传送 Pipeline。</p>
+<p>本节介绍 Jenkins Pipeline 的一些关键概念，并帮助介绍在运行的 Jenkins 实例中定于和使用 Pipelines 的基础知识。</p>
+<div class="section" id="id2">
+<h2>先决条件<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>要使用 Jenkins Pipeline，您将需要：</p>
+<ul class="simple">
+<li>Jenkins 2.x 或更高版本（旧版本回到 1.642.3 可能会工作，但不推荐）</li>
+<li>Pipeline 插件</li>
+</ul>
+</div>
+<div class="section" id="pipeline">
+<h2>Pipeline 定义<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h2>
+<p>脚本 Pipeline 是用 Groovy 写的。Groovy 语法的相关位将在本文档中根据需要进行介绍，因此，当了解 Groovy 时，不需要使用 Pipeline。
+可以通过以下任一方式创建基本 Pipeline：</p>
+<ul class="simple">
+<li>直接在 Jenkins 网页界面中输入脚本</li>
+<li>通过创建一个 Jenkinsfile 可以检入项目的源代码管理库</li>
+</ul>
+<p>用任一方法定义 Pipeline 的语法是一样的，但是 Jenkins 支持直接进入 Web UI 的 Pipeline，通常认为最佳实践是在 Jenkinsfile Jenkins 中直接从源代码控制中加载 Pipeline。</p>
+</div>
+<div class="section" id="web-ui-pipeline">
+<h2>在 Web UI 中定义 Pipeline<a class="headerlink" href="#web-ui-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>要在 Jenkins Web UI 中创建基本 Pipeline，请按照下列步骤操作：</p>
+<ul>
+<li><p class="first">单击 Jenkins 主页上的 New Item</p>
+<blockquote>
+<div><img alt="../../_images/New_Item.png" src="../../_images/New_Item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">输入 Pipeline 的名称，选择 Pipeline，然后单击确定。</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Jenkins 使用流水先的名称在磁盘上创建目录。包含空格的管道名称可能会发现不希望路径包含空格的脚本中的错误。</p>
+</div>
+<img alt="../../_images/New_pipeline.png" src="../../_images/New_pipeline.png" />
+</div></blockquote>
+</li>
+<li><p class="first">在脚本文本区域中，输入 Pipeline，然后单击保存。</p>
+<blockquote>
+<div><img alt="../../_images/create_new_example_item.png" src="../../_images/create_new_example_item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">单击立即构建可以运行 Pipeline</p>
+<blockquote>
+<div><img alt="../../_images/now_build_items.png" src="../../_images/now_build_items.png" />
+<p>单击“构建历史记录”下的 #1，然后单击控制台输出可以查看 Pipeline 的完整输出。</p>
+<img alt="../../_images/build_console.png" src="../../_images/build_console.png" />
+<p>上面的示例显示了在 Jenkins Web UI 中创建的基本 Pipeline 的成功运行，使用两个步骤：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+
+node {
+    echo &#39;Hello World&#39;
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>node 在jinkins 环境中分配一个执行器和工作空间</li>
+<li>echo 在控制台输出中写入简单的字符串</li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="scm">
+<h2>在 SCM 中定义管道<a class="headerlink" href="#scm" title="Permalink to this headline">¶</a></h2>
+<p>复杂的 Pipeline 难以在 Pipeline 配置页面的文本区域内进行写入和维护。为了使这更容易，Pipeline 也可以在文本编辑器中，并检查源控件，作为 Jenkinsfile，Jenkins 可以通过 Pipeline 脚本从 SCM 选项加载的控件。
+为此，在定义 Pipeline 时，从 SCM 中选择 Pipeline 脚本。
+选择 SCM 选项中的 Pipeline 脚本后，不要在 Jenkins UI 中输入任何 Groovy 代码；您只需要制定要从其中检索 Pipeline 的源代码的路径。更新制定的存储库中，只要 Pipeline 配置了 SCM 轮询触发器，就会触发一个新构建。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>文本编辑器，IDE，GitHub 等将使用 Groovy 代码进行语法高亮显示，第一行 Jenkinsfile 应该是</p>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env groovy Jenkinsfile</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>内置文档<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Pipeline 配有内置的文档功能，可以更轻松地创建不同复杂性的 Pipeline。根据 Jenkins 实例中安装的插件自动生成和更新内置文档。
+内置文档可以在全局范围找到： <a class="reference external" href="http://localhost:8080/pipeline-syntax/">http://localhost:8080/pipeline-syntax/</a> 假设你有一个 Jenkins 实例在本地端口 8080 上运行。同样的文档也作为管道语法链接到任何配置的 Pipeline 的侧栏项目中。</p>
+<img alt="../../_images/Pipeline内置文档.png" src="../../_images/Pipeline内置文档.png" />
+<div class="section" id="id4">
+<h3>代码段生成器<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>内置的 “Snippet Generator” 实用程序有助于为单个步骤创建一些代码，发现插件提供的新步骤，或为特定步骤尝试不同的参数。</p>
+<p>Snippet Generator 动态填充 Jenkins 实例可用的步骤列表。可用的步骤数量取决于安装的插件，它明确地暴露了在 Pipeline 中使用的步骤。</p>
+<p>要使用代码段生成器生成步骤代码片段：</p>
+<ol class="arabic">
+<li><p class="first">在配置的流水线或 <a class="reference external" href="http://localhost:8080/pipeline-syntax">http://localhost:8080/pipeline-syntax</a> 导航到 Pipeline 语法链接。</p>
+</li>
+<li><p class="first">在“样品步骤”下拉惨菜单中选择需要的步骤</p>
+</li>
+<li><p class="first">使用 “样品步骤”下拉列表下方的动态填充区域配置所选步骤。</p>
+</li>
+<li><p class="first">单击生成 Pipeline 脚本以创建一个可以复制并黏贴到 Pipeline 中 Pipeline 代码段。</p>
+<blockquote>
+<div><img alt="../../_images/代码段生成器.png" src="../../_images/代码段生成器.png" />
+<p>要访问有关所选步骤的其他信息和/或文档，请单机帮助图标（由上图中的红色箭头指示）</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id5">
+<h3>全局变量引用<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>处理代码片段生成器之外，Pipelin 还提供了一个内置的”全局变量引用“。像 Snippet Generator 一样，它也是由插件动态填充的，与代码段生成器不同的是，全局变量引用仅包含 Pipeline 提供的变量的文档，这些变量可用于 Pipeline。</p>
+<p>在 Pipeline 中默认提供的变量是：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">ENV</p>
+<blockquote>
+<div><p>脚本化 Pipeline 可访问的环境变量，例如： <code class="docutils literal notranslate"><span class="pre">env.PATH</span></code> 或 <code class="docutils literal notranslate"><span class="pre">env.BUILD_ID</span></code>。请参阅内置的全局变量参考，以获取管道中可用的完成和最新的环境变量列表。</p>
+</div></blockquote>
+</li>
+<li><p class="first">PARAMS</p>
+<blockquote>
+<div><p>将为 Pipeline 定义的所有参数公开为只读地图，例如： <code class="docutils literal notranslate"><span class="pre">params.MY_PARAM_NAME</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">currentBuild</p>
+<blockquote>
+<div><p>可用于发现有关当前正在执行的 Pipeline 信息，于如属性 <code class="docutils literal notranslate"><span class="pre">cureenBuild.result</span></code> ， <code class="docutils literal notranslate"><span class="pre">currentBuild.displayName</span></code> 等等请教内置的全局变量引用了一个完整的，而且是最新的的，可用的属性列表 <code class="docutils literal notranslate"><span class="pre">currentBuild</span></code>。</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

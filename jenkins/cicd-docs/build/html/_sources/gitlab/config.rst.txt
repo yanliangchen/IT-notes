@@ -51,3 +51,32 @@
 1. ``gitlab-ctl reconfigure`` 重置配置文件
 2. ``gitlab-ctl show-config`` 验证配置文件
 3. ``gitlab-ctl restart``  重启配置文件
+
+修改 root 用户密码
+""""""""""""""""""""""
+
+对于普通用户而言，通过系统的重置密码，接收重置密码邮件即可，可是 Gitlab 的管理员账号，缺省的邮箱是一个不存在的邮箱地址，所在没有办法通过邮箱来重置密码。
+
+使用命令 ``gitlab-rails console production`` 修改
+
+.. code-block:: none
+
+    gitlab-rails console production
+    -------------------------------------------------------------------------------------
+    GitLab:       11.3.0 (17bd59a)
+    GitLab Shell: 8.3.3
+    postgresql:   9.6.8
+    -------------------------------------------------------------------------------------
+    Loading production environment (Rails 4.2.10)
+    irb(main):001:0>
+    irb(main):002:0* user = User.where(id: 1).first
+    => #<User id:1 @root>
+    irb(main):003:0> user.password=12345678
+    => 12345678
+    irb(main):004:0> user.password_confirmation=12345678
+    => 12345678
+    irb(main):005:0> user.save!
+    Enqueued ActionMailer::DeliveryJob (Job ID: de0469c0-dea5-488d-9e04-8d4c550739c5) to Sidekiq(mailers) with arguments: "DeviseMailer", "password_change", "deliver_now", gid://gitlab/User/1
+    => true
+    irb(main):006:0> quit
+

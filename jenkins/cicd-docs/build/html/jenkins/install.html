@@ -177,6 +177,71 @@ sudo yum install jenkins
 </pre></div>
 </div>
 </div>
+<div class="section" id="id2">
+<h2>启动<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>当 Jenkins 安装完成之后，启动脚本路径为 <code class="docutils literal notranslate"><span class="pre">/etc/init.d/jenkins</span></code>，示例如下：</p>
+<ul>
+<li><p class="first">启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins start
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">关闭</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins stop
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">重启</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins restart
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">查看帮助</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins help
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>如果你的系统已经支持 systemd，使用 systemctl 命令管理 jenkins 更佳。</p>
+<ul>
+<li><p class="first">启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl start jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">关闭</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl stop jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">重启</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl restart jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">开机启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo syetemctl enable jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
 </div>
 
 

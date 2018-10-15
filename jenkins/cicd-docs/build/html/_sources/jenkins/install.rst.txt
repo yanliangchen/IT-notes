@@ -36,3 +36,60 @@ Jenkins 使用 java 开发，所以在部署 jenkins 之前，需要安装 jdk
     sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
     sudo yum install jenkins
 
+
+启动
+"""""""""""""""
+
+当 Jenkins 安装完成之后，启动脚本路径为 ``/etc/init.d/jenkins``，示例如下：
+
+
+* 启动
+
+    .. code-block:: none
+
+        $ sudo /etc/init.d/jenkins start
+
+* 关闭
+
+    .. code-block:: none
+
+        $ sudo /etc/init.d/jenkins stop
+
+* 重启
+
+    .. code-block:: none
+
+        $ sudo /etc/init.d/jenkins restart
+
+* 查看帮助
+
+    .. code-block:: none
+
+        $ sudo /etc/init.d/jenkins help
+
+
+如果你的系统已经支持 systemd，使用 systemctl 命令管理 jenkins 更佳。
+
+* 启动
+
+    .. code-block:: none
+
+        $ sudo systemctl start jenkins
+
+* 关闭
+
+    .. code-block:: none
+
+        $ sudo systemctl stop jenkins
+
+* 重启
+
+    .. code-block:: none
+
+        $ sudo systemctl restart jenkins
+
+* 开机启动
+
+    .. code-block:: none
+
+        $ sudo syetemctl enable jenkins

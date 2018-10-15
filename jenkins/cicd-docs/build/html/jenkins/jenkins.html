@@ -89,32 +89,74 @@
 <li class="toctree-l2"><a class="reference internal" href="#id2">安装</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#debian-ubuntu">Debian/Ubuntu</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#centos-rhel">CentOS/RHEL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">启动</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">插件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">插件</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plugins">默认 plugins</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">常用 plugins</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">插件管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">常用 plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">插件管理</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#web">通过 web 界面管理插件</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#jenkins-cli-install-plugin">通过 Jenkins CLI 的 install-plugin 命令管理插件</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">基础配置</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id9">镜像管理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">Jenkins 目录</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id12">卡启动问题</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">备份</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id14">构建状态</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id15">系统设置</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id16">工作目录设置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">基础配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">镜像管理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">Jenkins 目录</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">卡启动问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id14">升级</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">备份</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">构建状态</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">系统设置</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id18">工作目录设置</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#nginx-jenkins">nginx 反向代理 Jenkins</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17">主题设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19">主题设置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">语言设置</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id21">通知</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id22">配置邮件服务器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">增强版电子邮件通知</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">邮件模版编写</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rss">RSS 订阅</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#job-rss">Job 级别的 RSS 构建通知</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#view-rss">View 级别的 RSS 构建通知</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25">浏览器订阅实施构建通知</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id26">pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id27">介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id28">什么是 Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29">为什么是 Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30">Pipeline 条件</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id31">入门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id32">先决条件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Pipeline 定义</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#web-ui-pipeline">在 Web UI 中定义 Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scm">在 SCM 中定义管道</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34">内置文档</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#jenkinsfile">jenkinsfile 使用</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id37">创建 Jenkinsfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38">建立</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39">测试</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40">部署</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">管道高级语法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43">工作环境</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id45">Blue ocean</a></li>
 </ul>
 </li>
 </ul>
@@ -245,9 +287,74 @@ sudo yum install jenkins
 </pre></div>
 </div>
 </div>
-</div>
 <div class="section" id="id3">
-<h2>插件<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h3>启动<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>当 Jenkins 安装完成之后，启动脚本路径为 <code class="docutils literal notranslate"><span class="pre">/etc/init.d/jenkins</span></code>，示例如下：</p>
+<ul>
+<li><p class="first">启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins start
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">关闭</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins stop
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">重启</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins restart
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">查看帮助</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo /etc/init.d/jenkins help
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>如果你的系统已经支持 systemd，使用 systemctl 命令管理 jenkins 更佳。</p>
+<ul>
+<li><p class="first">启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl start jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">关闭</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl stop jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">重启</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl restart jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">开机启动</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ sudo syetemctl enable jenkins
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>插件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="plugins">
 <h3>默认 plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
@@ -328,8 +435,8 @@ sudo yum install jenkins
 </li>
 </ol>
 </div>
-<div class="section" id="id4">
-<h3>常用 plugins<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>常用 plugins<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ol class="arabic">
 <li><p class="first"><a class="reference external" href="https://wiki.jenkins.io/display/JENKINS/SSH+plugin">SSH plugin</a></p>
 <blockquote>
@@ -403,8 +510,8 @@ sudo yum install jenkins
 </li>
 </ol>
 </div>
-<div class="section" id="id7">
-<h3>插件管理<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>插件管理<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>Jenkins 通过大量插件提供附加功能，管理 Jenkins 插件主要是安装和配置。这里主要介绍 jenkins 插件的安装，具体配置需要参考具体 Jenkins 插件的说明。</p>
 <p>Jenkins 提供了 Update Center，可以从 Update Center 在线下载安装 Jenkins 插件。</p>
 <p>管理 Jenkins 插件的方法主要有两种。一种是通过 Jenkins 的 Web 界面，另一种是通过 Jenkins CLI。</p>
@@ -458,8 +565,8 @@ sudo yum install jenkins
 </div>
 </div>
 </div>
-<div class="section" id="id8">
-<h2>基础配置<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>基础配置<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">什么是 jenkins?</p>
 <blockquote>
@@ -467,8 +574,8 @@ sudo yum install jenkins
 </div></blockquote>
 </li>
 </ul>
-<div class="section" id="id9">
-<h3>镜像管理<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>镜像管理<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <p>Jenkins 官方提供了一个 <a class="reference external" href="http://mirrors.jenkins-ci.org/status.html">镜像列表</a> ，会列出最快的镜像。</p>
 <p>进入 Jenkins 页面，点击 Manager Jenkisn –&gt; Manager Plugins –&gt; Advanced</p>
 <p>将 <code class="docutils literal notranslate"><span class="pre">Update</span> <span class="pre">site</span></code> 更换为</p>
@@ -476,8 +583,8 @@ sudo yum install jenkins
 </pre></div>
 </div>
 </div>
-<div class="section" id="id11">
-<h3>Jenkins 目录<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>Jenkins 目录<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="76%" />
@@ -500,7 +607,7 @@ sudo yum install jenkins
 <td>配置文件</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/cache/jenkins</span></code></td>
-<td>程序文件</td>
+<td>网页文件</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/var/log/jenkins</span></code></td>
 <td>日志文件</td>
@@ -508,13 +615,29 @@ sudo yum install jenkins
 </tbody>
 </table>
 </div>
-<div class="section" id="id12">
-<h3>卡启动问题<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>卡启动问题<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线，但是 Jenkins 不能访问 <a class="reference external" href="https://jenkins-ci.io">https://jenkins-ci.io</a>
 这时关闭网络，离线就能正常安装</p>
 </div>
-<div class="section" id="id13">
-<h3>备份<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>升级<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war 包，替换 /usr/lib/jenkins/jenkins.war 。</p>
+<ol class="arabic">
+<li><p class="first">停止 Jenkins 服务</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">记得备份原来的 jenkins.war，以防万一</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">替换最新的 war 包，并启动 jenkins</p>
+</li>
+</ol>
+</div>
+<div class="section" id="id15">
+<h3>备份<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar zcvf jenkins.tar.gz /var/lib/jenkins
 </pre></div>
 </div>
@@ -522,13 +645,15 @@ sudo yum install jenkins
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="nv">BACKUP_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/jenkins_backup&quot;</span>
+<span class="nv">JENKINS_WAR_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/lib/jenkins&quot;</span>
+<span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_WAR_BALL_PATH</span><span class="si">}</span><span class="s2">/versions&quot;</span>
 <span class="nv">JENKINS_HOME_PATH</span><span class="o">=</span><span class="s2">&quot;/var/lib/jenkins&quot;</span>
-<span class="nv">BACKUP_ROTATE</span><span class="o">=</span><span class="s2">&quot;15&quot;</span>
+<span class="nv">BACKUP_ROTATE</span><span class="o">=</span><span class="s2">&quot;5&quot;</span>
 <span class="nv">DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date +%F<span class="sb">`</span>
 
-<span class="k">function</span> check_backup_dir<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">test</span> -d <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>
-<span class="o">}</span>
+<span class="nv">JENKINS_REPO_URL</span><span class="o">=</span><span class="s2">&quot;https://mirrors.tuna.tsinghua.edu.cn/jenkins/war/&quot;</span> <span class="c1">## TUNA</span>
+<span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.ustc.edu.cn/jenkins/war/&quot; ## USTC</span>
+<span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.jenkins.io/war/&quot; ## JENKINS</span>
 
 <span class="k">function</span> backup_rotate<span class="o">()</span> <span class="o">{</span>
     <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;-</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
@@ -538,8 +663,8 @@ sudo yum install jenkins
 <span class="o">}</span>
 
 <span class="k">function</span> Backup<span class="o">()</span> <span class="o">{</span>
-    check_backup_dir
     backup_rotate
+    <span class="nb">test</span> -d <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>
     <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] start backup&quot;</span>
     <span class="k">if</span> <span class="o">[</span> ! -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
         <span class="nv">start_backup_second</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
@@ -555,18 +680,53 @@ sudo yum install jenkins
 <span class="o">}</span>
 
 <span class="k">function</span> Recovery<span class="o">()</span> <span class="o">{</span>
-    find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> nl
-    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>find /opt/jenkins_backup/ -name jenkins*.tar.gz <span class="p">|</span> wc -l<span class="sb">`</span>
+    find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> nl
+    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> wc -l<span class="sb">`</span>
         <span class="nb">read</span> -p <span class="s2">&quot;Select date recovery &gt;&gt;&gt; &quot;</span> number
-    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="nv">$number</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
-        <span class="k">if</span> <span class="o">[</span> <span class="nv">$number</span> -gt <span class="nv">$list_length</span> -o <span class="nv">$number</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -gt <span class="nv">$list_length</span> -o <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
             <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] The selected date does not exist!&quot;</span>
         <span class="k">else</span>
-            <span class="nv">date</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            <span class="nv">date</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            /etc/init.d/jenkins stop
+            sleep <span class="m">5</span>
+            rm -rf <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span>/*
             tar -zvxf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">date</span><span class="si">}</span>.tar.gz -C <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span>
+            sleep <span class="m">5</span>
+            /etc/init.d/jenkins start
         <span class="k">fi</span>
     <span class="k">else</span>
         <span class="nb">echo</span> <span class="s2">&quot;Please enter the correct number&quot;</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="k">function</span> Upgrade<span class="o">()</span> <span class="o">{</span>
+    curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span> nl
+    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span> wc -l<span class="sb">`</span>
+    <span class="nb">read</span> -p <span class="s2">&quot;Select Jenkins Version &gt;&gt;&gt; &quot;</span> number
+    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -gt <span class="nv">$list_length</span> -o <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+            <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] The selected version does not exist!&quot;</span>
+        <span class="k">else</span>
+            <span class="nv">version</span><span class="o">=</span><span class="sb">`</span>curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span>sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            <span class="nv">jenkins_war_url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}${</span><span class="nv">version</span><span class="si">}</span><span class="s2">/jenkins.war&quot;</span>
+            <span class="nb">test</span> -d <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>
+            <span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war -a <span class="s2">&quot;</span><span class="si">${</span><span class="nv">version</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                rm <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war
+                wget -O <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">jenkins_war_url</span><span class="si">}</span>
+            <span class="k">elif</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span><span class="s2">/jenkins_</span><span class="si">${</span><span class="nv">version</span><span class="si">}</span><span class="s2">.war file exist&quot;</span>
+            <span class="k">else</span>
+                wget -O <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">jenkins_war_url</span><span class="si">}</span>
+            <span class="k">fi</span>
+            /etc/init.d/jenkins stop
+            sleep <span class="m">5</span>
+            cp -v <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">JENKINS_WAR_BALL_PATH</span><span class="si">}</span>/jenkins.war
+            sleep <span class="m">5</span>
+            /etc/init.d/jenkins start
+        <span class="k">fi</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Please ehter the correct number&quot;</span>
     <span class="k">fi</span>
 <span class="o">}</span>
 
@@ -577,8 +737,11 @@ sudo yum install jenkins
     recovery<span class="o">)</span>
         Recovery
     <span class="p">;;</span>
+    upgrade<span class="o">)</span>
+        Upgrade
+    <span class="p">;;</span>
     *<span class="o">)</span>
-        <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery}&quot;</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery|upgrade}&quot;</span>
             <span class="nb">exit</span> <span class="m">1</span>
     <span class="p">;;</span>
 <span class="k">esac</span>
@@ -589,8 +752,8 @@ sudo yum install jenkins
 </pre></div>
 </div>
 </div>
-<div class="section" id="id14">
-<h3>构建状态<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>构建状态<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <p>Jenkins 会基于一些后处理器任务为构建发布一个稳健指数（从 0 ~ 100），这些任务一般以插件的方式实现。</p>
 <p>他们可能包括单元测试（JUnit）、覆盖率（Cobertura）和静态代码分析（FindBugs）。</p>
 <p>分数越高，表明构建越稳定。下图中分级符号概述了稳定性的评分范围。任何构建作业的状态（总分100）低于80分就是不稳定的。</p>
@@ -623,10 +786,10 @@ sudo yum install jenkins
 <img alt="../_images/构建稳定性.png" src="../_images/构建稳定性.png" />
 <p>图例可以在 <a class="reference external" href="https://jenkins.renkeju.com:8080/legend">https://jenkins.renkeju.com:8080/legend</a> 中查看</p>
 </div>
-<div class="section" id="id15">
-<h3>系统设置<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id16">
-<h4>工作目录设置<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h3>系统设置<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h4>工作目录设置<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
 <p>在 Linux 环境中，Jenkins 的默认工作目录在 <code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/</span></code>，但是我们有些需要特殊指定工作目录的项目，需要默认的 JENKINS_HOME 分开。</p>
 <ol class="arabic">
 <li><p class="first">进入一个项目，在【Genaral】里点击“高级”按钮</p>
@@ -640,13 +803,6 @@ sudo yum install jenkins
 </div></blockquote>
 </li>
 </ol>
-<ul class="simple">
-<li>Maven 项目设置</li>
-<li>设置系统 JDK ANT Maven</li>
-<li>Jenkins Location</li>
-<li>邮件通知</li>
-<li>Configure Global Security</li>
-</ul>
 </div>
 <div class="section" id="nginx-jenkins">
 <h4>nginx 反向代理 Jenkins<a class="headerlink" href="#nginx-jenkins" title="Permalink to this headline">¶</a></h4>
@@ -717,18 +873,18 @@ server {
 </li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h4>主题设置<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
-<p>Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 <a class="reference external" href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a> 。</p>
+<div class="section" id="id19">
+<h4>主题设置<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<p>Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 <a class="reference external" href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a></p>
 <ol class="arabic">
 <li><p class="first">选择主题颜色</p>
 <blockquote>
 <div><img alt="../_images/jenkins主题颜色.png" src="../_images/jenkins主题颜色.png" />
 </div></blockquote>
 </li>
-<li><p class="first">将 URL 中的 <code class="docutils literal notranslate"><span class="pre">{{your-color-name}}``更换为你选择的颜色：``https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css</span></code></p>
+<li><p class="first">将 URL 中的 <code class="docutils literal notranslate"><span class="pre">{{your-color-name}}</span></code> 更换为你选择的颜色: <code class="docutils literal notranslate"><span class="pre">https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css</span></code></p>
 </li>
-<li><p class="first">安装 ` Jenkins Simple Theme 插件 &lt;<a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin">https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin</a>&gt;`_</p>
+<li><p class="first">安装 <a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin">Jenkins Simple Theme 插件</a></p>
 </li>
 <li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Manager</span> <span class="pre">Jenkins</span></code></p>
 </li>
@@ -746,7 +902,718 @@ server {
 </li>
 </ol>
 </div>
+<div class="section" id="id20">
+<h4>语言设置<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">安装 <a class="reference external" href="https://wiki.jenkins.io/display/JENKINS/Locale+Plugin">Locale Plugin</a></p>
+</li>
+<li><p class="first">重启生效</p>
+</li>
+<li><p class="first">配置【Manage Jenkins】–&gt;【Configure System】-&gt;【Locale】</p>
+<blockquote>
+<div><img alt="../_images/语言设置.jpeg" src="../_images/语言设置.jpeg" />
+</div></blockquote>
+</li>
+<li><p class="first">默认语言设置为 zh_CN，勾选强制语言设置。</p>
+</li>
+</ol>
 </div>
+</div>
+</div>
+<div class="section" id="id21">
+<h2>通知<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
+<p>虽然使用构建服务器构建你的软件是重要的事情，但更重要的是让人们知道你的构建服务器不能做那些。任何持续集成环境价值命题的一个关键部分是提高项目健康状况的信息流程，比如单元测试或者集成测试套件回归测试失败，又或者其他质量相关的下降问题，比如代码覆盖率或者是代码质量度量。在所有情况下，CI 服务器必须尽可能快的让相关人员知晓发生的任何问题。这就是我们所说的通知。</p>
+<p>这两种主要类别的通知策略，我们称之为被动策略呵主动策略（拉/pull或推/push）。被动通知（拉）需要开发者自觉的查阅最新的构建状态，包括 RSS 源、构建消息分发器及（某些范围内的）电子邮件。主动通知（推）在构建失败时会主动提醒开发人员，并且包括诸如桌面通知、聊天工具和短信等方法。这两种方法各有优缺点。被动的通知策略，如构建消息分发器可以提高公众关于失败的构建意识，并且能帮助建立将修复失败构建提升为高优先级处理的团队文化。更直接形式的通知形式可以积极鼓励开发人员通过自己的双手更快的修复中断的构建。</p>
+<div class="section" id="id22">
+<h3>配置邮件服务器<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>email 是 Jenkins 最基本的通知技术 —— 在一个构建失败后，他将给提交代码变更的开发人员及可选的其他团队成员发邮件。所以，Jenkins 需要知道你的邮件服务器。</p>
+<img alt="../_images/邮件通知配置.png" src="../_images/邮件通知配置.png" />
+<p>系统管理员的 email 地址是 Jenkins 发送通知的邮件发送方。你还可以单击 Test configure（测试配置）按钮来检测它，Jenkins 会发送一个测试邮件到这个地址。</p>
+<p>Jenkins 还提供了更复杂的邮件配置，使用如 SMTP 认证和 SSL 等高级特性。可以通过 Advanced（高级）按钮来配置这些选项。</p>
+<img alt="../_images/邮件高级配置选项.png" src="../_images/邮件高级配置选项.png" />
+<p>配置成功后，我们可以到 job 中进行配置：</p>
+<img alt="../_images/普通邮件JOB配置.png" src="../_images/普通邮件JOB配置.png" />
+<img alt="../_images/普通邮件JOB配置2.png" src="../_images/普通邮件JOB配置2.png" />
+</div>
+<div class="section" id="id23">
+<h3>增强版电子邮件通知<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p>Email-ext 插件允许你定一个更精致的电子通知策略。这个插件增加了一个 Editable Email Notification 复选框，从而有效的取代了标准的 Jenkins 电子邮件通知。在这里，你可以定义默认收件人列表为微调的电子邮件内容，而且还定义一个更精确的通知策略（不同的事件用不同的消息和收件人列表。）请主意，一旦你已经为构建作业安装、配置此插件，就可以停用正常的电子邮件配置。</p>
+<p>这个插件由两个相关但不同的功能。首先，它可以让你自己定义电子邮件通知消息。你可以从大量的预定义的标签中选择创建自己的自定义邮件的标题和正文。你可以使用熟悉的美元符号（如 ${BUILD_NUMBER} 或 $BUILD_BUMBER ）在消息模版中包括标签。一些标签接收参数，你可以指定使用 name=value 格式（如 ${BUILD_LOG, maxLines=100} 或 ${ENV, var=”PATH”}）。其中更有用的标签如下：</p>
+<ul>
+<li><p class="first">${DEFAULT_SUBJECT}</p>
+<blockquote>
+<div><p>在 Jenkins 系统配置页面配置的默认电子邮件主题</p>
+</div></blockquote>
+</li>
+<li><p class="first">${DEFAULT_CONTENT}</p>
+<blockquote>
+<div><p>Jenkins 系统配置页面配置的默认电子邮件内容</p>
+</div></blockquote>
+</li>
+<li><p class="first">${PROJECT_NAME}</p>
+<blockquote>
+<div><p>项目的名称</p>
+</div></blockquote>
+</li>
+<li><p class="first">${BUILD_NUMBER}</p>
+<blockquote>
+<div><p>当前构建号</p>
+</div></blockquote>
+</li>
+<li><p class="first">${BUILD_STATUS}</p>
+<blockquote>
+<div><p>当前构建状态</p>
+</div></blockquote>
+</li>
+<li><p class="first">${CAUSE}</p>
+<blockquote>
+<div><p>构建原因</p>
+</div></blockquote>
+</li>
+<li><p class="first">${BUILD_URL}</p>
+<blockquote>
+<div><p>Jenkins 对应构建作业页面的链接</p>
+</div></blockquote>
+</li>
+<li><p class="first">${FAILED_TESTS}</p>
+<blockquote>
+<div><p>如果失败的话，显示有关失败的单元测试信息</p>
+</div></blockquote>
+</li>
+<li><p class="first">${CHANGES}</p>
+<blockquote>
+<div><p>显示自上次构建以来所做的修改</p>
+</div></blockquote>
+</li>
+<li><p class="first">${CHANGES_SINCE_LAST_SUCCESS}</p>
+<blockquote>
+<div><p>自从上次成功构建以来所做的所有参数</p>
+</div></blockquote>
+</li>
+</ul>
+<p>通过单击 Context Token Reference 标签相对的 Help 图标，你可以得到可用的标识的完整列表以及其可以接收参数的选项。</p>
+<img alt="../_images/增强版电子邮件配置.png" src="../_images/增强版电子邮件配置.png" />
+<ul class="simple">
+<li>SMTP server : SMTP 服务器地址</li>
+<li>Default user E-mail suffix : 默认用户邮件后缀</li>
+<li>勾选 Use SMTP Authentication : 用户名和密码填自己的</li>
+<li>勾选 Use SSL : 则 SMTP port 端口改为 465</li>
+<li>SMTP port : 默认端口 25</li>
+<li>Default Content Type : 邮件文档类型</li>
+<li>Default Recipoents : 默认接收人列表，用逗号进行分割</li>
+</ul>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">上面配置中，凡是以 Default 开头的名称，都可以在 job 的配置中当做变量使用。比如：默认的收件人地址。</p>
+</div>
+<p>在 增加构建后的操作步骤，添加增强版邮件通知</p>
+<img alt="../_images/增强邮件JOB配置.png" src="../_images/增强邮件JOB配置.png" />
+<img alt="../_images/增强邮件JOB配置2.png" src="../_images/增强邮件JOB配置2.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">原本默认是 Developer List，这个默认是一个官方的错误。请自行添加一个 Recipient List，否则接收不到邮件。</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Disabke Extended Email Publisher</p>
+<blockquote>
+<div><p>勾选后，邮件就不发送，看自己的情况，如果你想调试某些东西，又不想发邮件出去就可以勾选这个。</p>
+</div></blockquote>
+</li>
+<li><p class="first">Project Recipient List</p>
+<blockquote>
+<div><p>收件人地址，多个收件人邮件地址用都好进行分割；项使用全局默认配置的话，可以使用 $DEFAULT_RECIPIENTS</p>
+</div></blockquote>
+</li>
+<li><p class="first">Project Reply-To List</p>
+<blockquote>
+<div><p>允许回复人的地址；想使用系统设置中的默认值的话，可以使用 $DEFAULT_REPLYTO</p>
+</div></blockquote>
+</li>
+<li><p class="first">Content Type</p>
+<blockquote>
+<div><p>邮件文档的类型，可以设置 HTML 等格式</p>
+</div></blockquote>
+</li>
+<li><p class="first">Default Subject</p>
+<blockquote>
+<div><p>默认主题，也就是邮件标题；同理可以使用 $DEFAULT_SUBJECT</p>
+</div></blockquote>
+</li>
+<li><p class="first">Default Content</p>
+<blockquote>
+<div><p>默认邮件内容，这是关键。你可以自定义模版 <code class="docutils literal notranslate"><span class="pre">${SCRIPT,</span> <span class="pre">template=&quot;groovy-html.template&quot;}</span></code> 如果不想使用模版的话，可以通过使用 Jenkins 自身提供的变量来定义。</p>
+</div></blockquote>
+</li>
+<li><p class="first">Attach Build Log</p>
+<blockquote>
+<div><p>发送的邮件是否包含日志</p>
+</div></blockquote>
+</li>
+<li><p class="first">Triggers</p>
+<blockquote>
+<div><p>假设最后一个不修改的话，邮件是接收不到的，这是官方留下的一个大坑，一定要自己再添加一个 Recipient List</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id24">
+<h3>邮件模版编写<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<p>官方给出的 <a class="reference external" href="https://raw.githubusercontent.com/jenkinsci/email-ext-plugin/master/src/main/resources/hudson/plugins/emailext/templates/groovy-html.template">groovy 模版</a></p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">email-templates</span></code> 文件夹中创建一个文件</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>mkdir -p /var/lib/jenkins/email-templates
+cd /var/lib/jenkins/email-templates
+wget https://raw.githubusercontent.com/jenkinsci/email-ext-plugin/master/src/main/resources/hudson/plugins/emailext/templates/groovy-html.template
+</pre></div>
+</div>
+<p>之后你可以根据自己的需要进行定制修改。</p>
+<p>之后在 【系统管理】中选择【系统设置】，下拉到 Extended E-mail Notification，在 Default Content 框内输入 <code class="docutils literal notranslate"><span class="pre">${SCRIPT,</span> <span class="pre">template=&quot;groovy-html.template&quot;}</span></code>。</p>
+<p>当项目执行结束后，你就可以收到如下这样的邮件：</p>
+</div>
+<div class="section" id="rss">
+<h3>RSS 订阅<a class="headerlink" href="#rss" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins 的主要功能之一，Jenkins 集成了 RSS 的通知机制
+对于 Jenkins 的 RSS 构建通知，有 Job 级别的 RSS 构建通知和 View 级别的 RSS 构架通知：</p>
+<ol class="arabic simple">
+<li>可以订阅某个 Job 的构建情况</li>
+<li>也可以额订阅一组 Job（比如一个 View 下的所有 Job）的构建情况</li>
+</ol>
+<div class="section" id="job-rss">
+<h4>Job 级别的 RSS 构建通知<a class="headerlink" href="#job-rss" title="Permalink to this headline">¶</a></h4>
+<p>对于每个 Job，在它的 Build History（构建历史）下侧，有两个 RSS 链接：RSS for all、RSS for failures</p>
+<p>其中，每个RSS链接的路径如下：</p>
+<ul class="simple">
+<li>RSS 全部的链接路径为：&lt;JENKINS_URL&gt;/job/&lt;JOB_NAME/rssaAll</li>
+<li>RSS 失败的链接路径为：&lt;JENKINS_URL&gt;/job/&lt;JOB_NAME&gt;/rssFailed</li>
+</ul>
+</div>
+<div class="section" id="view-rss">
+<h4>View 级别的 RSS 构建通知<a class="headerlink" href="#view-rss" title="Permalink to this headline">¶</a></h4>
+<p>对于每个 View，在 View 的右下方，有三个 RSS 链接： RSS for all、RSS for failures、RSS for just latest builds</p>
+<img alt="../_images/JOBVIEW.png" src="../_images/JOBVIEW.png" />
+<p>其中，每个 RSS 链接路径如下：</p>
+<ul class="simple">
+<li>RSS 全部的链接路径为：&lt;JENKINS_URL&gt;/view/&lt;VIEW_NAME&gt;/rssaAll</li>
+<li>RSS 失败的链接路径为：&lt;JENKINS_URL&gt;/view/&lt;VIEW_NAME&gt;/rssFailed</li>
+<li>RSS 最新的构建的链接路径为：&lt;JENKINS_URL&gt;/view/&lt;VIEW_NAME&gt;/rssLatest</li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h4>浏览器订阅实施构建通知<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<p>Firefox 浏览器，有 RSS 收阅功能，称为实时书签，无需安装任何插件。</p>
+<p>下面使用 Firefox 的实时书签进行 RSS 订阅 Jenkins 某个 Job 的情况为例：</p>
+<p>点击 Jenkins 某个 Job 下 RSS 全部链接，会跳转到 &lt;JENKINS_URL&gt;/job/&lt;JOB_NAME&gt;/rssAll 页面</p>
+<img alt="../_images/RSS订阅步骤一.png" src="../_images/RSS订阅步骤一.png" />
+<img alt="../_images/RSS订阅步骤二.png" src="../_images/RSS订阅步骤二.png" />
+<img alt="../_images/RSS订阅步骤三.png" src="../_images/RSS订阅步骤三.png" />
+<p>默认订阅方式为实时标签，点击立即订阅即可，弹出如下对话框，设置名称及选择文件夹，点订阅后，在书签工具栏便会显示实时书签</p>
+<img alt="../_images/RSS订阅步骤四.png" src="../_images/RSS订阅步骤四.png" />
+<img alt="../_images/RSS订阅步骤五.png" src="../_images/RSS订阅步骤五.png" />
+<p>点击相应的链接便可访问，其中灰色图标表示已阅读状态，橙色图标表示等待阅读状态。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id26">
+<h2>pipeline<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id27">
+<h3>介绍<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<p>本章将介绍Jenkins Pipeline的所有方面，从运行Pipeline到写入Pipeline代码，甚至扩展Pipeline本身。</p>
+<div class="section" id="id28">
+<h4>什么是 Pipeline<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<p>Jenkins Pipeline是一套插件，支持将连续输送Pipeline实施和整合到Jenkins。Pipeline提供了一组可扩展的工具，用于通过PipelineDSL为代码创建简单到复杂的传送Pipeline。</p>
+<p>通常，此“Pipeline代码”将被写入 Jenkinsfile项目的源代码控制存储库，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                sh &#39;make&#39;
+            }
+        }
+        stage(&#39;Test&#39;) {
+            steps {
+                sh &#39;make check&#39;
+                junit &#39;reports/**/*.xml&#39;
+            }
+        }
+        stage(&#39;Deploy&#39;) {
+            steps {
+                sh &#39;make publish&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>agent 表示 Jenkins 应该为 Pipeline 的着一部分分配一个执行者和工作区</li>
+<li>stage 描述这条 Pipeline 的第一个阶段</li>
+<li>steps 描述了要在其中运行的步骤 stage</li>
+<li>sh 执行给定的 shell 命令</li>
+<li>junit 是由 JUnit 插件提供的，用于聚合测试报告的 Pipeline 步骤</li>
+</ol>
+</div>
+<div class="section" id="id29">
+<h4>为什么是 Pipeline<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<p>Jenkins 从根本上讲是一种支持多种自动化模式的自动化引擎。Pipeline 在 Jenkins 上添加了一套强大的自动化工具，支持从简单的连续集成到全面的连续输送 Pipeline 的用例。通过建模一系列相关任务，用户可以利用 Pipeline 的许多功能：</p>
+<blockquote>
+<div><ul class="simple">
+<li>代码：Pipeline 以代码的形式体现，通常被检入源代码控制，是团队能够编辑，审查和迭代器传送流程。</li>
+<li>耐用：Pipeline 可以计划和计划外重新启动 Jenkins 管理时同时存在。</li>
+<li>Pausable：Pipeline 可以选择停止并等待人工输入或批准，然后在继续 Pipeline 运行。</li>
+<li>多功能：Pipeline 支持复杂的现实世界连续交付要求，包括并行分叉/连接，勋和和执行工作的能力。</li>
+<li>可扩展：Pipeline 插件支持其 DSL 的自定义扩展以及与其他插件集成的多个选项。</li>
+</ul>
+</div></blockquote>
+<p>虽然 Jenkins 一直允许基于形式的自由式工作联合起来的执行顺序任务，Pipeline 使这个概念成为 Jenkins 的最好的一个部分。
+基于 Jenkins 的核心可扩展性，Pipeline 也可以由 Pipeline 共享库用户和插件开发人员扩展。
+下面的流程图是在 Jenkins Pipeline 中容易建模的一个连续发货方案的示例：</p>
+</div>
+<div class="section" id="id30">
+<h4>Pipeline 条件<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="step">
+<h5>step<a class="headerlink" href="#step" title="Permalink to this headline">¶</a></h5>
+<p>单一任务，从基础中告诉了 Jenkins 应该怎么做。例如，要执行 shell 命令，请 <code class="docutils literal notranslate"><span class="pre">make</span></code> 使用一下 <code class="docutils literal notranslate"><span class="pre">sh</span></code> 步骤： <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">'make'</span></code> 。当插件扩展 Pipeline DSL 时，通常意味着插件已经实现了一个新的步骤。</p>
+</div>
+<div class="section" id="node">
+<h5>Node<a class="headerlink" href="#node" title="Permalink to this headline">¶</a></h5>
+<p>Pipeline 执行中的大部分工作都是一个或多个声明 <code class="docutils literal notranslate"><span class="pre">node</span></code> 步骤的上下文中完成的。将工作限制在 Node 步骤中有两件事情：</p>
+<ol class="arabic simple">
+<li>通过将项目添加到 Jenkins 队列来带调度要运行的块中包含的步骤。一旦执行器在节点上空闲，步骤就会运行。2. 创建工作区（特定与该特定 Pipeline 的目录），可以从源代码控制中检出文件完成工作。</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">根据您的 Jenkins 配置，某些工作空间在一段时间不活动后可能无法自动清除。</p>
+</div>
+</div>
+<div class="section" id="stage">
+<h5>Stage<a class="headerlink" href="#stage" title="Permalink to this headline">¶</a></h5>
+<p><code class="docutils literal notranslate"><span class="pre">stage</span></code> 是定义整个 Pipeline 的概念上不同子集的一个步骤，例如：“Build”，“Test”和“Deploy”，许多插件用于可视化或呈现Jenkins Pipeline 状态/进度。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id31">
+<h3>入门<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins Pipeline 是一套插件，支持将连续输送 Pipeline 实施和整合到 Jenkins。Pipeline 提供了一组可扩展的工具，用于通过 Pipeline DSL 为代码创建简单到复杂的传送 Pipeline。</p>
+<p>本节介绍 Jenkins Pipeline 的一些关键概念，并帮助介绍在运行的 Jenkins 实例中定于和使用 Pipelines 的基础知识。</p>
+<div class="section" id="id32">
+<h4>先决条件<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<p>要使用 Jenkins Pipeline，您将需要：</p>
+<ul class="simple">
+<li>Jenkins 2.x 或更高版本（旧版本回到 1.642.3 可能会工作，但不推荐）</li>
+<li>Pipeline 插件</li>
+</ul>
+</div>
+<div class="section" id="id33">
+<h4>Pipeline 定义<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<p>脚本 Pipeline 是用 Groovy 写的。Groovy 语法的相关位将在本文档中根据需要进行介绍，因此，当了解 Groovy 时，不需要使用 Pipeline。
+可以通过以下任一方式创建基本 Pipeline：</p>
+<ul class="simple">
+<li>直接在 Jenkins 网页界面中输入脚本</li>
+<li>通过创建一个 Jenkinsfile 可以检入项目的源代码管理库</li>
+</ul>
+<p>用任一方法定义 Pipeline 的语法是一样的，但是 Jenkins 支持直接进入 Web UI 的 Pipeline，通常认为最佳实践是在 Jenkinsfile Jenkins 中直接从源代码控制中加载 Pipeline。</p>
+</div>
+<div class="section" id="web-ui-pipeline">
+<h4>在 Web UI 中定义 Pipeline<a class="headerlink" href="#web-ui-pipeline" title="Permalink to this headline">¶</a></h4>
+<p>要在 Jenkins Web UI 中创建基本 Pipeline，请按照下列步骤操作：</p>
+<ul>
+<li><p class="first">单击 Jenkins 主页上的 New Item</p>
+<blockquote>
+<div><img alt="../_images/New_Item.png" src="../_images/New_Item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">输入 Pipeline 的名称，选择 Pipeline，然后单击确定。</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Jenkins 使用流水先的名称在磁盘上创建目录。包含空格的管道名称可能会发现不希望路径包含空格的脚本中的错误。</p>
+</div>
+<img alt="../_images/New_pipeline.png" src="../_images/New_pipeline.png" />
+</div></blockquote>
+</li>
+<li><p class="first">在脚本文本区域中，输入 Pipeline，然后单击保存。</p>
+<blockquote>
+<div><img alt="../_images/create_new_example_item.png" src="../_images/create_new_example_item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">单击立即构建可以运行 Pipeline</p>
+<blockquote>
+<div><img alt="../_images/now_build_items.png" src="../_images/now_build_items.png" />
+<p>单击“构建历史记录”下的 #1，然后单击控制台输出可以查看 Pipeline 的完整输出。</p>
+<img alt="../_images/build_console.png" src="../_images/build_console.png" />
+<p>上面的示例显示了在 Jenkins Web UI 中创建的基本 Pipeline 的成功运行，使用两个步骤：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+
+node {
+    echo &#39;Hello World&#39;
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>node 在jinkins 环境中分配一个执行器和工作空间</li>
+<li>echo 在控制台输出中写入简单的字符串</li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="scm">
+<h4>在 SCM 中定义管道<a class="headerlink" href="#scm" title="Permalink to this headline">¶</a></h4>
+<p>复杂的 Pipeline 难以在 Pipeline 配置页面的文本区域内进行写入和维护。为了使这更容易，Pipeline 也可以在文本编辑器中，并检查源控件，作为 Jenkinsfile，Jenkins 可以通过 Pipeline 脚本从 SCM 选项加载的控件。
+为此，在定义 Pipeline 时，从 SCM 中选择 Pipeline 脚本。
+选择 SCM 选项中的 Pipeline 脚本后，不要在 Jenkins UI 中输入任何 Groovy 代码；您只需要制定要从其中检索 Pipeline 的源代码的路径。更新制定的存储库中，只要 Pipeline 配置了 SCM 轮询触发器，就会触发一个新构建。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>文本编辑器，IDE，GitHub 等将使用 Groovy 代码进行语法高亮显示，第一行 Jenkinsfile 应该是</p>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env groovy Jenkinsfile</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id34">
+<h4>内置文档<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<p>Pipeline 配有内置的文档功能，可以更轻松地创建不同复杂性的 Pipeline。根据 Jenkins 实例中安装的插件自动生成和更新内置文档。
+内置文档可以在全局范围找到： <a class="reference external" href="http://localhost:8080/pipeline-syntax/">http://localhost:8080/pipeline-syntax/</a> 假设你有一个 Jenkins 实例在本地端口 8080 上运行。同样的文档也作为管道语法链接到任何配置的 Pipeline 的侧栏项目中。</p>
+<img alt="../_images/Pipeline内置文档.png" src="../_images/Pipeline内置文档.png" />
+<div class="section" id="id35">
+<h5>代码段生成器<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h5>
+<p>内置的 “Snippet Generator” 实用程序有助于为单个步骤创建一些代码，发现插件提供的新步骤，或为特定步骤尝试不同的参数。</p>
+<p>Snippet Generator 动态填充 Jenkins 实例可用的步骤列表。可用的步骤数量取决于安装的插件，它明确地暴露了在 Pipeline 中使用的步骤。</p>
+<p>要使用代码段生成器生成步骤代码片段：</p>
+<ol class="arabic">
+<li><p class="first">在配置的流水线或 <a class="reference external" href="http://localhost:8080/pipeline-syntax">http://localhost:8080/pipeline-syntax</a> 导航到 Pipeline 语法链接。</p>
+</li>
+<li><p class="first">在“样品步骤”下拉惨菜单中选择需要的步骤</p>
+</li>
+<li><p class="first">使用 “样品步骤”下拉列表下方的动态填充区域配置所选步骤。</p>
+</li>
+<li><p class="first">单击生成 Pipeline 脚本以创建一个可以复制并黏贴到 Pipeline 中 Pipeline 代码段。</p>
+<blockquote>
+<div><img alt="../_images/代码段生成器.png" src="../_images/代码段生成器.png" />
+<p>要访问有关所选步骤的其他信息和/或文档，请单机帮助图标（由上图中的红色箭头指示）</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id36">
+<h5>全局变量引用<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h5>
+<p>处理代码片段生成器之外，Pipelin 还提供了一个内置的”全局变量引用“。像 Snippet Generator 一样，它也是由插件动态填充的，与代码段生成器不同的是，全局变量引用仅包含 Pipeline 提供的变量的文档，这些变量可用于 Pipeline。</p>
+<p>在 Pipeline 中默认提供的变量是：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">ENV</p>
+<blockquote>
+<div><p>脚本化 Pipeline 可访问的环境变量，例如： <code class="docutils literal notranslate"><span class="pre">env.PATH</span></code> 或 <code class="docutils literal notranslate"><span class="pre">env.BUILD_ID</span></code>。请参阅内置的全局变量参考，以获取管道中可用的完成和最新的环境变量列表。</p>
+</div></blockquote>
+</li>
+<li><p class="first">PARAMS</p>
+<blockquote>
+<div><p>将为 Pipeline 定义的所有参数公开为只读地图，例如： <code class="docutils literal notranslate"><span class="pre">params.MY_PARAM_NAME</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first">currentBuild</p>
+<blockquote>
+<div><p>可用于发现有关当前正在执行的 Pipeline 信息，于如属性 <code class="docutils literal notranslate"><span class="pre">cureenBuild.result</span></code> ， <code class="docutils literal notranslate"><span class="pre">currentBuild.displayName</span></code> 等等请教内置的全局变量引用了一个完整的，而且是最新的的，可用的属性列表 <code class="docutils literal notranslate"><span class="pre">currentBuild</span></code>。</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="jenkinsfile">
+<h3>jenkinsfile 使用<a class="headerlink" href="#jenkinsfile" title="Permalink to this headline">¶</a></h3>
+<p>本节基于 “Jenkins 入门” 中介绍的信息，并介绍更有用的步骤，常见的模式，并演示一些非平凡的 Jenkinsfile 示例。</p>
+<p>创建一个 Jenkinsfile 被检入源代码控制，提供了一些直接的好处：</p>
+<ul class="simple">
+<li>Pipeline 上的代码审查/迭代</li>
+<li>Pipeline 的审计跟踪</li>
+<li>Pipeline 的唯一真实来源，可以由项目的多个成员查看和编辑。</li>
+</ul>
+<p>Pipeline 支持两种语法：Declarative（在 Pipeline 2.5 中引入）和 Scripted Pipeline。两者都支持建立连续输送 Pipeline。两者都可以用于在 Web UI 或者 a 中定义一个流水线 Jenkinsfile，尽管通常被认为是 Jenkinsfile 将文件创建并检查到源代码控制库中的最佳做法。</p>
+<div class="section" id="id37">
+<h4>创建 Jenkinsfile<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
+<p>如”入门“部分所述， <code class="docutils literal notranslate"><span class="pre">Jenkinsfile</span></code> 是一个包含 Jenkins Pipeline 定义的文本文件，并被检入源代码控制，考虑以下 Pipeline，实施基本的三个阶段连续输送 Pipeline。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                echo &quot;Building..&quot;
+            }
+        }
+        stage(&#39;Test&#39;) {
+            steps {
+                echo &quot;Testing..&quot;
+            }
+        }
+        stage(&quot;Deploy&quot;) {
+            steps {
+                echo &quot;Deploying....&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    stage(&#39;build&#39;) {
+        echo &#39;Building....&#39;
+    }
+    stage(&#39;Test&#39;) {
+        echo &#39;Testing....&#39;
+    }
+    stage(&#39;Deploy&#39;) {
+        echo &#39;Deploying....&#39;
+    }
+}
+</pre></div>
+</div>
+<p>并非所有的 Pipeline 都将具有相同的三个阶段，但是对于大多数项目来说，这是一个很好的起点。以下部分将演示在 Jenkins 的测试安装中创建和执行简单的 Jenkins。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">假设已经有一个项目的源代码管理库，并且已经在 Jenkins 中按照这些说明定义了一个 Jenkins。</p>
+</div>
+<p>使用文本编辑器，理想的是支持 Groovy 语法突出显示文本编辑器，项目的根目录中创建一个新的 Jenkinsfile。</p>
+<p>上述声明性 Pipeline 示例包含实现连续传送 Pipeline 的最小必要结构。需要的代理指令指示 Jenkins 为 Pipeline 分配一个执行器和工作区。没有 agent 指令，不仅声明 Pipeline 无效，所以不能做任何工作！默认情况下，该 agent 伪指令确保源存储库已被检出并可用于后续阶段的步骤。</p>
+<p>该阶段的指令，和步骤的指令也需要一个有效的声明 Pipeline，因为他们指示 Jenkins 如何执行并在哪个阶段应该执行。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">要使用 Scripted Pipeline 进行更高级的使用，上面的示例 node 是为 Pipeline 分配执行程序和工作空间的关键第一步。在本质上，没有 node Pipeline 不能做的工作！从内部 node，业务的第一个顺序是检查此项目的源代码。由于 Jenkinsfile 直接从源代码控制中抽取，所以 Pipeline 提供了一种快速简便的方式来访问源代码的正确版本</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    checkout scm
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<p>checkout 步骤将检出从源控制代码；scm 是一个特殊边领，指示 checkout 步骤克隆触发此 Pipeline 运行的特定修订。</p>
+</div>
+<div class="section" id="id38">
+<h4>建立<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<p>对于许多项目，Pipeline “工作” 的开始就是“构建”阶段。通常，Pipeline 在这个阶段将是源代码组装，编译或打包的过程。Jenkinsfile 中有不是现有的构建工具，如 GNU/make，Maven，Gradle 等的替代品，而是可以被看作是一个胶层结合项目的开发生命周期的多个阶段（构建，测试，部署等）一起。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                sh &#39;make&#39;
+                archiveArtifacts artifacts: &#39;**/target/*.jar&#39;, fingerprint: true
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>该 sh 步骤调用 make 命令，只有在命令返回退出代码零时才会继续下一步。pipeline中任何不为零的退出代码都属于失败。</li>
+<li>archiveArtifacts 捕获与 include pattern( <code class="docutils literal notranslate"><span class="pre">**/target/*.jar</span></code> ) 匹配文件，并将他们保存到 Jenkins 主文件以供后面检索。</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">存档工件不能替代使用诸如 artifactory 或 Nexus 之类的外部工件存储库，只能用于基本报告和文件归档。</p>
+</div>
+</div>
+<div class="section" id="id39">
+<h4>测试<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<p>运行自动化测试是任何成功的连续传送过程的重要组成部分。因此，Jenkins 有许多插件提供的测试记录，报告和可视化设备。在基本层面上，当有测试失败时，让 Jenkins 在 Web UI 中记录报告和可视化的故障是有用的。下面的示例使用 junit 由 JUnit 插件提供的步骤。</p>
+<p>在下面的示例中，如果测试失败，则Pipeline 被标记为“不稳定”，如 Web UI 中的黄色球。根据记录的测试报告，Jenkins 还可以提供历史趋势分析和可视化。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        steps {
+            /* `make check` returns non-zero on test failures,
+            * using `true` to allow the Pipeline to continue nonetheless
+            */
+            sh &#39;make check || true&#39;
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Test&#39;) {
+        /* `make check` returns non-zero on test failures,
+        * using `true` to allow the Pipeline to continue nonetheless
+        */
+        sh &#39;make check || true&#39;
+        junit &#39;**/target/*.xml&#39;
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>使用内联 shell conditional(sh ‘make check || true’) 确保该 sh 步骤始终看到退出代码零，从而使该 junit 步骤有机会捕获和处理测试报告。下面的“故障处理”部分将详细介绍其他方法。</li>
+<li>junit 捕获并关联与包含 pattern( <code class="docutils literal notranslate"><span class="pre">**/target/*.xml</span></code> ) 匹配的 JUnit XML 文件</li>
+</ol>
+</div>
+<div class="section" id="id40">
+<h4>部署<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<p>部署可能意味着各种步骤，具体取决于项目或组织的要求，并且可能是从构建的工件发送到 Artifactory 服务器，将代码推送到生产系统的任何步骤。</p>
+<p>在 Pipeline 示例的这个阶段，“构建”和“测试”阶段都已成功执行。实际上，“部署”阶段只能在上一阶段完成，否则 Pipeline 将提前退出。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+
+    stages {
+        stage(&#39;Deploy&#39;) {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == &#39;SUCCESS&#39;
+                }
+            }
+            steps {
+                sh &#39;make publish&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Deploy&#39;) {
+        if (currentBuild.result == null || currentBuild.result == &#39;SUCCESS&#39;) {
+            sh &#39;make publish&#39;
+        }
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>访问该 <code class="docutils literal notranslate"><span class="pre">currentBuild.result</span></code> 变量允许 Pipeline 确定是否有任何测试失败。在这种情况下，值将是 <code class="docutils literal notranslate"><span class="pre">UNSTABLE</span></code> 。</li>
+</ol>
+<p>假设一切都在 Jenkins Pipeline 示例中成功执行，每个成功的 Pipeline 运行都将会存档关联构建工件，报告的测试结果和完整的控制台输出全部放在 Jenkins 中。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">脚本 Pipeline 可以包括条件测试（如上所示），循环，try/catch/finally 块甚至函数。下一节将详细介绍这种高级脚本 Pipeline 语法。</p>
+</div>
+</div>
+<div class="section" id="id41">
+<h4>管道高级语法<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id42">
+<h5>字符串插值<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h5>
+<p>Jenkins Pipeline 使用于 Groovy 相同的规则进行字符串插值。Groovy 的字符串插值支持可能会让很多新来的语言搞到困惑。虽然 Groovy 支持使用单引号或双引号声明一个字符串，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def singlyQuoted = &#39;Hello&#39;
+def doublyQuoted = &quot;World&quot;
+</pre></div>
+</div>
+<p>只有后一个字符串将支持基于 dollar-sign($) 的字符串插值，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def username = &#39;Jenkins&#39;
+echo &#39;Hello Mr. ${username}&#39;
+echo &quot;I said, Hello Mr. ${username}&quot;
+</pre></div>
+</div>
+<p>会导致</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hello Mr. ${username}
+I said, Hello Mr. Jenkins
+</pre></div>
+</div>
+<p>了解如何使用字符串插值对于使用一些管道更高级的功能至关重要。</p>
+</div>
+</div>
+<div class="section" id="id43">
+<h4>工作环境<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<p>Jenkins Pipeline 通过全局变量公开环境变量，该变量 env 可以从任何地方获得 Jenkinsfile。假设 Jenkins 主机正在运行，在 <a class="reference external" href="http://localhost:8080/pipeline-syntax/globals#env">http://localhost:8080/pipeline-syntax/globals#env</a> 中记录了可从 Jenkins Pipeline 中访问的环境变量的完整列表 localhots:8080，其中包括：</p>
+<ul>
+<li><p class="first">BUILD_ID</p>
+<blockquote>
+<div><p>当前版本ID，与 Jenkins 版本 1.597+ 中创建的构建相同，为 BUILD_NUMBER</p>
+</div></blockquote>
+</li>
+<li><p class="first">JOB_NAME</p>
+<blockquote>
+<div><p>此构建项目的名称，如 “foo” 或 “foo/bar”</p>
+</div></blockquote>
+</li>
+<li><p class="first">JENKINS_URL</p>
+<blockquote>
+<div><p>完整的 Jenkins 网址，例如 example.com:port/jenkins/ (注意：只有在“系统配置”中设置了 Jenkins 网址时才可用)</p>
+</div></blockquote>
+</li>
+</ul>
+<p>参考或使用这些环境变量可以像访问 Groovy Map 的任何键一样，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage(&#39;Example&#39;) {
+            steps {
+                echo &quot;Running ${env.BUILD_ID} on ${env.JENKINS_URL}&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    echo &quot;Running ${env.BUILD_ID} on ${env.JENKINS_URL}&quot;
+}
+</pre></div>
+</div>
+<div class="section" id="id44">
+<h5>设置环境变量<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h5>
+<p>根据是否使用 Declarative 或 Scripted Pipeline，在 Jenkins Pipeline 中设置环境变量是不同的。
+声明式 Pipeline 支持环境指令，而 Scripted pipeline 的用户必须使用该 withEnv 步骤。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    environment {
+        CC = &#39;clang&#39;
+    }
+
+    stages {
+        stage(&#39;Example&#39;) {
+            environment {
+                DEBUG_FLAGS = &#39;-g&#39;
+            }
+            steps {
+                sh &#39;printenv&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    withEnv([&quot;PATH+MAVEN=${tool &#39;M3&#39;}/bin&quot;]) {
+        sh &#39;mvn -B verify&#39;
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>environment 顶级 pipeline 块中使用的指令将适用于 Pipeline 中的所有步骤。</li>
+<li>在一个 environment 意图中定义的一个指令 stage 仅将给定的环境变量应用与该过程中的步骤 stage</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id45">
+<h2>Blue ocean<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

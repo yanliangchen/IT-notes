@@ -32,7 +32,7 @@ Jenkins 目录
 +--------------------------------+----------+
 |   ``/etc/sysconfig/jenkins``   | 配置文件 |
 +--------------------------------+----------+
-|     ``/var/cache/jenkins``     | 程序文件 |
+|     ``/var/cache/jenkins``     | 网页文件 |
 +--------------------------------+----------+
 |      ``/var/log/jenkins``      | 日志文件 |
 +--------------------------------+----------+
@@ -42,6 +42,19 @@ Jenkins 目录
 
 Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线，但是 Jenkins 不能访问 https://jenkins-ci.io 
 这时关闭网络，离线就能正常安装
+
+升级
+"""""""""""""""
+
+Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war 包，替换 /usr/lib/jenkins/jenkins.war 。
+
+1. 停止 Jenkins 服务
+
+    .. attention:: 
+
+        记得备份原来的 jenkins.war，以防万一
+
+2. 替换最新的 war 包，并启动 jenkins 
 
 备份
 """"""""""""
@@ -57,13 +70,15 @@ Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线
     #!/usr/bin/env bash
 
     BACKUP_PATH="/opt/jenkins_backup"
+    JENKINS_WAR_BALL_PATH="/usr/lib/jenkins"
+    JENKINS_WAR_VERSION_BALL_PATH="${JENKINS_WAR_BALL_PATH}/versions"
     JENKINS_HOME_PATH="/var/lib/jenkins"
-    BACKUP_ROTATE="15"
+    BACKUP_ROTATE="5"
     DATE_DAY=`date +%F`
 
-    function check_backup_dir() {
-        test -d ${BACKUP_PATH} || mkdir -p ${BACKUP_PATH}
-    }
+    JENKINS_REPO_URL="https://mirrors.tuna.tsinghua.edu.cn/jenkins/war/" ## TUNA
+    #JENKINS_REPO_URL="http://mirrors.ustc.edu.cn/jenkins/war/" ## USTC
+    #JENKINS_REPO_URL="http://mirrors.jenkins.io/war/" ## JENKINS
 
     function backup_rotate() {
         DELETE_DATE_DAY=`date -d "-${BACKUP_ROTATE} day ago" +%F`
@@ -73,8 +88,8 @@ Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线
     }
 
     function Backup() {
-        check_backup_dir
         backup_rotate
+        test -d ${BACKUP_PATH} || mkdir -p ${BACKUP_PATH}
         echo "[`date +'%Y-%m-%d %H:%M:%S'`] start backup"
         if [ ! -f ${BACKUP_PATH}/jenkins_${DATE_DAY}.tar.gz ]; then
             start_backup_second=`date +%s`
@@ -90,18 +105,53 @@ Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线
     }
 
     function Recovery() {
-        find ${BACKUP_PATH} -name jenkins*.tar.gz | cut -d '/' -f 4 | cut -d "_" -f 2 | cut -d '.' -f 1 | nl
-        list_length=`find /opt/jenkins_backup/ -name jenkins*.tar.gz | wc -l`
+        find ${BACKUP_PATH} -name "jenkins*.tar.gz" | cut -d '/' -f 4 | cut -d "_" -f 2 | cut -d '.' -f 1 | nl
+        list_length=`find ${BACKUP_PATH} -name "jenkins*.tar.gz" | wc -l`
             read -p "Select date recovery >>> " number
-        if grep '^[[:digit:]]*$' <<< "$number"; then
-            if [ $number -gt $list_length -o $number -le 0 ]; then
+        if grep '^[[:digit:]]*$' <<< "${number}"; then
+            if [ ${number} -gt $list_length -o ${number} -le 0 ]; then
                 echo "[`date +'%Y-%m-%d %H:%M:%S'`] The selected date does not exist!"
             else
-                date=`find ${BACKUP_PATH} -name jenkins*.tar.gz | cut -d '/' -f 4 | cut -d "_" -f 2 | cut -d '.' -f 1 | sed -n ${number}p`
+                date=`find ${BACKUP_PATH} -name "jenkins*.tar.gz" | cut -d '/' -f 4 | cut -d "_" -f 2 | cut -d '.' -f 1 | sed -n ${number}p`
+                /etc/init.d/jenkins stop
+                sleep 5
+                rm -rf ${JENKINS_HOME_PATH}/*
                 tar -zvxf ${BACKUP_PATH}/jenkins_${date}.tar.gz -C ${JENKINS_HOME_PATH}
+                sleep 5
+                /etc/init.d/jenkins start
             fi
         else
             echo "Please enter the correct number"
+        fi
+    }
+
+    function Upgrade() {
+        curl -s ${JENKINS_REPO_URL} | egrep -o '"[0-9]{1}.[0-9]{1,3}|"latest' | cut -d "\"" -f 2 | sort -n -k 2 -t . | nl
+        list_length=`curl -s ${JENKINS_REPO_URL} | egrep -o '"[0-9]{1}.[0-9]{1,3}|"latest' | cut -d "\"" -f 2 | sort -n -k 2 -t . | wc -l`
+        read -p "Select Jenkins Version >>> " number
+        if grep '^[[:digit:]]*$' <<< "${number}"; then
+            if [ ${number} -gt $list_length -o ${number} -le 0 ]; then
+                echo "[`date +'%Y-%m-%d %H:%M:%S'`] The selected version does not exist!"
+            else
+                version=`curl -s ${JENKINS_REPO_URL} | egrep -o '"[0-9]{1}.[0-9]{1,3}|"latest' | cut -d "\"" -f 2 | sort -n -k 2 -t . |sed -n ${number}p`
+                jenkins_war_url="${JENKINS_REPO_URL}${version}/jenkins.war"
+                test -d ${JENKINS_WAR_VERSION_BALL_PATH} || mkdir -p ${JENKINS_WAR_VERSION_BALL_PATH}
+                if [ -f ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war -a "${version}" = "latest" ]; then
+                    rm ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war
+                    wget -O ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war ${jenkins_war_url}
+                elif [ -f ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war ]; then
+                    echo "${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war file exist"
+                else
+                    wget -O ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war ${jenkins_war_url}
+                fi
+                /etc/init.d/jenkins stop
+                sleep 5
+                cp -v ${JENKINS_WAR_VERSION_BALL_PATH}/jenkins_${version}.war ${JENKINS_WAR_BALL_PATH}/jenkins.war
+                sleep 5
+                /etc/init.d/jenkins start
+            fi
+        else
+            echo "Please ehter the correct number"
         fi
     }
 
@@ -112,8 +162,11 @@ Jenkins 在第一次启动的时候会向官网回传信息，如果网络在线
         recovery)
             Recovery
         ;;
+        upgrade)
+            Upgrade
+        ;;
         *)
-            echo "Usage: $0 {backup|recovery}"
+            echo "Usage: $0 {backup|recovery|upgrade}"
                 exit 1
         ;;
     esac
@@ -166,12 +219,6 @@ Jenkins 会基于一些后处理器任务为构建发布一个稳健指数（从
 2. 配置指定自定义工作目录空间，但是需要特别注意目录权限
 
     .. image:: /images/jenkins/使用指定的目录.png
-
-* Maven 项目设置
-* 设置系统 JDK ANT Maven
-* Jenkins Location
-* 邮件通知
-* Configure Global Security
 
 nginx 反向代理 Jenkins
 '''''''''''''''''''''''''''''
@@ -239,15 +286,15 @@ nginx 反向代理 Jenkins
 主题设置
 '''''''''''''
 
-Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 `jenkins-material-theme <http://afonsof.com/jenkins-material-theme/>`_ 。
+Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 `jenkins-material-theme <http://afonsof.com/jenkins-material-theme/>`_
 
 1. 选择主题颜色
 
     .. image:: /images/jenkins/jenkins主题颜色.png
 
-2. 将 URL 中的 ``{{your-color-name}}``更换为你选择的颜色：``https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css``
+2. 将 URL 中的 ``{{your-color-name}}`` 更换为你选择的颜色: ``https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css``
 
-3. 安装 ` Jenkins Simple Theme 插件 <https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin>`_
+3. 安装 `Jenkins Simple Theme 插件 <https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin>`_
 
 4. 点击 ``Manager Jenkins``
 
@@ -259,3 +306,14 @@ Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选
     * 下载 URL 的 CSS 样式文件，将文件内容黏贴入 ``Extra CSS``
 
 7. 点击 ``Save``
+
+语言设置
+'''''''''''''
+
+1. 安装 `Locale Plugin <https://wiki.jenkins.io/display/JENKINS/Locale+Plugin>`_
+2. 重启生效
+3. 配置【Manage Jenkins】-->【Configure System】->【Locale】
+
+    .. image:: /images/jenkins/语言设置.jpeg
+
+4. 默认语言设置为 zh_CN，勾选强制语言设置。

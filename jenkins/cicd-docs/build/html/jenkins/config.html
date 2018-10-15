@@ -190,7 +190,7 @@
 <td>配置文件</td>
 </tr>
 <tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">/var/cache/jenkins</span></code></td>
-<td>程序文件</td>
+<td>网页文件</td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">/var/log/jenkins</span></code></td>
 <td>日志文件</td>
@@ -204,7 +204,23 @@
 这时关闭网络，离线就能正常安装</p>
 </div>
 <div class="section" id="id5">
-<h2>备份<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2>升级<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war 包，替换 /usr/lib/jenkins/jenkins.war 。</p>
+<ol class="arabic">
+<li><p class="first">停止 Jenkins 服务</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">记得备份原来的 jenkins.war，以防万一</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">替换最新的 war 包，并启动 jenkins</p>
+</li>
+</ol>
+</div>
+<div class="section" id="id6">
+<h2>备份<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tar zcvf jenkins.tar.gz /var/lib/jenkins
 </pre></div>
 </div>
@@ -212,13 +228,15 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
 <span class="nv">BACKUP_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/jenkins_backup&quot;</span>
+<span class="nv">JENKINS_WAR_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/lib/jenkins&quot;</span>
+<span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_WAR_BALL_PATH</span><span class="si">}</span><span class="s2">/versions&quot;</span>
 <span class="nv">JENKINS_HOME_PATH</span><span class="o">=</span><span class="s2">&quot;/var/lib/jenkins&quot;</span>
-<span class="nv">BACKUP_ROTATE</span><span class="o">=</span><span class="s2">&quot;15&quot;</span>
+<span class="nv">BACKUP_ROTATE</span><span class="o">=</span><span class="s2">&quot;5&quot;</span>
 <span class="nv">DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date +%F<span class="sb">`</span>
 
-<span class="k">function</span> check_backup_dir<span class="o">()</span> <span class="o">{</span>
-    <span class="nb">test</span> -d <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>
-<span class="o">}</span>
+<span class="nv">JENKINS_REPO_URL</span><span class="o">=</span><span class="s2">&quot;https://mirrors.tuna.tsinghua.edu.cn/jenkins/war/&quot;</span> <span class="c1">## TUNA</span>
+<span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.ustc.edu.cn/jenkins/war/&quot; ## USTC</span>
+<span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.jenkins.io/war/&quot; ## JENKINS</span>
 
 <span class="k">function</span> backup_rotate<span class="o">()</span> <span class="o">{</span>
     <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;-</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
@@ -228,8 +246,8 @@
 <span class="o">}</span>
 
 <span class="k">function</span> Backup<span class="o">()</span> <span class="o">{</span>
-    check_backup_dir
     backup_rotate
+    <span class="nb">test</span> -d <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>
     <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] start backup&quot;</span>
     <span class="k">if</span> <span class="o">[</span> ! -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
         <span class="nv">start_backup_second</span><span class="o">=</span><span class="sb">`</span>date +%s<span class="sb">`</span>
@@ -245,18 +263,53 @@
 <span class="o">}</span>
 
 <span class="k">function</span> Recovery<span class="o">()</span> <span class="o">{</span>
-    find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> nl
-    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>find /opt/jenkins_backup/ -name jenkins*.tar.gz <span class="p">|</span> wc -l<span class="sb">`</span>
+    find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> nl
+    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> wc -l<span class="sb">`</span>
         <span class="nb">read</span> -p <span class="s2">&quot;Select date recovery &gt;&gt;&gt; &quot;</span> number
-    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="nv">$number</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
-        <span class="k">if</span> <span class="o">[</span> <span class="nv">$number</span> -gt <span class="nv">$list_length</span> -o <span class="nv">$number</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -gt <span class="nv">$list_length</span> -o <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
             <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] The selected date does not exist!&quot;</span>
         <span class="k">else</span>
-            <span class="nv">date</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name jenkins*.tar.gz <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            <span class="nv">date</span><span class="o">=</span><span class="sb">`</span>find <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span> -name <span class="s2">&quot;jenkins*.tar.gz&quot;</span> <span class="p">|</span> cut -d <span class="s1">&#39;/&#39;</span> -f <span class="m">4</span> <span class="p">|</span> cut -d <span class="s2">&quot;_&quot;</span> -f <span class="m">2</span> <span class="p">|</span> cut -d <span class="s1">&#39;.&#39;</span> -f <span class="m">1</span> <span class="p">|</span> sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            /etc/init.d/jenkins stop
+            sleep <span class="m">5</span>
+            rm -rf <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span>/*
             tar -zvxf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">date</span><span class="si">}</span>.tar.gz -C <span class="si">${</span><span class="nv">JENKINS_HOME_PATH</span><span class="si">}</span>
+            sleep <span class="m">5</span>
+            /etc/init.d/jenkins start
         <span class="k">fi</span>
     <span class="k">else</span>
         <span class="nb">echo</span> <span class="s2">&quot;Please enter the correct number&quot;</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="k">function</span> Upgrade<span class="o">()</span> <span class="o">{</span>
+    curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span> nl
+    <span class="nv">list_length</span><span class="o">=</span><span class="sb">`</span>curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span> wc -l<span class="sb">`</span>
+    <span class="nb">read</span> -p <span class="s2">&quot;Select Jenkins Version &gt;&gt;&gt; &quot;</span> number
+    <span class="k">if</span> grep <span class="s1">&#39;^[[:digit:]]*$&#39;</span> <span class="o">&lt;&lt;&lt;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">;</span> <span class="k">then</span>
+        <span class="k">if</span> <span class="o">[</span> <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -gt <span class="nv">$list_length</span> -o <span class="si">${</span><span class="nv">number</span><span class="si">}</span> -le <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+            <span class="nb">echo</span> <span class="s2">&quot;[`date +&#39;%Y-%m-%d %H:%M:%S&#39;`] The selected version does not exist!&quot;</span>
+        <span class="k">else</span>
+            <span class="nv">version</span><span class="o">=</span><span class="sb">`</span>curl -s <span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}</span> <span class="p">|</span> egrep -o <span class="s1">&#39;&quot;[0-9]{1}.[0-9]{1,3}|&quot;latest&#39;</span> <span class="p">|</span> cut -d <span class="s2">&quot;\&quot;&quot;</span> -f <span class="m">2</span> <span class="p">|</span> sort -n -k <span class="m">2</span> -t . <span class="p">|</span>sed -n <span class="si">${</span><span class="nv">number</span><span class="si">}</span>p<span class="sb">`</span>
+            <span class="nv">jenkins_war_url</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_REPO_URL</span><span class="si">}${</span><span class="nv">version</span><span class="si">}</span><span class="s2">/jenkins.war&quot;</span>
+            <span class="nb">test</span> -d <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span> <span class="o">||</span> mkdir -p <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>
+            <span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war -a <span class="s2">&quot;</span><span class="si">${</span><span class="nv">version</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">=</span> <span class="s2">&quot;latest&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                rm <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war
+                wget -O <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">jenkins_war_url</span><span class="si">}</span>
+            <span class="k">elif</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+                <span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span><span class="s2">/jenkins_</span><span class="si">${</span><span class="nv">version</span><span class="si">}</span><span class="s2">.war file exist&quot;</span>
+            <span class="k">else</span>
+                wget -O <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">jenkins_war_url</span><span class="si">}</span>
+            <span class="k">fi</span>
+            /etc/init.d/jenkins stop
+            sleep <span class="m">5</span>
+            cp -v <span class="si">${</span><span class="nv">JENKINS_WAR_VERSION_BALL_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">version</span><span class="si">}</span>.war <span class="si">${</span><span class="nv">JENKINS_WAR_BALL_PATH</span><span class="si">}</span>/jenkins.war
+            sleep <span class="m">5</span>
+            /etc/init.d/jenkins start
+        <span class="k">fi</span>
+    <span class="k">else</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Please ehter the correct number&quot;</span>
     <span class="k">fi</span>
 <span class="o">}</span>
 
@@ -267,8 +320,11 @@
     recovery<span class="o">)</span>
         Recovery
     <span class="p">;;</span>
+    upgrade<span class="o">)</span>
+        Upgrade
+    <span class="p">;;</span>
     *<span class="o">)</span>
-        <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery}&quot;</span>
+        <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery|upgrade}&quot;</span>
             <span class="nb">exit</span> <span class="m">1</span>
     <span class="p">;;</span>
 <span class="k">esac</span>
@@ -279,8 +335,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id6">
-<h2>构建状态<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>构建状态<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <p>Jenkins 会基于一些后处理器任务为构建发布一个稳健指数（从 0 ~ 100），这些任务一般以插件的方式实现。</p>
 <p>他们可能包括单元测试（JUnit）、覆盖率（Cobertura）和静态代码分析（FindBugs）。</p>
 <p>分数越高，表明构建越稳定。下图中分级符号概述了稳定性的评分范围。任何构建作业的状态（总分100）低于80分就是不稳定的。</p>
@@ -313,10 +369,10 @@
 <img alt="../_images/构建稳定性.png" src="../_images/构建稳定性.png" />
 <p>图例可以在 <a class="reference external" href="https://jenkins.renkeju.com:8080/legend">https://jenkins.renkeju.com:8080/legend</a> 中查看</p>
 </div>
-<div class="section" id="id7">
-<h2>系统设置<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id8">
-<h3>工作目录设置<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h2>系统设置<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>工作目录设置<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>在 Linux 环境中，Jenkins 的默认工作目录在 <code class="docutils literal notranslate"><span class="pre">/var/lib/jenkins/</span></code>，但是我们有些需要特殊指定工作目录的项目，需要默认的 JENKINS_HOME 分开。</p>
 <ol class="arabic">
 <li><p class="first">进入一个项目，在【Genaral】里点击“高级”按钮</p>
@@ -330,13 +386,6 @@
 </div></blockquote>
 </li>
 </ol>
-<ul class="simple">
-<li>Maven 项目设置</li>
-<li>设置系统 JDK ANT Maven</li>
-<li>Jenkins Location</li>
-<li>邮件通知</li>
-<li>Configure Global Security</li>
-</ul>
 </div>
 <div class="section" id="nginx-jenkins">
 <h3>nginx 反向代理 Jenkins<a class="headerlink" href="#nginx-jenkins" title="Permalink to this headline">¶</a></h3>
@@ -407,18 +456,18 @@ server {
 </li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>主题设置<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
-<p>Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 <a class="reference external" href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a> 。</p>
+<div class="section" id="id10">
+<h3>主题设置<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>Jenkins 自带的样式比较丑，我们也有很多第三方样式库可以选择，这里我们介绍 <a class="reference external" href="http://afonsof.com/jenkins-material-theme/">jenkins-material-theme</a></p>
 <ol class="arabic">
 <li><p class="first">选择主题颜色</p>
 <blockquote>
 <div><img alt="../_images/jenkins主题颜色.png" src="../_images/jenkins主题颜色.png" />
 </div></blockquote>
 </li>
-<li><p class="first">将 URL 中的 <code class="docutils literal notranslate"><span class="pre">{{your-color-name}}``更换为你选择的颜色：``https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css</span></code></p>
+<li><p class="first">将 URL 中的 <code class="docutils literal notranslate"><span class="pre">{{your-color-name}}</span></code> 更换为你选择的颜色: <code class="docutils literal notranslate"><span class="pre">https://cdn.rawgit.com/afonsof/jenkins-material-theme/gh-pages/dist/material-{{your-color-name}}.css</span></code></p>
 </li>
-<li><p class="first">安装 ` Jenkins Simple Theme 插件 &lt;<a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin">https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin</a>&gt;`_</p>
+<li><p class="first">安装 <a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin">Jenkins Simple Theme 插件</a></p>
 </li>
 <li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Manager</span> <span class="pre">Jenkins</span></code></p>
 </li>
@@ -433,6 +482,22 @@ server {
 </div></blockquote>
 </li>
 <li><p class="first">点击 <code class="docutils literal notranslate"><span class="pre">Save</span></code></p>
+</li>
+</ol>
+</div>
+<div class="section" id="id11">
+<h3>语言设置<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">安装 <a class="reference external" href="https://wiki.jenkins.io/display/JENKINS/Locale+Plugin">Locale Plugin</a></p>
+</li>
+<li><p class="first">重启生效</p>
+</li>
+<li><p class="first">配置【Manage Jenkins】–&gt;【Configure System】-&gt;【Locale】</p>
+<blockquote>
+<div><img alt="../_images/语言设置.jpeg" src="../_images/语言设置.jpeg" />
+</div></blockquote>
+</li>
+<li><p class="first">默认语言设置为 zh_CN，勾选强制语言设置。</p>
 </li>
 </ol>
 </div>

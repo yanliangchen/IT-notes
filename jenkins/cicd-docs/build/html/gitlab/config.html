@@ -205,6 +205,31 @@ external_url <span class="s1">&#39;your_ip_address_or_domain_name&#39;</span>
 <li><code class="docutils literal notranslate"><span class="pre">gitlab-ctl</span> <span class="pre">restart</span></code>  重启配置文件</li>
 </ol>
 </div>
+<div class="section" id="root">
+<h2>修改 root 用户密码<a class="headerlink" href="#root" title="Permalink to this headline">¶</a></h2>
+<p>对于普通用户而言，通过系统的重置密码，接收重置密码邮件即可，可是 Gitlab 的管理员账号，缺省的邮箱是一个不存在的邮箱地址，所在没有办法通过邮箱来重置密码。</p>
+<p>使用命令 <code class="docutils literal notranslate"><span class="pre">gitlab-rails</span> <span class="pre">console</span> <span class="pre">production</span></code> 修改</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gitlab-rails console production
+-------------------------------------------------------------------------------------
+GitLab:       11.3.0 (17bd59a)
+GitLab Shell: 8.3.3
+postgresql:   9.6.8
+-------------------------------------------------------------------------------------
+Loading production environment (Rails 4.2.10)
+irb(main):001:0&gt;
+irb(main):002:0* user = User.where(id: 1).first
+=&gt; #&lt;User id:1 @root&gt;
+irb(main):003:0&gt; user.password=12345678
+=&gt; 12345678
+irb(main):004:0&gt; user.password_confirmation=12345678
+=&gt; 12345678
+irb(main):005:0&gt; user.save!
+Enqueued ActionMailer::DeliveryJob (Job ID: de0469c0-dea5-488d-9e04-8d4c550739c5) to Sidekiq(mailers) with arguments: &quot;DeviseMailer&quot;, &quot;password_change&quot;, &quot;deliver_now&quot;, gid://gitlab/User/1
+=&gt; true
+irb(main):006:0&gt; quit
+</pre></div>
+</div>
+</div>
 </div>
 
 

@@ -52,7 +52,17 @@
 
 
 ```
+In [1]: from collections import OrderedDict
 
+In [2]: d = dict([("a", 1), ("b", 2), ("c", 3)])
+
+In [3]: d # dict的Key是无序的
+Out[3]: {'a': 1, 'b': 2, 'c': 3}
+
+In [4]: od = OrderedDict([("a", 1), ("b", 2), ("c", 3)])
+
+In [5]: od # OrderedDict的Key是有序的
+Out[5]: OrderedDict([('a', 1), ('b', 2), ('c', 3)])
 ```
 
 

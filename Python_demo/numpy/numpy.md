@@ -3102,3 +3102,951 @@ print indices
 [ 2 4 6 8 10]
 ```
 
+
+
+### 3.12 位操作
+
+下面是 NumPy 包中可用的位操作函数。
+
+| 序号 | 操作及描述                           |
+| ---- | ------------------------------------ |
+| 1.   | `bitwise_and` 对数组元素执行位与操作 |
+| 2.   | `bitwise_or` 对数组元素执行位或操作  |
+| 3.   | `invert` 计算位非                    |
+| 4.   | `left_shift` 向左移动二进制表示的位  |
+| 5.   | `right_shift` 向右移动二进制表示的位 |
+
+
+
+#### 3.12.1 bitwise_and
+
+通过`np.bitwise_and()`函数对输入数组中的整数的二进制表示的相应位执行位与运算。
+
+例子
+
+```
+import  numpy  as  np 
+print '13 和 17 的二进制形式：' 
+a,b = 13,17 
+print bin(a), bin(b) 
+print '\n'  
+
+print '13 和 17 的位与：' 
+print np.bitwise_and(13, 17)
+```
+
+输出如下
+
+```
+13 和 17 的二进制形式：
+0b1101 0b10001
+
+13 和 17 的位与：
+1
+```
+
+
+
+#### 3.12.2 bitwise_or
+
+通过`np.bitwise_or()`函数对输入数组中的整数的二进制表示的相应位执行位或运算。
+
+例子
+
+```
+import numpy as np 
+a,b = 13,17 
+print '13 和 17 的二进制形式：' 
+print bin(a), bin(b)  
+
+print '13 和 17 的位或：' 
+print np.bitwise_or(13, 17)
+```
+
+输出如下:
+
+```
+13 和 17 的二进制形式：
+0b1101 0b10001
+
+13 和 17 的位或：
+29
+```
+
+#### 3.12.3 invert 
+
+此函数计算输入数组中整数的位非结果。 对于有符号整数，返回补码。
+
+例子
+
+```
+import numpy as np 
+
+print '13 的位反转，其中 ndarray 的 dtype 是 uint8：' 
+print np.invert(np.array([13], dtype = np.uint8)) 
+print '\n'  
+# 比较 13 和 242 的二进制表示，我们发现了位的反转
+
+print '13 的二进制表示：' 
+print np.binary_repr(13, width = 8) 
+print '\n'  
+
+print '242 的二进制表示：' 
+print np.binary_repr(242, width = 8)
+```
+
+
+
+输出如下：
+
+```
+13 的位反转，其中 ndarray 的 dtype 是 uint8：
+[242]
+
+13 的二进制表示：
+00001101
+
+242 的二进制表示：
+11110010
+```
+
+请注意，`np.binary_repr()`函数返回给定宽度中十进制数的二进制表示。
+
+
+
+#### 3.12.4 left_shift
+
+例如:
+
+```
+import  numpy  as  np 
+print '将 10 左移两位：' 
+print np.left_shift(10,2) 
+print '\n'  
+
+print '10 的二进制表示：' 
+print np.binary_repr(10, width = 8) 
+print '\n'  
+
+print '40 的二进制表示：' 
+print np.binary_repr(40, width = 8)  
+#  '00001010' 中的两位移动到了左边，并在右边添加了两个 0。
+```
+
+输出如下：
+
+```
+将 10 左移两位：
+40
+
+10 的二进制表示：
+00001010
+
+40 的二进制表示：
+00101000
+```
+
+
+
+
+
+#### 3.12.5 right_shift
+
+`numpy.right_shift()`函数将数组元素的二进制表示中的位向右移动到指定位置，左侧附加相等数量的 0。
+
+```
+import  numpy  as  np 
+print '将 40 右移两位：' 
+print np.right_shift(40,2) 
+print '\n'  
+
+print '40 的二进制表示：' 
+print np.binary_repr(40, width = 8) 
+print '\n'  
+
+print '10 的二进制表示：' 
+print np.binary_repr(10, width = 8)  
+#  '00001010' 中的两位移动到了右边，并在左边添加了两个 0。
+```
+
+
+
+输出如下：
+
+```
+将 40 右移两位：
+10
+
+40 的二进制表示：
+00101000
+
+10 的二进制表示：
+00001010
+```
+
+
+
+### 3.13 字符串操作
+
+以下函数用于对`dtype`为`numpy.string_`或`numpy.unicode_`的数组执行向量化字符串操作。 它们基于 Python 内置库中的标准字符串函数。
+
+| 序号 | 函数及描述                                                   |
+| ---- | ------------------------------------------------------------ |
+| 1.   | `add()` 返回两个`str`或`Unicode`数组的逐个字符串连接         |
+| 2.   | `multiply()` 返回按元素多重连接后的字符串                    |
+| 3.   | `center()` 返回给定字符串的副本，其中元素位于特定字符串的中央 |
+| 4.   | `capitalize()` 返回给定字符串的副本，其中只有第一个字符串大写 |
+| 5.   | `title()` 返回字符串或 Unicode 的按元素标题转换版本          |
+| 6.   | `lower()` 返回一个数组，其元素转换为小写                     |
+| 7.   | `upper()` 返回一个数组，其元素转换为大写                     |
+| 8.   | `split()` 返回字符串中的单词列表，并使用分隔符来分割         |
+| 9.   | `splitlines()` 返回元素中的行列表，以换行符分割              |
+| 10.  | `strip()` 返回数组副本，其中元素移除了开头或者结尾处的特定字符 |
+| 11.  | `join()` 返回一个字符串，它是序列中字符串的连接              |
+| 12.  | `replace()` 返回字符串的副本，其中所有子字符串的出现位置都被新字符串取代 |
+| 13.  | `decode()` 按元素调用`str.decode`                            |
+| 14.  | `encode()` 按元素调用`str.encode`                            |
+
+这些函数在字符数组类(numpy.char)中定义。较旧的Numarray 包包含chararray类。numpy.char类中上述函数在执行向量化字符串时非常有用。
+
+#### 3.13.1 numpy.char.add()
+
+函数执行按元素的字符串连接。
+
+```
+import  numpy  as  np 
+print '连接两个字符串:'
+# 去掉数组的维度也ok
+print np.char.add(['hello'],['xyz'])
+print '\n'
+
+print '连接示例：' 
+print np.char.add(['hello', 'hi'],[' abc', ' xyz'])
+```
+
+输出如下：
+
+```
+连接两个字符串:
+['helloxyz ']
+
+连接示例:
+['hello abc' 'hi xyz']
+```
+
+
+
+#### 3.13.2  numpy.char.multiply()
+
+这个函数执行多重连接。
+
+```
+
+```
+
+输出如下：
+
+```
+Hello Hello Hello
+```
+
+
+
+
+
+#### 3.13.3 numpy.char.center()
+
+此函数返回所需宽度的数组,以便输入字符串位于中心， 并使用fillchar在左侧和右侧进行填充
+
+```
+import numpy as np 
+# np.char.center(arr, width,fillchar) 
+print np.char.center('hello', 20,fillchar = '*')
+```
+
+输出如下：
+
+```
+*******hello********
+```
+
+#### 3.13.4 numpy.char.capitalize()
+
+函数返回字符串的副本，其中第一个字母大写
+
+```
+import numpy as np 
+print np.char.capitalize('hello world')
+```
+
+输出如下:
+
+```
+Hello  world
+```
+
+
+
+
+
+#### 3.13.5 numpy.char.title()
+
+```
+import  numpy  as  np 
+print(np.char.title('hello  how  are  you?'))
+```
+
+输出如下:
+
+```
+Hello  How Are You?
+```
+
+
+
+#### 3.13.6 numpy.char.lower()
+
+函数返回一个数组，其元素转换为小写。它对每个元素调用`str.lower`。
+
+```
+import numpy as np 
+print np.char.lower(['HELLO','WORLD']) 
+print np.char.lower('HELLO')
+```
+
+输出如下：
+
+```
+['hello' 'world']
+hello
+```
+
+
+
+#### 3.13.7 numpy.char.upper()
+
+函数返回一个数组，其元素转换为大写。它对每个元素调用`str.upper`。
+
+```
+import numpy as np 
+print np.char.upper('hello') 
+print np.char.upper(['hello','world'])
+
+```
+
+输出如下：
+
+```
+HELLO
+['HELLO' 'WORLD']
+
+```
+
+
+
+#### 3.13.8 numpy.char.split()
+
+此函数返回输入字符串中的单词列表。 默认情况下，空格用作分隔符。 否则，指定的分隔符字符用于分割字符串。
+
+```
+import  numpy  as  np 
+print(np.char.split('hello how are you?'))
+print(np.char.split('YiibaiPoint,Hyderabad,Telangana', sep = ','))
+```
+
+输出如下：
+
+```
+['hello', 'how', 'are', 'you?']
+['YiibaiPoint', 'Hyderabad', 'Telangana']
+```
+
+
+
+#### 3.13.9 numpy.char.splitlines()
+
+函数返回数组中元素的单词列表，以换行符分割。
+
+```
+import  numpy  as  np
+#按照换行符切割
+print np.char.splitlines('hello\nhow are you?')
+print np.char.splitlines('hello')
+```
+
+输出如下：
+
+```
+['hello', 'how are you?']
+['hello', 'how are you?']
+```
+
+`'\n'`，`'\r'`，`'\r\n'`都会用作换行符。
+
+#### 3.13.10 numpy.char.strip()
+
+函数返回数组的副本，其中元素移除了开头或结尾处的特定字符。
+
+```
+import  numpy  as  np 
+print(np.char.strip('ashok arora','a'))
+print(np.char.strip(['arora','admin','java'],'a'))
+```
+
+输出如下：
+
+```
+shok aror
+['ror' 'dmin' 'jav']
+```
+
+
+
+
+
+#### 3.13.11 numpy.char.join()
+
+这个函数返回一个字符串，其中单个字符由特定的分隔符连接。
+
+```
+import  numpy  as  np 
+print(np.char.join(':','dmy'))
+print np.char.join([':','-'],['dmy','ymd'])
+```
+
+输出如下：
+
+```
+d:m:y
+['d:m:y' 'y-m-d']
+```
+
+
+
+#### 3.13.12 numpy.char.replace()
+
+这个函数返回字符串副本，其中所有字符序列的出现位置都被另一个给定的字符序列取代。
+
+```
+import  numpy  as  np 
+print np.char.replace ('He is a good boy', 'is', 'was')
+```
+
+输出如下:
+
+```
+He was a good boy
+```
+
+
+
+#### 3.13.13 numpy.char.decode()
+
+这个函数在给定的字符串中使用特定编码调用`str.decode()`。
+
+```
+import  numpy  as  np 
+a = np.char.encode('hello','utf-8')
+print(a)
+print(np.char.decode(a,'utf-8'))
+```
+
+输出如下:
+
+```
+hello 
+hello 
+
+```
+
+#### 3.13.14 numpy.char.encode()
+
+此函数对数组中的每个元素调用`str.encode`函数。 默认编码是`utf_8`，可以使用标准 Python 库中的编解码器。
+
+```
+import numpy as np 
+a = np.char.encode('hello', 'cp500') 
+print a
+```
+
+输出如下:
+
+```
+�����
+```
+
+
+
+### 3.14 numpy数学算术函数
+
+很容易理解的是，NumPy 包含大量的各种数学运算功能。 NumPy 提供标准的三角函数，算术运算的函数，复数处理函数等。
+
+#### 3.14.1 三角函数
+
+NumPy 拥有标准的三角函数，它为弧度制单位的给定角度返回三角函数比值。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([0,30,45,60,90])  
+print  '不同角度的正弦值：'  
+# 通过乘 pi/180 转化为弧度  
+print np.sin(a*np.pi/180)  
+print  '\n'  
+print  '数组中角度的余弦值：'  
+print np.cos(a*np.pi/180)  
+print  '\n'  
+print  '数组中角度的正切值：'  
+print np.tan(a*np.pi/180)
+```
+
+输出如下：
+
+```
+不同角度的正弦值：                                                   
+[ 0.          0.5         0.70710678  0.8660254   1.        ]                 
+
+数组中角度的余弦值：                                         
+[  1.00000000e+00   8.66025404e-01   7.07106781e-01   5.00000000e-01          
+   6.12323400e-17]                                                            
+
+数组中角度的正切值：                                            
+[  0.00000000e+00   5.77350269e-01   1.00000000e+00   1.73205081e+00          
+   1.63312394e+16]
+```
+
+
+
+`arcsin`，`arccos`，和`arctan`函数返回给定角度的`sin`，`cos`和`tan`的反三角函数。 这些函数的结果可以通过`numpy.degrees()`函数通过将弧度制转换为角度制来验证。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([0,30,45,60,90])  
+print  '含有正弦值的数组：'
+sin = np.sin(a*np.pi/180)  
+print sin
+print  '\n'  
+print  '计算角度的反正弦，返回值以弧度为单位：'
+inv = np.arcsin(sin)  
+print inv
+print  '\n'  
+print  '通过转化为角度制来检查结果：'  
+print np.degrees(inv)  
+print  '\n'  
+print  'arccos 和 arctan 函数行为类似：'
+cos = np.cos(a*np.pi/180)  
+print cos
+print  '\n'  
+print  '反余弦：'
+inv = np.arccos(cos)  
+print inv
+print  '\n'  
+print  '角度制单位：'  
+print np.degrees(inv)  
+print  '\n'  
+print  'tan 函数：'
+tan = np.tan(a*np.pi/180)  
+print tan
+print  '\n'  
+print  '反正切：'
+inv = np.arctan(tan)  
+print inv
+print  '\n'  
+print  '角度制单位：'  
+print np.degrees(inv)
+```
+
+输出如下：
+
+```
+含有正弦值的数组：
+[ 0.          0.5         0.70710678  0.8660254   1.        ]
+
+计算角度的反正弦，返回值以弧度制为单位：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+通过转化为角度制来检查结果：
+[  0.  30.  45.  60.  90.]
+
+arccos 和 arctan 函数行为类似：
+[  1.00000000e+00   8.66025404e-01   7.07106781e-01   5.00000000e-01          
+   6.12323400e-17]
+
+反余弦：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+角度制单位：
+[  0.  30.  45.  60.  90.]
+
+tan 函数：
+[  0.00000000e+00   5.77350269e-01   1.00000000e+00   1.73205081e+00          
+   1.63312394e+16]
+
+反正切：
+[ 0.          0.52359878  0.78539816  1.04719755  1.57079633]
+
+角度制单位：
+[  0.  30.  45.  60.  90.]
+```
+
+
+
+#### 3.14.2 舍入函数
+
+##### 3.14.2.1 numpy.around()
+
+这个函数返回四舍五入到所需精度的值。 该函数接受以下参数。
+
+```
+numpy.around(a,decimals)
+```
+
+其中:
+
+| 序号 | 参数及描述                                                   |
+| ---- | ------------------------------------------------------------ |
+| 1.   | `a` 输入数组                                                 |
+| 2.   | `decimals` 要舍入的小数位数。 默认值为0。 如果为负，整数将四舍五入到小数点左侧的位置 |
+
+**示例**
+
+```
+import  numpy as  np
+a = np.array([1.0,5.55,  123,  0.567,  25.532])
+print('原数组:')
+print(a)
+print('\n')
+#默认直接舍五入，不保留小数位
+print(np.around(a))
+
+#保留1位小数
+print(np.around(a,decimals=1))
+
+#取整  1 不是整  要变成0
+print(np.around(a,decimals= -1 ))
+```
+
+输出如下:
+
+```
+原数组：                                                          
+[   1.       5.55   123.       0.567   25.532]
+
+舍入后：                                                         
+[   1.    6.   123.    1.   26. ]                                               
+[   1.    5.6  123.    0.6  25.5]                                          
+[   0.    10.  120.    0.   30. ]
+```
+
+
+
+##### 3.14.2.2 numpy .floor()
+
+此函数返回不大于输入参数的最大整数。 即标量`x` 的下限是最大的整数`i` ，使得`i <= x`。 注意在Python中，向下取整总是从 0 舍入。
+
+**示例**
+
+```
+import  numpy as  np
+#向下取整
+a = np.array([-1.7,  1.5,  -0.2,  0.6,  10])
+print  '提供的数组：'
+print a
+print  '\n'  
+print  '修改后的数组：'
+print np.floor(a)
+```
+
+输出如下：
+
+```
+
+提供的数组：                                                            
+[ -1.7   1.5  -0.2   0.6  10. ]
+
+修改后的数组：                                                         
+[ -2.   1.  -1.   0.  10.]
+```
+
+
+
+
+
+##### 3.14.2.3 numpy.ceil()
+
+`ceil()`函数返回输入值的上限，即，标量`x`的上限是最小的整数`i` ，使得`i> = x`。
+
+**示例**
+
+```
+import numpy as np
+a = np.array([-1.7,  1.5,  -0.2,  0.6,  10])  
+print  '提供的数组：'  
+print a
+print  '\n'  
+print  '修改后的数组：'  
+print np.ceil(a)
+
+```
+
+输出如下：
+
+```
+提供的数组：
+[ -1.7   1.5  -0.2   0.6  10. ]
+
+修改后的数组：
+[ -1.   2.  -0.   1.  10.]
+```
+
+
+
+
+
+### 3.15 numpy算术运算
+
+用于执行算术运算(如`add()`，`subtract()`，`multiply()`和`divide()`)的输入数组必须具有相同的形状或符合数组广播规则。
+
+**示例**
+
+```
+import numpy as np 
+a = np.arange(9, dtype = np.float_).reshape(3,3)  
+print  '第一个数组：'  
+print a 
+print  '\n'  
+print  '第二个数组：' 
+b = np.array([10,10,10])  
+print b 
+print  '\n'  
+print  '两个数组相加：'  
+print np.add(a,b)  
+print  '\n'  
+print  '两个数组相减：'  
+print np.subtract(a,b)  
+print  '\n'  
+print  '两个数组相乘：'  
+print np.multiply(a,b)  
+print  '\n'  
+print  '两个数组相除：'  
+print np.divide(a,b)
+```
+
+输出如下：
+
+```
+第一个数组：
+[[ 0. 1. 2.]
+ [ 3. 4. 5.]
+ [ 6. 7. 8.]]
+
+第二个数组：
+[10 10 10]
+
+两个数组相加：
+[[ 10. 11. 12.]
+ [ 13. 14. 15.]
+ [ 16. 17. 18.]]
+
+两个数组相减：
+[[-10. -9. -8.]
+ [ -7. -6. -5.]
+ [ -4. -3. -2.]]
+
+两个数组相乘：
+[[ 0. 10. 20.]
+ [ 30. 40. 50.]
+ [ 60. 70. 80.]]
+
+两个数组相除：
+[[ 0. 0.1 0.2]
+ [ 0.3 0.4 0.5]
+ [ 0.6 0.7 0.8]]
+```
+
+让我们现在来讨论 NumPy 中提供的一些其他重要的算术函数。
+
+#### 3.15.1 numpy.reciprocal()
+
+此函数返回参数逐元素的倒数，。 由于 Python 处理整数除法的方式，对于绝对值大于 1 的整数元素，结果始终为 0， 对于整数 0，则发出溢出警告。
+
+**示例**
+
+```
+
+# 如果大于1  的 取完倒数都为0 
+# 如果小于1  的 正常取
+# 如果混合的 看第一个是否大于1  如果大于1  后面也跟着取  但是 会出现warning
+import numpy as np 
+a = np.array([0.25,  1.33,  1,  0,  100])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 reciprocal 函数：'  
+print np.reciprocal(a)  
+print  '\n' 
+b = np.array([100], dtype =  int)  
+print  '第二个数组：'  
+print b 
+print  '\n'  
+print  '调用 reciprocal 函数：'  
+print np.reciprocal(b)
+```
+
+输出如下：
+
+```
+我们的数组是：                                                               
+[   0.25    1.33    1.      0.    100.  ]                                     
+
+调用 reciprocal 函数：                                         
+main.py:9: RuntimeWarning: divide by zero encountered in reciprocal           
+  print np.reciprocal(a)                                                      
+[ 4.         0.7518797  1.               inf  0.01     ]                      
+
+第二个数组：                                                      
+[100]                                                                         
+
+调用 reciprocal 函数：                                        
+[0]
+```
+
+
+
+#### 3.15.2 numpy.power()
+
+此函数将第一个输入数组中的元素作为底数，计算它与第二个输入数组中相应元素的幂。
+
+```
+import numpy as np 
+a = np.array([10,100,1000])  
+print  '我们的数组是；'  
+print a 
+print  '\n'  
+print  '调用 power 函数：'  
+print np.power(a,2)  
+print  '\n'  
+print  '第二个数组：' 
+b = np.array([1,2,3])  
+print b 
+print  '\n'  
+print  '再次调用 power 函数：'  
+print np.power(a,b)
+
+```
+
+输出如下:
+
+```
+我们的数组是；                                                              
+[  10  100 1000]                                                              
+
+调用 power 函数：                                                    
+[    100   10000 1000000]                                                     
+
+第二个数组：                                                              
+[1 2 3]                                                                       
+
+再次调用 power 函数：                                              
+[        10      10000 1000000000]
+```
+
+
+
+#### 3.15.3 numpy.mod()
+
+此函数返回输入数组中相应元素的除法余数。 函数`numpy.remainder()`也产生相同的结果。
+
+```
+import numpy as np 
+a = np.array([10,20,30]) 
+b = np.array([3,5,7])  
+print  '第一个数组：'  
+print a 
+print  '\n'  
+print  '第二个数组：'  
+print b 
+print  '\n' 
+print  '调用 mod() 函数：'  
+print np.mod(a,b)  
+print  '\n'  
+print  '调用 remainder() 函数：'  
+print np.remainder(a,b)
+```
+
+输出如下:
+
+```
+第一个数组：
+[10 20 30]
+
+第二个数组：
+[3 5 7]
+
+调用 mod() 函数：                                                     
+[1 0 2]
+
+调用 remainder() 函数：                                              
+[1 0 2]
+```
+
+以下函数用于对含有复数的数组执行操作。
+
+ 
+
+- `numpy.real()` 返回复数类型参数的实部。
+- `numpy.imag()` 返回复数类型参数的虚部。
+- `numpy.conj()` 返回通过改变虚部的符号而获得的共轭复数。
+- `numpy.angle()` 返回复数参数的角度。 函数的参数是`degree`。 如果为`true`，返回的角度以角度制来表示，否则为以弧度制来表示
+
+
+
+```
+import numpy as np 
+a = np.array([-5.6j,  0.2j,  11.  ,  1+1j])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 real() 函数：'  
+print np.real(a)  
+print  '\n'  
+print  '调用 imag() 函数：'  
+print np.imag(a)  
+print  '\n'  
+print  '调用 conj() 函数：'  
+print np.conj(a)  
+print  '\n'  
+print  '调用 angle() 函数：'  
+print np.angle(a)  
+print  '\n'  
+print  '再次调用 angle() 函数(以角度制返回)：'  
+print np.angle(a, deg =  True)
+```
+
+
+
+输出如下:
+
+```
+我们的数组是：
+[ 0.-5.6j 0.+0.2j 11.+0.j 1.+1.j ]
+
+调用 real() 函数：
+[ 0. 0. 11. 1.]
+
+调用 imag() 函数：
+[-5.6 0.2 0. 1. ]
+
+调用 conj() 函数：
+[ 0.+5.6j 0.-0.2j 11.-0.j 1.-1.j ]
+
+调用 angle() 函数：
+[-1.57079633 1.57079633 0. 0.78539816]
+
+再次调用 angle() 函数(以角度制返回)：
+[-90. 90. 0. 45.]
+```
+

@@ -4760,6 +4760,17 @@ print np.extract(condition, x)
 输出如下：
 
 ```
+我们的数组是：
+[[ 0. 1. 2.]
+ [ 3. 4. 5.]
+ [ 6. 7. 8.]]
 
+按元素的条件值：
+[[ True False True]
+ [False True False]
+ [ True False True]]
+
+使用条件提取元素：
+[ 0. 2. 4. 6. 8.]
 ```
 

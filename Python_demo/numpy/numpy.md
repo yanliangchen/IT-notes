@@ -4050,3 +4050,716 @@ print np.angle(a, deg =  True)
 [-90. 90. 0. 45.]
 ```
 
+
+
+### 3.16 numpy统计函数
+
+NumPy 有很多有用的统计函数，用于从数组中给定的元素中查找最小，最大，百分标准差和方差等。 函数说明如下：
+
+#### 3.16.1 numpy.main() 和 numpy.amax()
+
+这些函数从给定数组中的元素沿指定轴返回最小值和最大值。
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[3,7,5],[8,4,3],[2,4,9]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 amin() 函数：'  
+print np.amin(a,1)  
+print  '\n'  
+print  '再次调用 amin() 函数：'  
+print np.amin(a,0)  
+print  '\n'  
+print  '调用 amax() 函数：'  
+print np.amax(a)  
+print  '\n'  
+print  '再次调用 amax() 函数：'  
+print np.amax(a, axis =  0)
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[3 7 5]
+[8 4 3]
+[2 4 9]]
+
+调用 amin() 函数：
+[3 3 2]
+
+再次调用 amin() 函数：
+[2 4 3]
+
+调用 amax() 函数：
+9
+
+再次调用 amax() 函数：
+[8 7 9]
+```
+
+
+
+#### 3.16.2 numpy.ptp()
+
+`numpy.ptp()`函数返回沿轴的值的范围(最大值 - 最小值)。
+
+```
+import numpy as np 
+a = np.array([[3,7,5],[8,4,3],[2,4,9]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 ptp() 函数：'  
+print np.ptp(a)  
+print  '\n'  
+print  '沿轴 1 调用 ptp() 函数：'  
+print np.ptp(a, axis =  1)  
+print  '\n'  
+print  '沿轴 0 调用 ptp() 函数：'  
+print np.ptp(a, axis =  0)
+
+```
+
+输出如下 ：
+
+```
+我们的数组是：
+[[3 7 5]
+[8 4 3]
+[2 4 9]]
+
+调用 ptp() 函数：
+7
+
+沿轴 1 调用 ptp() 函数：
+[4 5 7]
+
+沿轴 0 调用 ptp() 函数：
+[6 3 6]
+```
+
+
+
+#### 3.16.3 numpy.percentile()   没看明白
+
+百分位数是统计中使用的度量，表示小于这个值得观察值占某个百分比。 函数`numpy.percentile()`接受以下参数。
+
+```
+numpy.percentile(a, q, axis)
+```
+
+其中：
+
+| 序号 | 参数及描述                            |
+| ---- | ------------------------------------- |
+| 1.   | `a` 输入数组                          |
+| 2.   | `q` 要计算的百分位数，在 0 ~ 100 之间 |
+| 3.   | `axis` 沿着它计算百分位数的轴         |
+
+
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[30,40,70],[80,20,10],[50,90,60]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 percentile() 函数：'  
+print np.percentile(a,50)  
+print  '\n'  
+
+# 1 是列  0是行 
+print  '沿轴 1 调用 percentile() 函数：'  
+print np.percentile(a,50, axis =  1)  
+print  '\n'  
+print  '沿轴 0 调用 percentile() 函数：'  
+print np.percentile(a,50, axis =  0)
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[30 40 70]
+ [80 20 10]
+ [50 90 60]]
+
+调用 percentile() 函数：
+50.0
+
+沿轴 1 调用 percentile() 函数：
+[ 40. 20. 60.]
+
+沿轴 0 调用 percentile() 函数：
+[ 50. 40. 60.]
+```
+
+
+
+
+
+#### 3.16.4 numpy.median()
+
+**中值**定义为将数据样本的上半部分与下半部分分开的值。 `numpy.median()`函数的用法如下面的程序所示。
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[30,65,70],[80,95,10],[50,90,60]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 median() 函数：'  
+print np.median(a)  
+print  '\n'  
+print  '沿轴 0 调用 median() 函数：'  
+print np.median(a, axis =  0)  
+print  '\n'  
+print  '沿轴 1 调用 median() 函数：'  
+print np.median(a, axis =  1)
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[30 65 70]
+ [80 95 10]
+ [50 90 60]]
+
+调用 median() 函数：
+65.0
+
+沿轴 0 调用 median() 函数：
+[ 50. 90. 60.]
+
+沿轴 1 调用 median() 函数：
+[ 65. 80. 60.]
+```
+
+
+
+#### 3.16.45 这里补充轴的概念
+
+```
+axis0是把三维数组中(第一个二维数组和第二个二维数组)对应求和。
+axis1是把二维数组中(第一个一维数组和第二个一维数组)对应求和，
+axis2是一维数组中(第一个数字和第二个数字)对应求和
+
+
+numpy中的一些统计函数往往需要指定轴axis 
+如: 
+np.sum(a,axis = 1) 
+那么这个axis=1实际上是说，只对第一轴进行相加操作。比如说：
+
+
+
+a = np.array([[1,2,3],[1,2,3]])
+print(np.sum(a,axis = 1))
+>>>[6 6]
+print(np.sum(a,axis = 0))
+>>>[2 4 6]
+print(np.sum(a))
+>>>121234567
+
+可以看到，当axis=0时，即相加只对第一维度，第一维度的数为[1,2,3]和[1,2,3],所以这两个矩阵相加为[2,4,6]。 
+当axis=1时，即相加只对第二维度，第二维度的数相加，第一维不变，即为[1+2+3,1+2+3]=[6,6]。 
+当不加axis参数时，把所有元素相加，即为12。
+--------------------- 
+作者：bobobe 
+来源：CSDN 
+原文：https://blog.csdn.net/bobobe/article/details/78736049 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+```
+
+
+
+#### 3.16.5 numpy.mean()
+
+算术平均值是沿轴的元素的总和除以元素的数量。 `numpy.mean()`函数返回数组中元素的算术平均值。 如果提供了轴，则沿其计算。
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[1,2,3],[3,4,5],[4,5,6]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 mean() 函数：'  
+print np.mean(a)  
+print  '\n'  
+print  '沿轴 0 调用 mean() 函数：'  
+print np.mean(a, axis =  0)  
+print  '\n'  
+print  '沿轴 1 调用 mean() 函数：'  
+print np.mean(a, axis =  1)
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[1 2 3]
+ [3 4 5]
+ [4 5 6]]
+
+调用 mean() 函数：
+3.66666666667
+
+沿轴 0 调用 mean() 函数：
+[ 2.66666667 3.66666667 4.66666667]
+
+沿轴 1 调用 mean() 函数：
+[ 2. 4. 5.]
+```
+
+
+
+#### 3.16.6 numpy.average()
+
+加权平均值是由每个分量乘以反映其重要性的因子得到的平均值。 `numpy.average()`函数根据在另一个数组中给出的各自的权重计算数组中元素的加权平均值。 该函数可以接受一个轴参数。 如果没有指定轴，则数组会被展开。
+
+考虑数组`[1,2,3,4]`和相应的权重`[4,3,2,1]`，通过将相应元素的乘积相加，并将和除以权重的和，来计算加权平均值。
+
+```
+加权平均值 = (1*4+2*3+3*2+4*1)/(4+3+2+1)
+```
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([1,2,3,4])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 average() 函数：'  
+print np.average(a)  
+print  '\n'  
+# 不指定权重时相当于 mean 函数
+wts = np.array([4,3,2,1])  
+print  '再次调用 average() 函数：'  
+print np.average(a,weights = wts)  
+print  '\n'  
+# 如果 returned 参数设为 true，则返回权重的和  
+print  '权重的和：'  
+print np.average([1,2,3,  4],weights =  [4,3,2,1], returned =  True)
+
+```
+
+输出如下：
+
+```
+我们的数组是：
+[1 2 3 4]
+
+调用 average() 函数：
+2.5
+
+再次调用 average() 函数：
+2.0
+
+权重的和：
+(2.0, 10.0)
+```
+
+在多维数组中，可以指定用于计算的轴。
+
+**示例**
+
+```
+import numpy as np 
+a = np.arange(6).reshape(3,2)  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '修改后的数组：' 
+wt = np.array([3,5])  
+print np.average(a, axis =  1, weights = wt)  
+print  '\n'  
+print  '修改后的数组：'  
+print np.average(a, axis =  1, weights = wt, returned =  True)
+```
+
+**输出如下:**
+
+```
+我们的数组是：
+[[0 1]
+ [2 3]
+ [4 5]]
+
+修改后的数组：
+[ 0.625 2.625 4.625]
+
+修改后的数组：
+(array([ 0.625, 2.625, 4.625]), array([ 8., 8., 8.]))
+```
+
+
+
+#### 3.16.7 标准差
+
+```
+std = sqrt(mean((x - x.mean())**2))
+```
+
+如果数组是`[1，2，3，4]`，则其平均值为`2.5`。 因此，差的平方是`[2.25,0.25,0.25,2.25]`，并且其平均值的平方根除以4，即`sqrt(5/4)`是`1.1180339887498949`。
+
+**示例**
+
+```
+import numpy as np 
+print np.std([1,2,3,4])
+```
+
+输出如下：
+
+```
+1.1180339887498949
+```
+
+
+
+#### 3.16.8 方差
+
+方差是偏差的平方的平均值，即`mean((x - x.mean())** 2)`。 换句话说，标准差是方差的平方根。
+
+**示例**
+
+```
+import numpy as np 
+print np.var([1,2,3,4])
+```
+
+输出如下：
+
+```
+1.25
+```
+
+
+
+### 3.17 numpy排序、搜索和计数函数
+
+NumPy中提供了各种排序相关功能。 这些排序函数实现不同的排序算法，每个排序算法的特征在于执行速度，最坏情况性能，所需的工作空间和算法的稳定性。 下表显示了三种排序算法的比较。
+
+| 种类                    | 速度 | 最坏情况      | 工作空间 | 稳定性 |
+| ----------------------- | ---- | ------------- | -------- | ------ |
+| `'quicksort'`(快速排序) | 1    | `O(n^2)`      | 0        | 否     |
+| `'mergesort'`(归并排序) | 2    | `O(n*log(n))` | ~n/2     | 是     |
+| `'heapsort'`(堆排序)    | 3    | `O(n*log(n))` | 0        | 否     |
+
+#### 3.17.1 numpy.sort()
+
+`sort()`函数返回输入数组的排序副本。 它有以下参数：
+
+```
+numpy.sort(a, axis, kind, order)
+```
+
+其中：
+
+| 序号 | 参数及描述                                                   |
+| ---- | ------------------------------------------------------------ |
+| 1.   | `a` 要排序的数组                                             |
+| 2.   | `axis` 沿着它排序数组的轴，如果没有数组会被展开，沿着最后的轴排序 |
+| 3.   | `kind` 默认为`'quicksort'`(快速排序)                         |
+| 4.   | `order` 如果数组包含字段，则是要排序的字段                   |
+
+
+
+**示例**
+
+```
+axis0是把三维数组中(第一个二维数组和第二个二维数组)对应求和。
+axis1是把二维数组中(第一个一维数组和第二个一维数组)对应求和，
+axis2是一维数组中(第一个数字和第二个数字)对应求和
+
+import numpy as np  
+a = np.array([[3,7],[9,1]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 sort() 函数：'  
+print np.sort(a)  
+print  '\n'  
+print  '沿轴 0 排序：'  
+print np.sort(a, axis =  0)  
+print  '\n'  
+# 在 sort 函数中排序字段 
+dt = np.dtype([('name',  'S10'),('age',  int)]) 
+a = np.array([("raju",21),("anil",25),("ravi",  17),  ("amar",27)], dtype = dt)  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '按 name 排序：'  
+print np.sort(a, order =  'name')
+
+```
+
+
+
+输出如下：
+
+```
+我们的数组是：
+[[3 7]
+ [9 1]]
+
+调用 sort() 函数：
+[[3 7]
+ [1 9]]
+
+沿轴 0 排序：
+[[3 1]
+ [9 7]]
+
+我们的数组是：
+[('raju', 21) ('anil', 25) ('ravi', 17) ('amar', 27)]
+
+按 name 排序：
+[('amar', 27) ('anil', 25) ('raju', 21) ('ravi', 17)]
+```
+
+
+
+
+
+#### 3.17.2 numpy.argsort()
+
+`numpy.argsort()`函数对输入数组沿给定轴执行间接排序，并使用指定排序类型返回数据的索引数组。 这个索引数组用于构造排序后的数组。
+
+**示例**
+
+```
+import numpy as np 
+x = np.array([3,  1,  2])  
+print  '我们的数组是：'  
+print x 
+print  '\n'  
+print  '对 x 调用 argsort() 函数：' 
+y = np.argsort(x)  
+print y 
+print  '\n'  
+print  '以排序后的顺序重构原数组：'  
+print x[y]  
+print  '\n'  
+print  '使用循环重构原数组：'  
+for i in y:  
+    print x[i],
+
+```
+
+输出如下:
+
+```
+我们的数组是：
+[3 1 2]
+
+对 x 调用 argsort() 函数：
+[1 2 0]
+
+以排序后的顺序重构原数组：
+[1 2 3]
+
+使用循环重构原数组：
+1 2 3
+```
+
+
+
+#### 3.17.3 numpt.lexsort()
+
+函数使用键序列执行间接排序。 键可以看作是电子表格中的一列。 该函数返回一个索引数组，使用它可以获得排序数据。 注意，最后一个键恰好是 sort 的主键。
+
+**示例**
+
+```
+import  numpy  as  np
+nm =  ('raju','anil','ravi','amar') 
+dv =  ('f.y.',  's.y.',  's.y.',  'f.y.') 
+ind = np.lexsort((dv,nm))  
+print  '调用 lexsort() 函数：'  
+print ind 
+print  '\n'  
+print  '使用这个索引来获取排序后的数据：'  
+print  [nm[i]  +  ", "  + dv[i]  for i in ind]
+
+```
+
+输出如下：
+
+```
+调用 lexsort() 函数：
+[3 1 0 2]
+
+使用这个索引来获取排序后的数据：
+['amar, f.y.', 'anil, s.y.', 'raju, f.y.', 'ravi, s.y.']
+```
+
+NumPy 模块有一些用于在数组内搜索的函数。 提供了用于找到最大值，最小值以及满足给定条件的元素的函数。
+
+#### 3.17.4 numpy.argmax()和 numpy.argmin()
+
+这两个函数分别沿给定轴返回最大和最小元素的索引。
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[30,40,70],[80,20,10],[50,90,60]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 argmax() 函数：'  
+print np.argmax(a)  
+print  '\n'  
+print  '展开数组：'  
+print a.flatten()  
+print  '\n'  
+print  '沿轴 0 的最大值索引：' 
+maxindex = np.argmax(a, axis =  0)  
+print maxindex 
+print  '\n'  
+print  '沿轴 1 的最大值索引：' 
+maxindex = np.argmax(a, axis =  1)  
+print maxindex 
+print  '\n'  
+print  '调用 argmin() 函数：' 
+minindex = np.argmin(a)  
+print minindex 
+print  '\n'  
+print  '展开数组中的最小值：'  
+print a.flatten()[minindex]  
+print  '\n'  
+print  '沿轴 0 的最小值索引：' 
+minindex = np.argmin(a, axis =  0)  
+print minindex 
+print  '\n'  
+print  '沿轴 1 的最小值索引：' 
+minindex = np.argmin(a, axis =  1)  
+print minindex
+
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[30 40 70]
+ [80 20 10]
+ [50 90 60]]
+
+调用 argmax() 函数：
+7
+
+展开数组：
+[30 40 70 80 20 10 50 90 60]
+
+沿轴 0 的最大值索引：
+[1 2 0]
+
+沿轴 1 的最大值索引：
+[2 0 1]
+
+调用 argmin() 函数：
+5
+
+展开数组中的最小值：
+10
+
+沿轴 0 的最小值索引：
+[0 1 1]
+
+沿轴 1 的最小值索引：
+[0 2 0]
+```
+
+#### 3.17.5 numpy.nonzero()
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[30,40,0],[0,20,10],[50,0,60]])  
+print  '我们的数组是：'  
+print a 
+print  '\n'  
+print  '调用 nonzero() 函数：'  
+print np.nonzero (a)
+
+```
+
+
+
+#### 3.17.6 numpy.where()
+
+`where()`函数返回输入数组中满足给定条件的元素的索引。
+
+**示例**
+
+```
+import numpy as np 
+x = np.arange(9.).reshape(3,  3)  
+print  '我们的数组是：'  
+print x 
+print  '大于 3 的元素的索引：' 
+y = np.where(x >  3)  
+print y 
+print  '使用这些索引来获取满足条件的元素：'  
+print x[y]
+
+```
+
+输出如下：
+
+```
+我们的数组是：
+[[ 0. 1. 2.]
+ [ 3. 4. 5.]
+ [ 6. 7. 8.]]
+
+大于 3 的元素的索引：
+(array([1, 1, 2, 2, 2]), array([1, 2, 0, 1, 2]))
+
+使用这些索引来获取满足条件的元素：
+[ 4. 5. 6. 7. 8.]
+```
+
+
+
+
+
+#### 3.17.7 numpy.extract()
+
+`extract()`函数返回满足任何条件的元素。
+
+```
+import numpy as np 
+x = np.arange(9.).reshape(3,  3)  
+print  '我们的数组是：'  
+print x 
+# 定义条件 
+condition = np.mod(x,2)  ==  0  
+print  '按元素的条件值：'  
+print condition 
+print  '使用条件提取元素：'  
+print np.extract(condition, x)
+```
+
+输出如下：
+
+```
+
+```
+

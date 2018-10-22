@@ -4774,3 +4774,1152 @@ print np.extract(condition, x)
 [ 0. 2. 4. 6. 8.]
 ```
 
+
+
+### 3.18 numpy字节交换
+
+我们已经知道，存储在计算机内存中的数据取决于 CPU 使用的架构。 它可以是小端(最小有效位存储在最小地址中)或大端(最小有效字节存储在最大地址中)。
+
+#### 3.18.1 numpy.ndarray.byteswap()
+
+`numpy.ndarray.byteswap()`函数在两个表示：大端和小端之间切换。
+
+```
+import numpy as np 
+a = np.array([1,  256,  8755], dtype = np.int16)  
+print  '我们的数组是：'  
+print a 
+print  '以十六进制表示内存中的数据：'  
+print map(hex,a)  
+# byteswap() 函数通过传入 true 来原地交换 
+print  '调用 byteswap() 函数：'  
+print a.byteswap(True)  
+print  '十六进制形式：'  
+print map(hex,a)  
+# 我们可以看到字节已经交换了
+
+```
+
+输出如下:
+
+```
+我们的数组是：
+[1 256 8755]
+
+以十六进制表示内存中的数据：
+['0x1', '0x100', '0x2233']
+
+调用 byteswap() 函数：
+[256 1 13090]
+
+十六进制形式：
+['0x100', '0x1', '0x3322']
+
+```
+
+### 3.19 numpy副本和视图
+
+在执行函数时，其中一些返回输入数组的副本，而另一些返回视图。 当内容物理存储在另一个位置时，称为**副本**。 另一方面，如果提供了相同内存内容的不同视图，我们将其称为**视图**。
+
+
+
+此外，一个数组的任何变化都反映在另一个数组上。 例如，一个数组的形状改变也会改变另一个数组的形状。
+
+**示例**
+
+```
+import numpy as np 
+a = np.arange(6)  
+print  '我们的数组是：'  
+print a 
+print  '调用 id() 函数：'  
+print id(a)  
+print  'a 赋值给 b：' 
+b = a 
+print b 
+print  'b 拥有相同 id()：'  
+print id(b)  
+print  '修改 b 的形状：' 
+b.shape =  3,2  
+print b 
+print  'a 的形状也修改了：'  
+print a
+
+```
+
+输出如下  ：
+
+```
+我们的数组是：
+[0 1 2 3 4 5]
+
+调用 id() 函数：
+139747815479536
+
+a 赋值给 b：
+[0 1 2 3 4 5]
+b 拥有相同 id()：
+139747815479536
+
+修改 b 的形状：
+[[0 1]
+ [2 3]
+ [4 5]]
+
+a 的形状也修改了：
+[[0 1]
+ [2 3]
+ [4 5]]
+```
+
+
+
+
+
+#### 3.19.1 视图或浅复制
+
+NumPy 拥有`ndarray.view()`方法，它是一个新的数组对象，并可查看原始数组的相同数据。 与前一种情况不同，新数组的维数更改不会更改原始数据的维数。
+
+**示例**
+
+```
+import numpy as np 
+# 最开始 a 是个 3X2 的数组
+a = np.arange(6).reshape(3,2)  
+print  '数组 a：'  
+print a 
+print  '创建 a 的视图：' 
+b = a.view()  
+print b 
+print  '两个数组的 id() 不同：'  
+print  'a 的 id()：'  
+print id(a)  
+print  'b 的 id()：'  
+print id(b)  
+# 修改 b 的形状，并不会修改 a
+b.shape =  2,3  
+print  'b 的形状：'  
+print b 
+print  'a 的形状：'  
+print a
+
+```
+
+输出如下：
+
+```
+数组 a：
+[[0 1]
+ [2 3]
+ [4 5]]
+
+创建 a 的视图：
+[[0 1]
+ [2 3]
+ [4 5]]
+
+两个数组的 id() 不同：
+a 的 id()：
+140424307227264
+b 的 id()：
+140424151696288
+
+b 的形状：
+[[0 1 2]
+ [3 4 5]]
+
+a 的形状：
+[[0 1]
+ [2 3]
+ [4 5]]
+
+```
+
+数组的切片也会创建视图:
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[10,10],  [2,3],  [4,5]])  
+print  '我们的数组：'  
+print a 
+print  '创建切片：' 
+s = a[:,  :2]  
+print s
+```
+
+输出如下:
+
+```
+我们的数组：
+[[10 10]
+ [ 2 3]
+ [ 4 5]]
+
+创建切片：
+[[10 10]
+ [ 2 3]
+ [ 4 5]]
+
+```
+
+#### 3.19.2 深复制
+
+`ndarray.copy()`函数创建一个深层副本。 它是数组及其数据的完整副本，不与原始数组共享。
+
+**示例**
+
+```
+import numpy as np 
+a = np.array([[10,10],  [2,3],  [4,5]])  
+print  '数组 a：'  
+print a 
+print  '创建 a 的深层副本：' 
+b = a.copy()  
+print  '数组 b：'  
+print b 
+# b 与 a 不共享任何内容  
+print  '我们能够写入 b 来写入 a 吗？'  
+print b is a 
+print  '修改 b 的内容：' 
+b[0,0]  =  100  
+print  '修改后的数组 b：'  
+print b 
+print  'a 保持不变：'  
+print a
+
+```
+
+输出如下:
+
+```
+数组 a：
+[[10 10]
+ [ 2 3]
+ [ 4 5]]
+
+创建 a 的深层副本：
+数组 b：
+[[10 10]
+ [ 2 3]
+ [ 4 5]]
+我们能够写入 b 来写入 a 吗？
+False
+
+修改 b 的内容：
+修改后的数组 b：
+[[100 10]
+ [ 2 3]
+ [ 4 5]]
+
+a 保持不变：
+[[10 10]
+ [ 2 3]
+ [ 4 5]]
+
+```
+
+
+
+### 3.20 numpy矩阵库
+
+NumPy 包包含一个 Matrix库`numpy.matlib`。此模块的函数返回矩阵而不是返回`ndarray`对象。
+
+#### 3.2.1 matlib.empty()
+
+`matlib.empty()`函数返回一个新的矩阵，而不初始化元素。 该函数接受以下参数。
+
+```
+numpy.matlib.empty(shape, dtype, order)
+```
+
+其中:
+
+| 序号 | 参数及描述                             |
+| ---- | -------------------------------------- |
+| 1.   | `shape` 定义新矩阵形状的整数或整数元组 |
+| 2.   | `Dtype` 可选，输出的数据类型           |
+| 3.   | `order` `C` 或者 `F`                   |
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np 
+print np.matlib.empty((2,2))  
+# 填充为随机数据
+```
+
+输出如下：
+
+```
+[[ 2.12199579e-314,   4.24399158e-314] 
+ [ 4.24399158e-314,   2.12199579e-314]]
+```
+
+
+
+#### 3.2.2 numpy.matlib.zeros()
+
+此函数返回以零填充的矩阵。
+
+```
+import numpy.matlib 
+import numpy as np 
+print np.matlib.zeros((2,2))
+```
+
+输出如下:
+
+```
+[[ 0.  0.] 
+ [ 0.  0.]])
+```
+
+
+
+#### 3.2.3 numpy.matlib.ones()
+
+此函数返回以一填充的矩阵。
+
+```
+import  numpy.matlib
+import  numpy as  np
+print(np.matlib.ones((2,2)))
+```
+
+输出如下:
+
+```
+[[1. 1.]
+ [1. 1.]]
+```
+
+
+
+#### 3.2.4 numpy.matlib.eye()
+
+这个函数返回一个矩阵，对角线元素为 1，其他位置为零。 该函数接受以下参数。
+
+```
+numpy.matlib.eye(n, M,k, dtype)
+```
+
+其中：
+
+| 序号 | 参数及描述                    |
+| ---- | ----------------------------- |
+| 1.   | `n` 返回矩阵的行数            |
+| 2.   | `M` 返回矩阵的列数，默认为`n` |
+| 3.   | `k` 对角线的索引              |
+| 4.   | `dtype` 输出的数据类型        |
+
+
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np 
+print np.matlib.eye(n =  3, M =  4, k =  0, dtype =  float)
+
+```
+
+输出如下:
+
+```
+[[ 1.  0.  0.  0.] 
+ [ 0.  1.  0.  0.] 
+ [ 0.  0.  1.  0.]])
+
+```
+
+#### 3.2.5 numpy.matlib.identity()
+
+`numpy.matlib.identity()`函数返回给定大小的单位矩阵。单位矩阵是主对角线元素都为 1 的方阵。
+
+```
+import  numpy.matlib
+import  numpy  as  np 
+print(np.matlib.identity(5,dtype = float))
+```
+
+输出如下:
+
+```
+[[ 1.  0.  0.  0.  0.] 
+ [ 0.  1.  0.  0.  0.] 
+ [ 0.  0.  1.  0.  0.] 
+ [ 0.  0.  0.  1.  0.] 
+ [ 0.  0.  0.  0.  1.]]
+
+```
+
+
+
+#### 3.2.6 numpy.matlib.rand()
+
+numpy.matlib.rand()函数返回给定大小的填充随机值的矩阵。
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np 
+print np.matlib.rand(3,3)
+
+```
+
+输出如下:
+
+```
+[[ 0.82674464  0.57206837  0.15497519] 
+ [ 0.33857374  0.35742401  0.90895076] 
+ [ 0.03968467  0.13962089  0.39665201]]
+
+```
+
+注意，矩阵总是二维的，而`ndarray`是一个 n 维数组。 两个对象都是可互换的。
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np  
+
+i = np.matrix('1,2;3,4')  
+print i
+```
+
+输出如下:
+
+```
+[[1  2] 
+ [3  4]]
+```
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np  
+
+j = np.asarray(i)  
+print j
+
+```
+
+输出如下：
+
+```
+[[1  2] 
+ [3  4]]
+```
+
+**示例**
+
+```
+import numpy.matlib 
+import numpy as np  
+
+k = np.asmatrix (j)  
+print k
+
+```
+
+输出如下：
+
+```
+[[1  2] 
+ [3  4]]
+```
+
+
+
+
+
+### 3.21 numpy线性代数
+
+NumPy 包包含`numpy.linalg`模块，提供线性代数所需的所有功能。 此模块中的一些重要功能如下表所述。
+
+| 序号 | 函数及描述                 |
+| ---- | -------------------------- |
+| 1.   | `dot` 两个数组的点积       |
+| 2.   | `vdot` 两个向量的点积      |
+| 3.   | `inner` 两个数组的内积     |
+| 4.   | `matmul` 两个数组的矩阵积  |
+| 5.   | `determinant` 数组的行列式 |
+| 6.   | `solve` 求解线性矩阵方程   |
+| 7.   | `inv` 寻找矩阵的乘法逆矩阵 |
+
+#### 3.21.1 numpy.dot()
+
+此函数返回两个数组的点积。 对于二维向量，其等效于矩阵乘法。 对于一维数组，它是向量的内积。 对于 N 维数组，它是`a`的最后一个轴上的和与`b`的倒数第二个轴的乘积。
+
+```
+import numpy.matlib 
+import numpy as np 
+
+a = np.array([[1,2],[3,4]]) 
+b = np.array([[11,12],[13,14]]) 
+np.dot(a,b)
+```
+
+输出如下:
+
+```
+[[37  40] 
+ [85  92]]
+
+```
+
+要注意点积计算为：
+
+```
+[[1*11+2*13, 1*12+2*14],[3*11+4*13, 3*12+4*14]]
+```
+
+
+
+#### 3.21.2 numpy.vdot()
+
+此函数返回两个向量的点积。 如果第一个参数是复数，那么它的共轭复数会用于计算。 如果参数`id`是多维数组，它会被展开。
+
+例子:
+
+```
+import numpy  as  np 
+a = np.array([[1,2],[3,4]])
+b = np.array([[11,12],[13,14]])
+print(np.vdot(a,b))
+```
+
+输出如下:
+
+```
+130
+```
+
+注意: `1*11 + 2*12 + 3*13 + 4*14 = 130`。
+
+#### 3.21.3 numpy.inner()
+
+此函数返回一维数组的向量内积。 对于更高的维度，它返回最后一个轴上的和的乘积。
+
+例子:
+
+```
+import numpy as np 
+print np.inner(np.array([1,2,3]),np.array([0,1,0])) 
+# 等价于 1*0+2*1+3*0
+
+```
+
+输出如下:
+
+```
+2
+```
+
+例子:
+
+```
+# 多维数组示例 
+import numpy as np 
+a = np.array([[1,2], [3,4]]) 
+
+print '数组 a：' 
+print a 
+b = np.array([[11, 12], [13, 14]]) 
+
+print '数组 b：' 
+print b 
+
+print '内积：' 
+print np.inner(a,b)
+```
+
+输出如下:
+
+```
+数组 a：
+[[1 2]
+[3 4]]
+
+数组 b：
+[[11 12]
+[13 14]]
+
+内积：
+[[35 41]
+[81 95]]
+
+```
+
+上面的例子中，内积计算如下:
+
+```
+1*11+2*12, 1*13+2*14 
+3*11+4*12, 3*13+4*14
+```
+
+
+
+#### 3.21.4 numpy.matnul
+
+`numpy.matmul()`函数返回两个数组的矩阵乘积。 虽然它返回二维数组的正常乘积，但如果任一参数的维数大于2，则将其视为存在于最后两个索引的矩阵的栈，并进行相应广播。
+
+另一方面，如果任一参数是一维数组，则通过在其维度上附加 1 来将其提升为矩阵，并在乘法之后被去除。
+
+**例子:**
+
+```
+# 对于二维数组，它就是矩阵乘法
+import numpy.matlib 
+import numpy as np 
+
+a = [[1,0],[0,1]] 
+b = [[4,1],[2,2]] 
+print np.matmul(a,b)
+```
+
+输出如下:
+
+```
+[[4  1] 
+ [2  2]]
+```
+
+公式如下:
+
+```
+# a = np.array([[1, 2], [5, 6]]) #1*3+2*7 1*4+2*8
+# b = np.array([[3, 4], [7, 8]]) #5*3+6*7  5*4+6*8
+# a = np.array([[-1, 2], [-5, 6]]) #1*3+2*7 1*4+2*8
+# b = np.array([[3, 4], [7, 8]]) #5*3+6*7  5*4+6*8
+a = [[1,0],[0,1]]#1*4+0*2 1*1+0*2
+b = [[4,1],[2,2]]#0*4+1*2 0*1+1*2
+print(np.matmul(a,b))
+
+第一个矩阵的第m行与第二个矩阵的第n列一一相乘求和，就是结果里第m行第n列的值
+```
+
+
+
+
+
+**例子:**
+
+```
+# 二维和一维运算
+import numpy.matlib 
+import numpy as np 
+
+a = [[1,0],[0,1]] 
+b = [1,2] 
+print np.matmul(a,b) 
+print np.matmul(b,a)
+
+```
+
+输出如下：
+
+```
+[1  2] 
+[1  2]
+```
+
+
+
+
+
+**例子**
+
+```
+# 维度大于二的数组 
+import numpy.matlib 
+import numpy as np 
+
+a = np.arange(8).reshape(2,2,2) 
+b = np.arange(4).reshape(2,2) 
+print np.matmul(a,b)
+
+```
+
+输出如下：
+
+```
+[[[2   3] 
+   [6   11]] 
+  [[10  19] 
+   [14  27]]]
+
+```
+
+
+
+
+
+#### 3.21.5 numpy.linalg.det()
+
+行列式在线性代数中是非常有用的值。 它从方阵的对角元素计算。 对于 2×2 矩阵，它是左上和右下元素的乘积与其他两个的乘积的差。
+
+换句话说，对于矩阵`[[a，b]，[c，d]]`，行列式计算为`ad-bc`。 较大的方阵被认为是 2×2 矩阵的组合。
+
+`numpy.linalg.det()`函数计算输入矩阵的行列式。
+
+例子:
+
+```
+import numpy as np
+a = np.array([[1,2], [3,4]]) 
+print np.linalg.det(a)
+
+```
+
+输出如下:
+
+```
+-2.0
+```
+
+
+
+例子：
+
+```
+
+```
+
+输出如下:
+
+```
+[[ 6 1 1]
+ [ 4 -2 5]
+ [ 2 8 7]]
+
+-306.0
+
+-306
+
+```
+
+
+
+#### 3.21.6 numpy.linalg.solve()
+
+`numpy.linalg.solve()`函数给出了矩阵形式的线性方程的解。
+
+考虑以下线性方程:
+
+```
+x + y + z = 6
+
+2y + 5z = -4
+
+2x + 5y - z = 27
+```
+
+可以使用矩阵表示为:
+
+![img](./numpy_image/01.jpg)
+
+如果矩阵成为`A`、`X`和`B`，方程变为：
+
+```
+AX = B
+```
+
+或
+
+```
+X = A^(-1)B
+```
+
+
+
+#### 3.21.7 numpy.linalg.inv()  计算矩阵的逆没看明白
+
+我们使用`numpy.linalg.inv()`函数来计算矩阵的逆。 矩阵的逆是这样的，如果它乘以原始矩阵，则得到单位矩阵。
+
+例子:
+
+```
+import  numpy  as  np 
+
+x = np.array([[1,2],[3,4]])
+y = np.linalg.inv(x)
+print(x)
+print(y)
+print(np.dot(x,y))
+```
+
+输出如下:
+
+```
+[[1 2]                                                                        
+ [3 4]]                                                                       
+[[-2.   1. ]                                                                  
+ [ 1.5 -0.5]]                                                                 
+[[  1.00000000e+00   1.11022302e-16]                                          
+ [  0.00000000e+00   1.00000000e+00]]
+```
+
+
+
+例子：
+
+现在让我们在示例中创建一个矩阵A的逆。
+
+```
+import numpy as np 
+a = np.array([[1,1,1],[0,2,5],[2,5,-1]]) 
+
+print '数组 a：'
+print a 
+ainv = np.linalg.inv(a) 
+
+print 'a 的逆：' 
+print ainv  
+
+print '矩阵 b：' 
+b = np.array([[6],[-4],[27]]) 
+print b 
+
+print '计算：A^(-1)B：' 
+x = np.linalg.solve(a,b) 
+print x  
+# 这就是线性方向 x = 5, y = 3, z = -2 的解
+```
+
+**输出如下:**
+
+```
+数组 a：
+[[ 1 1 1]
+ [ 0 2 5]
+ [ 2 5 -1]]
+
+a 的逆：
+[[ 1.28571429 -0.28571429 -0.14285714]
+ [-0.47619048 0.14285714 0.23809524]
+ [ 0.19047619 0.14285714 -0.0952381 ]]
+
+矩阵 b：
+[[ 6]
+ [-4]
+ [27]]
+
+计算：A^(-1)B：
+[[ 5.]
+ [ 3.]
+ [-2.]]
+
+```
+
+
+
+结果也可以使用下列函数获取
+
+```
+x = np.dot(ainv,b)
+```
+
+
+
+### 3.22  numpy  Matplotlib绘图库
+
+Matplotlib 是 Python 的绘图库。 它可与 NumPy 一起使用，提供了一种有效的 MatLab 开源替代方案。 它也可以和图形工具包一起使用，如 PyQt 和 wxPython。
+
+ Matplotlib 模块最初是由 John D. Hunter 编写的。 自 2012 年以来，Michael Droettboom 是主要开发者。 目前，Matplotlib 1.5.1 是可用的稳定版本。 该软件包可以二进制分发，其源代码形式在 [www.matplotlib.org](http://www.matplotlib.org/) 上提供。
+
+ 通常，通过添加以下语句将包导入到 Python 脚本中：
+
+```
+from matplotlib import pyplot as plt
+```
+
+这里`pyplot()`是 matplotlib 库中最重要的函数，用于绘制 2D 数据。 以下脚本绘制方程`y = 2x + 5`：
+
+**示例**
+
+```
+import numpy as np 
+from matplotlib import pyplot as plt 
+
+x = np.arange(1,11) 
+y =  2  * x +  5 
+plt.title("Matplotlib demo") 
+plt.xlabel("x axis caption") 
+plt.ylabel("y axis caption") 
+plt.plot(x,y) plt.show()
+
+```
+
+`ndarray`对象`x`由`np.arange()`函数创建为`x`轴上的值。`y`轴上的对应值存储在另一个数组对象`y`中。 这些值使用`matplotlib`软件包的`pyplot`子模块的`plot()`函数绘制。
+
+图形由`show()`函数展示。
+
+上面的代码应该产生以下输出：
+
+![](./numpy_image/03.png)
+
+
+
+作为线性图的替代，可以通过向`plot()`函数添加格式字符串来显示离散值。 可以使用以下格式化字符。
+
+| 字符       | 描述         |
+| ---------- | ------------ |
+| `'-'`      | 实线样式     |
+| `'--'`     | 短横线样式   |
+| `'-.'`     | 点划线样式   |
+| `':'`      | 虚线样式     |
+| `'.'`      | 点标记       |
+| `','`      | 像素标记     |
+| `'o'`      | 圆标记       |
+| `'v'`      | 倒三角标记   |
+| `'^'`      | 正三角标记   |
+| `'&lt;'`   | 左三角标记   |
+| `'&gt;'`   | 右三角标记   |
+| `'1'`      | 下箭头标记   |
+| `'2'`      | 上箭头标记   |
+| `'3'`      | 左箭头标记   |
+| `'4'`      | 右箭头标记   |
+| `'s'`      | 正方形标记   |
+| `'p'`      | 五边形标记   |
+| `'*'`      | 星形标记     |
+| `'h'`      | 六边形标记 1 |
+| `'H'`      | 六边形标记 2 |
+| `'+'`      | 加号标记     |
+| `'x'`      | X 标记       |
+| `'D'`      | 菱形标记     |
+| `'d'`      | 窄菱形标记   |
+| `'&#124;'` | 竖直线标记   |
+| `'_'`      | 水平线标记   |
+
+还定义了以下颜色缩写。
+
+| 字符  | 颜色   |
+| ----- | ------ |
+| `'b'` | 蓝色   |
+| `'g'` | 绿色   |
+| `'r'` | 红色   |
+| `'c'` | 青色   |
+| `'m'` | 品红色 |
+| `'y'` | 黄色   |
+| `'k'` | 黑色   |
+| `'w'` | 白色   |
+
+ 
+
+要显示圆来代表点，而不是上面示例中的线，请使用`ob`作为`plot()`函数中的格式字符串
+
+
+
+**示例**
+
+```
+import numpy as np 
+from matplotlib import pyplot as plt 
+
+x = np.arange(1,11) 
+y =  2  * x +  5 
+plt.title("Matplotlib demo") 
+plt.xlabel("x axis caption") 
+plt.ylabel("y axis caption") 
+plt.plot(x,y,"ob") 
+plt.show()
+
+```
+
+上面的代码应该产生以下输出:
+
+![](.\numpy_image\04.png)
+
+
+
+#### 3.22.1 绘制正弦波
+
+以下脚本使用 matplotlib 生成**正弦波图**
+
+**示例**
+
+```
+import numpy as np 
+import matplotlib.pyplot as plt 
+# 计算正弦曲线上点的 x 和 y 坐标
+x = np.arange(0,  3  * np.pi,  0.1) 
+y = np.sin(x)
+plt.title("sine wave form")  
+# 使用 matplotlib 来绘制点
+plt.plot(x, y) 
+plt.show()
+
+```
+
+结果如下:
+
+![](./numpy_image/05.png)
+
+
+
+
+
+#### 3.22.2 subplot()
+
+`subplot()`函数允许你在同一图中绘制不同的东西。 在下面的脚本中，绘制**正弦**和**余弦**值。
+
+**示例**
+
+```
+import numpy as np 
+import matplotlib.pyplot as plt 
+# 计算正弦和余弦曲线上的点的 x 和 y 坐标 
+x = np.arange(0,  3  * np.pi,  0.1) 
+y_sin = np.sin(x) 
+y_cos = np.cos(x)  
+# 建立 subplot 网格，高为 2，宽为 1  
+# 激活第一个 subplot
+plt.subplot(2,  1,  1)  
+# 绘制第一个图像 
+plt.plot(x, y_sin) 
+plt.title('Sine')  
+# 将第二个 subplot 激活，并绘制第二个图像
+plt.subplot(2,  1,  2) 
+plt.plot(x, y_cos) 
+plt.title('Cosine')  
+# 展示图像
+plt.show()
+```
+
+上面的代码应该以下输出:
+
+![](.\numpy_image\06.png)
+
+
+
+#### 3.22.3 bar()
+
+`pyplot`子模块提供`bar()`函数来生成条形图。 以下示例生成两组`x`和`y`数组的条形图。
+
+**示例**
+
+```
+from matplotlib import pyplot as plt 
+x =  [5,8,10] 
+y =  [12,16,6] 
+x2 =  [6,9,11] 
+y2 =  [6,15,7] 
+plt.bar(x, y, align =  'center') 
+plt.bar(x2, y2, color =  'g', align =  'center') 
+plt.title('Bar graph') 
+plt.ylabel('Y axis') 
+plt.xlabel('X axis') 
+plt.show()
+
+```
+
+上面的代码应该产生以下输出:
+
+
+
+![](.\numpy_image\07.png)
+
+
+
+### 3.23 numpy 使用Matplotlib绘制直方图
+
+NumPy 有一个`numpy.histogram()`函数，它是数据的频率分布的图形表示。 水平尺寸相等的矩形对应于类间隔，称为`bin`，变量`height`对应于频率
+
+#### 3.23.1 numpy.histogram()
+
+`numpy.histogram()`函数将输入数组和`bin`作为两个参数。 `bin`数组中的连续元素用作每个`bin`的边界。
+
+```
+import numpy as np 
+
+a = np.array([22,87,5,43,56,73,55,54,11,20,51,5,79,31,27]) ]
+np.histogram(a,bins =  [0,20,40,60,80,100]) 
+hist,bins = np.histogram(a,bins =  [0,20,40,60,80,100])  
+print hist 
+print bins
+```
+
+输出如下：
+
+```
+# 取左不取右 
+[3 4 5 2 1]
+[0 20 40 60 80 100]
+```
+
+#### 3.23.2 plt()
+
+Matplotlib 可以将直方图的数字表示转换为图形。 `pyplot`子模块的`plt()`函数将包含数据和`bin`数组的数组作为参数，并转换为直方图。
+
+```
+from matplotlib import pyplot as plt 
+import numpy as np  
+
+a = np.array([22,87,5,43,56,73,55,54,11,20,51,5,79,31,27]) 
+plt.hist(a, bins =  [0,20,40,60,80,100]) 
+plt.title("histogram") 
+plt.show()
+```
+
+输出如下:
+
+![](.\numpy_image\08.png)
+
+
+
+
+
+### 3.24 numpy-IO
+
+`ndarray`对象可以保存到磁盘文件并从磁盘文件加载。 可用的 IO 功能有：
+
+- `load()`和`save()`函数处理 numPy 二进制文件(带`npy`扩展名)
+- `loadtxt()`和`savetxt()`函数处理正常的文本文件
+
+NumPy 为`ndarray`对象引入了一个简单的文件格式。 这个`npy`文件在磁盘文件中，存储重建`ndarray`所需的数据、图形、`dtype`和其他信息，以便正确获取数组，即使该文件在具有不同架构的另一台机器上。
+
+
+
+#### 3.24.1 numpy.save()
+
+`numpy.save()`文件将输入数组存储在具有`npy`扩展名的磁盘文件中。
+
+```
+import numpy as np 
+a = np.array([1,2,3,4,5]) 
+np.save('outfile',a)
+
+```
+
+为了从`outfile.npy`重建数组，请使用`load()`函数。
+
+```
+import numpy as np 
+b = np.load('outfile.npy')  
+print b
+
+```
+
+输出如下：
+
+```
+array([1, 2, 3, 4, 5])
+
+```
+
+ 
+
+`save()`和`load()`函数接受一个附加的布尔参数`allow_pickles`。 Python 中的`pickle`用于在保存到磁盘文件或从磁盘文件读取之前，对对象进行序列化和反序列化。
+
+ 
+
+#### 3.24.3 savetxt()
+
+以简单文本文件格式存储和获取数组数据，是通过`savetxt()`和`loadtx()`函数完成的。

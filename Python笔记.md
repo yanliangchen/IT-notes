@@ -8534,8 +8534,26 @@ except:
      ◦可迭代协议 ：内部含有__iter__方法的都是可迭代的
      ◦迭代器协议 ：内部含有__iter__方法和__next__方法的都是迭代器
 
+```
 
 ```
+迭代器是一种支持next()操作的对象。它包含一组元素，当执行next()操作时，返回其中一个元素；当所有元素都被返回后，生成一个StopIteration异常。
+>>>a=[1,2,3]
+>>>ia=iter(a)
+>>>next(ia)
+1
+>>>next(ia)
+2
+>>>next(ia)
+3
+>>>next(ia)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+
+```
+
+
 
 ### 32.1 demo
 

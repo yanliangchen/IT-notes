@@ -1032,3 +1032,167 @@ if __name__=='__main__':
 
 “子程序就是协程的一种特例。”
 
+
+
+
+
+### 28. with及上下文管理器的原理和应用
+
+```
+【Python】with及上下文管理器的原理和应用
+摘自：https://blog.csdn.net/u013034226/article/details/82730014 
+这篇博客主要总结with用法，自定义上下文管理器，以及__exit__的参数相关内容。
+with 语句是 Pyhton 提供的一种简化语法，适用于对资源进行访问的场合，确保不管使用过程中是否发生异常都会执行必要的“清理”操作，释放资源，with 语句主要是为了简化代码操作。
+with：文件使用后自动关闭
+
+# 创建一个文件test.txt，若存在则打开，写入Hello Python
+
+# 创建/打开文件
+
+f = open('test.txt', 'w')
+
+f.write("Hello Python")
+
+# 关闭这个文件
+
+f.close()
+
+ 
+
+
+# 使用with
+
+with open('test.txt', 'w') as f:
+
+    f.write('Python')
+可以发现：通过 with 语句在编写代码时，会使代码变得更加简洁，不用再去关闭文件。
+with的执行过程：
+在执行 with 语句时，首先执行 with 后面的 open 代码
+执行完代码后，会将代码的结果通过 as 保存到 f 中
+然后在下面实现真正要执行的操作
+在操作后面，并不需要写文件的关闭操作，文件会在使用完后自动关闭
+ 
+with的执行原理
+实际上，在文件操作时，并不是不需要写文件的关闭，而是文件的关闭操作在 with 的上下文管理器中的协议方法里已经写好了。当文件操作执行完成后， with语句会自动调用上下文管理器里的关闭语句来关闭文件资源。
+上下文管理器
+ContextManager ,上下文是 context 直译的叫法,在程序中用来表示代码执行过程中所处的前后环境。上下文管理器中有 __enter__ 和 __exit__ 两个方法，以with为例子，__enter__ 方法会在执行 with 后面的语句时执行，一般用来处理操作前的内容。比如一些创建对象，初始化等；__exit__ 方法会在 with 内的代码执行完毕后执行，一般用来处理一些善后收尾工作，比如文件的关闭，数据库的关闭等。
+
+自定义一个上下文管理器，模拟with文件操作
+
+class MyOpen(object):
+
+    def __init__(self,path,mode):
+
+        # 记录要操作的文件路径和模式
+
+        self.__path = path
+
+        self.__mode = mode
+
+ 
+
+    def __enter__(self):
+
+        print('代码执行到了__enter__......')
+
+        # 打开文件
+
+        self.__handle = open(self.__path,self.__mode)
+
+        # 返回打开的文件对象引用, 用来给  as 后的变量f赋值
+
+        return self.__handle
+
+ 
+
+    # 退出方法中，用来实现善后处理工作
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+
+        print('代码执行到了__exit__......')      
+
+        self.__handle.close()
+
+ 
+
+# a+ 打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。
+
+with MyOpen('test.txt','a+') as f:
+
+    # 创建写入文件
+
+    f.write("Hello Python!!!")
+
+    print("文件写入成功")
+执行结果：
+
+通过执行顺序，可以看到文件写入操作执行完之后，自动调用了__exit__方法，做了善后处理工作。
+ 
+__exit__方法的参数
+__exit__ 方法中有三个参数，用来接收处理异常，如果代码在运行时发生异常，异常会被保存到这里。 
+exc_type : 异常类型
+exc_val : 异常值
+exc_tb : 异常回溯追踪
+
+# 编写两个数做除法的程序，然后给除数穿入0
+
+class MyCount(object):
+
+    # 接收两个参数
+
+    def __init__(self,x, y):
+
+        self.__x = x
+
+        self.__y = y
+
+    # 返回一个地址（实质是被as后的变量接收），实例对象就会执行MyCount中的方法:div()
+
+    def __enter__(self):
+
+        print('代码执行到了__enter__......')
+
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+
+        print("代码执行到了__exit__......")
+
+        if exc_type == None:
+
+            print('程序没问题')
+
+        else:
+
+            print('程序有问题，如果你能你看懂，问题如下：')
+
+            print('Type: ', exc_type)
+
+            print('Value:', exc_val)
+
+            print('TreacBack:', exc_tb)
+
+
+        # 返回值决定了捕获的异常是否继续向外抛出
+
+        # 如果是 False 那么就会继续向外抛出，程序会看到系统提示的异常信息
+
+        # 如果是 True 不会向外抛出，程序看不到系统提示信息，只能看到else中的输出
+
+        return  True
+
+
+    def div(self):
+
+        print("代码执行到了除法div")
+
+        return self.__x / self.__y
+
+ 
+with MyCount(1, 0) as mc:
+    mc.div()
+执行结果：
+
+可以看到，系统没有抛出异常，而是__exit__捕获到了异常，并按照我们的方式进行了抛出。
+```
+

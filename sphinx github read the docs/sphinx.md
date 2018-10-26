@@ -1,5 +1,5 @@
 ## sphinx+github+Read the Docs
-
+md转各种格式连接 : https://cloudconvert.com/md-to-rst
 **教你快速搭建一个博客，并通过多人协作提交github修改共同编写文档，之后通过Read the Docs 来帮你发布构建**
 
 摘自：https://mp.weixin.qq.com/s/nmEEg1c2cXg0242KjkpsTw    

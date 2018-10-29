@@ -68,7 +68,7 @@ m3是类里面的一个静态方法，跟普通函数没什么区别，与类和
 A.m3(1) 
  # 等价
  a.m3(1)
- ```
+```
 
 以上就是几个方法的基本介绍。现在把几个基本的概念理清楚了，那么现在来说说几个方法之间的使用场景以及他们之间的优缺点。
 
@@ -114,12 +114,12 @@ class date:
         self._month = month
         self._day = day
         return self
-
+    
     @classmethod
     def fromtimestamp(cls, t):
         y, m, d, hh, mm, ss, weekday, jday, dst = _time.localtime(t)
         return cls(y, m, d)
-
+    
     @classmethod
     def today(cls):
         t = _time.time()
@@ -130,14 +130,12 @@ class A:
     @staticmethod
     def m1()
         pass
-
+    
     @staticmethod
     def m2():
         A.m1() # bad
-
+    
     @classmethod
     def m3(cls):
         cls.m1() # good
 其实也不算是什么深入理解吧，最多算是明白怎么用，真要深入理解恐怕还要另写一篇文章，有兴趣的可以去了解一下Python的描述符。
-```
-

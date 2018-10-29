@@ -119,7 +119,7 @@ networks:
 
 volumes:
   db-data:
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293
+
 ```
 
 此文件配置了多个服务，关于此配置文件的各个语句含义就需要弄懂配置选项的含义了
@@ -143,13 +143,13 @@ compose 文件是一个定义服务、 网络和卷的 `YAML` 文件 。Compose 
 服务除了可以基于指定的镜像，还可以基于一份 Dockerfile，在使用 up 启动之时执行构建任务，这个构建标签就是 build，它可以指定 Dockerfile 所在文件夹的路径。Compose 将会利用它自动构建这个镜像，然后使用这个镜像启动服务容器
 
 ```
-build: /path/to/build/dir1
+build: /path/to/build/dir
 ```
 
 也可以是相对路径
 
 ```
-build: ./dir1
+build: ./dir
 ```
 
 设定上下文根目录，然后以该目录为准指定 Dockerfile
@@ -167,7 +167,7 @@ version: '3'
 services:
   webapp:
     build: ./dir
-12345
+
 ```
 
 如果 `context` 中有指定的路径，并且可以选定 Dockerfile 和 args。那么 arg 这个标签，就像 Dockerfile 中的 ARG 指令，它可以在构建过程中指定环境变量，但是在构建成功后取消，在 docker-compose.yml 文件中也支持这样的写法：
@@ -181,7 +181,7 @@ services:
       dockerfile: Dockerfile-alternate
       args:
         buildno: 1
-123456789
+
 ```
 
 与 `ENV` 不同的是，`ARG` 可以为空值
@@ -189,14 +189,14 @@ services:
 ```
 args:
   - buildno
-  - password123
+  - password
 ```
 
 如果要指定 `image` 以及 `build` ，选项格式为
 
 ```
 build: ./dir
-image: webapp:tag12
+image: webapp:tag
 ```
 
 这会在 `./dir` 目录生成一个名为 `webaapp` 和标记为 `tag` 的镜像
@@ -211,7 +211,7 @@ image: webapp:tag12
 
 ```
 build:
-  context: ./dir12
+  context: ./dir
 ```
 
 ### ３. dockerfile
@@ -221,7 +221,7 @@ build:
 ```
 build:
   context: .
-  dockerfile: Dockerfile-alternate123
+  dockerfile: Dockerfile-alternate
 ```
 
 ### ４. args
@@ -236,7 +236,7 @@ ARG password
 
 RUN echo "Build number: $buildno"
 RUN script-requiring-password.sh "$password"
-123456
+
 ```
 
 然后指定 `build` 下的参数,可以传递映射或列表
@@ -257,7 +257,7 @@ build:
   args:
     - buildno=1
     - password=secret
-123456
+
 ```
 
 指定构建参数时可以省略该值，在这种情况下，构建时的值默认构成运行环境中的值
@@ -265,7 +265,7 @@ build:
 ```
 args:
   - buildno
-  - password123
+  - password
 ```
 
 > **Note：** YAML 布尔值（true，false，yes，no，on，off）必须使用引号括起来，以为了能够正常被解析为字符串
@@ -279,7 +279,7 @@ build:
   context: .
   cache_from:
     - alpine:latest
-    - corp/web_app:3.1412345
+    - corp/web_app:3.14
 ```
 
 ### 6. labels
@@ -294,7 +294,7 @@ build:
   labels:
     com.example.description: "Accounting webapp"
     com.example.department: "Finance"
-    com.example.label-with-empty-value: ""123456
+    com.example.label-with-empty-value: ""
 ```
 
 或
@@ -305,7 +305,7 @@ build:
   labels:
     - "com.example.description=Accounting webapp"
     - "com.example.department=Finance"
-    - "com.example.label-with-empty-value"123456
+    - "com.example.label-with-empty-value"
 ```
 
 ### 7.shm_size
@@ -316,7 +316,7 @@ build:
 build:
   context: .
   shm_size: '2gb'
-1234
+
 ```
 
 或
@@ -325,7 +325,6 @@ build:
 build:
   context: .
   shm_size: 10000000
-1234
 ```
 
 ### 8. target
@@ -336,7 +335,6 @@ build:
 build:
     context: .
     target: prod
-1234
 ```
 
 ### 9. cap_add、cap_drop
@@ -349,7 +347,7 @@ cap_add:
 
 cap_drop:
   - NET_ADMIN
-  - SYS_ADMIN123456
+  - SYS_ADMIN
 ```
 
 > **Note:**当用(Version 3) Compose 文件在群集模式下部署堆栈时，该选项被忽略。因为 `docker stack` 命令只接受预先构建的镜像
@@ -359,14 +357,14 @@ cap_drop:
 覆盖容器启动后默认执行的命令
 
 ```
-command: bundle exec thin -p 30001
+command: bundle exec thin -p 
 ```
 
 该命令也可以是一个列表，方法类似于 dockerfile:
 
 ```
 command: ["bundle", "exec", "thin", "-p", "3000"]
-12
+
 ```
 
 ### 11. configs
@@ -393,7 +391,7 @@ configs:
   my_config:
     file: ./my_config.txt
   my_other_config:
-    external: true1234567891011121314
+    external: true
 ```
 
 以上实例使用 SHORT 语法将 `redis` 服务访问授予 `my_config` 和 `my_other_config` ,并被 `my_other_config` 定义为外部资源，这意味着它已经在 Docker 中定义。可以通过 `docker config create` 命令或通过另一个堆栈部署。如果外部部署配置都不存在，则堆栈部署会失败并出现 `config not found` 错误。
@@ -429,7 +427,7 @@ configs:
     file: ./my_config.txt
   my_other_config:
     external: true
-123456789101112131415161718
+
 ```
 
 可以同时授予多个配置的服务相应的访问权限，也可以混合使用 LONG 和 SHORT 语法。定义配置并不意味着授予服务访问权限。
@@ -439,7 +437,7 @@ configs:
 可以为容器选择一个可选的父 cgroup
 
 ```
-cgroup_parent: m-executor-abcd1
+cgroup_parent: m-executor-abcd
 ```
 
 > 注意：当 使用（Version 3）Compose 文件在群集模式下部署堆栈时，忽略此选项
@@ -449,7 +447,7 @@ cgroup_parent: m-executor-abcd1
 为自定义的容器指定一个名称，而不是使用默认的名称
 
 ```
-container_name: my-web-container1
+container_name: my-web-container
 ```
 
 因为 docker 容器名称必须是唯一的，所以如果指定了一个自定义的名称，不能扩展一个服务超过 `1` 个容器
@@ -465,20 +463,19 @@ container_name: my-web-container1
 ```
 credential_spec:
   file: my-credential-spec.json
-123
 ```
 
 使用 `registry`: 将从守护进程主机上的 Windows 注册表中读取凭据规范。其注册表值必须位于：
 
 ```
-HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\Containers\CredentialSpecs1
+HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\Containers\CredentialSpecs
 ```
 
 下面的示例通过 `my-credential-spec` 注册表中指定的值加载凭证规范：
 
 ```
 credential_spec:
-  registry: my-credential-spec12
+  registry: my-credential-spec
 ```
 
 ### 15. deploy
@@ -496,7 +493,7 @@ services:
         parallelism: 2
         delay: 10s
       restart_policy:
-        condition: on-failure1234567891011
+        condition: on-failure
 ```
 
 **这里有几个子选项**
@@ -538,7 +535,7 @@ volumes:
   db-data:
 
 networks:
-  overlay:123456789101112131415161718192021222324252627282930
+  overlay:
 ```
 
 相关信息：[Swarm 模式 CLI 命令](https://docs.docker.com/engine/swarm/#swarm-mode-key-concepts-and-tutorial) 、[Configure 服务发现](https://docs.docker.com/network/overlay/)
@@ -555,7 +552,7 @@ services:
     deploy:
       labels:
         com.example.description: "This label will appear on the web service"
-12345678
+
 ```
 
 通过将 `deploy` 外面的 `labels` 标签来设置容器上的 `labels`
@@ -567,7 +564,6 @@ services:
     image: web
     labels:
       com.example.description: "This label will appear on all containers for the web service"
-1234567
 ```
 
 #### 3.mode
@@ -581,7 +577,7 @@ services:
   worker:
     image: dockersamples/examplevotingapp_worker
     deploy:
-      mode: global123456
+      mode: global
 ```
 
 #### 4. placement
@@ -599,7 +595,7 @@ services:
           - node.role == manager
           - engine.labels.operatingsystem == ubuntu 14.04
         preferences:
-          - spread: node.labels.zone1234567891011
+          - spread: node.labels.zone
 ```
 
 #### ５.replicas
@@ -616,7 +612,7 @@ services:
       - backend
     deploy:
       mode: replicated
-      replicas: 612345678910
+      replicas: 6
 ```
 
 #### 6. resources
@@ -635,7 +631,7 @@ services:
           memory: 50M
         reservations:
           cpus: '0.25'
-          memory: 20M123456789101112
+          memory: 20M
 ```
 
 此例子中，`redis` 服务限制使用不超过 50M 的内存和 0.50（50％）可用处理时间（CPU），并且 保留 20M 了内存和 0.25 CPU时间
@@ -659,7 +655,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 120s12345678910
+        window: 120s
 ```
 
 #### 8. update_config
@@ -686,7 +682,7 @@ services:
         parallelism: 2
         delay: 10s
         order: stop-first
-12345678910111213
+
 ```
 
 **不支持 Docker stack desploy 的几个子选项** 
@@ -698,7 +694,7 @@ build、cgroup_parent、container_name、devices、tmpfs、external_links、inks
 
 ```
 devices:
-  - "/dev/ttyUSB0:/dev/ttyUSB0"12
+  - "/dev/ttyUSB0:/dev/ttyUSB0"
 ```
 
 ### 17. depends_on
@@ -724,7 +720,7 @@ services:
   redis:
     image: redis
   db:
-    image: postgres1234567891011
+    image: postgres
 ```
 
 注意的是，默认情况下使用 `docker-compose up web` 这样的方式启动 web 服务时，也会启动 `redis` 和 `db` 两个服务，因为在配置文件中定义了依赖关系
@@ -737,7 +733,7 @@ services:
 dns: 8.8.8.8
 dns:
   - 8.8.8.8
-  - 9.9.9.91234
+  - 9.9.9.9
 ```
 
 ### 19. dns_search
@@ -749,7 +745,7 @@ dns_search: example.com
 dns_search:
   - dc1.example.com
   - dc2.example.com
-12345
+
 ```
 
 ### 20. tmpfs
@@ -760,7 +756,7 @@ dns_search:
 tmpfs: /run
 tmpfs:
   - /run
-  - /tmp1234
+  - /tmp
 ```
 
 ### 21. entrypoint
@@ -768,7 +764,7 @@ tmpfs:
 在 Dockerfile 中有一个指令叫做 `ENTRYPOINT` 指令，用于指定接入点。在 `docker-compose.yml` 中可以定义接入点，覆盖 Dockerfile 中的定义：
 
 ```
-entrypoint: /code/entrypoint.sh1
+entrypoint: /code/entrypoint.sh
 ```
 
 `entrypoint` 也可以是一个列表，方法类似于 [dockerfile](https://docs.docker.com/engine/reference/builder/#entrypoint)
@@ -780,7 +776,7 @@ entrypoint:
     - zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
     - -d
     - memory_limit=-1
-    - vendor/bin/phpunit1234567
+    - vendor/bin/phpunit
 ```
 
 ### 21. env_file
@@ -800,7 +796,7 @@ env_file: .env1
 env_file:
   - ./common.env
   - ./apps/web.env
-  - /opt/secrets.env1234
+  - /opt/secrets.env
 ```
 
 环境配置文件 `env_file` 中的声明每行都是以 `VAR=VAL` 格式，其中以 `#` 开头的被解析为注释而被忽略
@@ -814,14 +810,14 @@ services:
   some-service:
     env_file:
       - a.env
-      - b.env12345
+      - b.env
 ```
 
 *a.env 文件*
 
 ```
 # a.env
-VAR=112
+VAR=1
 ```
 
 *b.env文件*
@@ -837,7 +833,7 @@ VAR=112
 environment:
   RACK_ENV: development
   SHOW: 'true'
-  SESSION_SECRET:1234
+  SESSION_SECRET:
 ```
 
 或
@@ -846,7 +842,7 @@ environment:
 environment:
   - RACK_ENV=development
   - SHOW=true
-  - SESSION_SECRET1234
+  - SESSION_SECRET
 ```
 
 ### 23. expose
@@ -856,7 +852,7 @@ environment:
 ```
 expose:
  - "3000"
- - "8000"123
+ - "8000"
 ```
 
 ### 24. external_links
@@ -872,7 +868,7 @@ external_links:
  - redis_1
  - project_db_1:mysql
  - project_db_1:postgresql
-12345
+
 ```
 
 ### 25. extra_hosts
@@ -882,14 +878,14 @@ external_links:
 ```
 extra_hosts:
  - "somehost:162.242.195.82"
- - "otherhost:50.31.209.229"123
+ - "otherhost:50.31.209.229"
 ```
 
 具有 IP 地址和主机名的条目在 `/etc/hosts` 内部容器中创建。启动之后查看容器内部 hosts ，例如：
 
 ```
 162.242.195.82  somehost
-50.31.209.229   otherhost12
+50.31.209.229   otherhost
 ```
 
 ### 26.healthcheck
@@ -902,7 +898,7 @@ healthcheck:
   interval: 1m30s
   timeout: 10s
   retries: 3
-  start_period: 40s123456
+  start_period: 40s
 ```
 
 `interval`，`timeout` 以及 `start_period` 都定为持续时间
@@ -915,14 +911,14 @@ test: ["CMD", "curl", "-f", "http://localhost"]
 
 # As above, but wrapped in /bin/sh. Both forms below are equivalent.
 test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
-test: curl -f https://localhost || exit 1123456
+test: curl -f https://localhost || exit 1
 ```
 
 如果需要禁用镜像的所有检查项目，可以使用 `disable:true`,相当于 `test:["NONE"]`
 
 ```
 healthcheck:
-  disable: true12
+  disable: true
 ```
 
 ### 27. image
@@ -935,7 +931,6 @@ image: ubuntu:14.04
 image: tutum/influxdb
 image: example-registry.com:4000/postgresql
 image: a4bc65fd
-123456
 ```
 
 如果镜像不存在，Compose 会自动拉去镜像
@@ -957,7 +952,7 @@ labels:
 labels:
   - "com.example.description=Accounting webapp"
   - "com.example.department=Finance"
-  - "com.example.label-with-empty-value"123456789
+  - "com.example.label-with-empty-value"
 ```
 
 ### 30.links
@@ -970,7 +965,6 @@ web:
    - db
    - db:database
    - redis
-123456
 ```
 
 使用的别名将会自动在服务容器中的 `/etc/hosts` 里创建。例如：
@@ -979,7 +973,6 @@ web:
 172.12.2.186  db
 172.12.2.186  database
 172.12.2.187  redis
-1234
 ```
 
 相应的环境变量也将被创建
@@ -993,7 +986,6 @@ logging:
   driver: syslog
   options:
     syslog-address: "tcp://192.168.0.42:123"
-12345
 ```
 
 该 `driver`值是指定服务器的日志记录驱动程序，默认值为 `json-file`,与 `--log-diver 选项一样`
@@ -1001,7 +993,7 @@ logging:
 ```
 driver: "json-file"
 driver: "syslog"
-driver: "none"123
+driver: "none"
 ```
 
 > 注意：只有驱动程序 `json-file` 和 `journald` 驱动程序可以直接从 `docker-compose up` 和 `docker-compose logs` 获取日志。使用任何其他方式不会显示任何日志。
@@ -1011,7 +1003,7 @@ driver: "none"123
 ```
 driver: "syslog"
 options:
-  syslog-address: "tcp://192.168.0.42:123"123
+  syslog-address: "tcp://192.168.0.42:123"
 ```
 
 默认驱动程序 `json-file` 具有限制存储日志量的选项，所以，使用键值对`来获得最大存储`大小以及最小存储数量
@@ -1019,7 +1011,7 @@ options:
 ```
 options:
   max-size: "200k"
-  max-file: "10"123
+  max-file: "10"
 ```
 
 上面实例将存储日志文件，直到它们达到`max-size:200kB`，存储的单个日志文件的数量由该 `max-file` 值指定。随着日志增长超出最大限制，旧日志文件将被删除以存储新日志
@@ -1034,7 +1026,7 @@ services:
       driver: "json-file"
       options:
         max-size: "200k"
-        max-file: "10"12345678
+        max-file: "10"
 ```
 
 ### 32. network_mode
@@ -1046,7 +1038,7 @@ network_mode: "bridge"
 network_mode: "host"
 network_mode: "none"
 network_mode: "service:[service name]"
-network_mode: "container:[container name/id]"12345
+network_mode: "container:[container name/id]"
 ```
 
 可以指定使用服务或者容器的网络
@@ -1060,7 +1052,7 @@ services:
   some-service:
     networks:
      - some-network
-     - other-network12345
+     - other-network
 ```
 
 ### 34. aliases
@@ -1077,7 +1069,7 @@ services:
          - alias3
       other-network:
         aliases:
-         - alias212345678910
+         - alias2
 ```
 
 下面实例中，提供 `web` 、`worker`以及`db` 服务，伴随着两个网络 `new` 和 `legacy` 。
@@ -1108,7 +1100,7 @@ services:
 
 networks:
   new:
-  legacy:1234567891011121314151617181920212223242526
+  legacy:
 ```
 
 相同的服务可以在不同的网络有不同的别名
@@ -1139,13 +1131,13 @@ networks:
       -
         subnet: 172.16.238.0/24
       -
-        subnet: 2001:3984:3989::/6412345678910111213141516171819202122
+        subnet: 2001:3984:3989::/64
 ```
 
 ### 36. PID
 
 ```
-pid: "host"1
+pid: "host"
 ```
 
 将 PID 模式设置为主机 PID 模式，可以打开容器与主机操作系统之间的共享 PID 地址空间。使用此标志启动的容器可以访问和操作宿主机的其他容器，反之亦然。
@@ -1167,7 +1159,7 @@ ports:
  - "49100:22"
  - "127.0.0.1:8001:8001"
  - "127.0.0.1:5000-5010:5000-5010"
- - "6060:6060/udp"123456789
+ - "6060:6060/udp"
 ```
 
 > 注意：当使用 `HOST:CONTAINER` 格式来映射端口时，如果使用的容器端口小于 `60` 可能会得到错误得结果，因为`YAML` 将会解析 `xx:yy` 这种数字格式为 `60` 进制，所以建议采用字符串格式。
@@ -1187,7 +1179,6 @@ ports:
     published: 8080
     protocol: tcp
     mode: host
-123456
 ```
 
 ### 38. secrets
@@ -1210,7 +1201,7 @@ secrets:
   my_secret:
     file: ./my_secret.txt
   my_other_secret:
-    external: true1234567891011121314
+    external: true
 ```
 
 #### 2.. LONG 语法
@@ -1239,7 +1230,7 @@ secrets:
   my_secret:
     file: ./my_secret.txt
   my_other_secret:
-    external: true1234567891011121314151617
+    external: true
 ```
 
 ### 39. security_opt
@@ -1249,7 +1240,7 @@ secrets:
 ```
 security_opt:
   - label:user:USER
-  - label:role:ROLE123
+  - label:role:ROLE
 ```
 
 ### 40. stop_grace_period
@@ -1258,7 +1249,7 @@ security_opt:
 
 ```
 stop_grace_period: 1s
-stop_grace_period: 1m30s12
+stop_grace_period: 1m30s
 ```
 
 默认情况下，stop 在发送SIGKILL之前等待10秒钟容器退出
@@ -1268,7 +1259,7 @@ stop_grace_period: 1m30s12
 设置另一个信号来停止容器。在默认情况下使用的 `SIGTERM` 来停止容器。设置另一个信号可以使用 `stop_signal` 标签：
 
 ```
-stop_signal: SIGUSR11
+stop_signal: SIGUSR1
 ```
 
 ### 42. sysctls
@@ -1282,7 +1273,7 @@ sysctls:
 
 sysctls:
   - net.core.somaxconn=1024
-  - net.ipv4.tcp_syncookies=01234567
+  - net.ipv4.tcp_syncookies=0
 ```
 
 ### 43. ulimits
@@ -1294,13 +1285,13 @@ ulimits:
   nproc: 65535
   nofile:
     soft: 20000
-    hard: 4000012345
+    hard: 40000
 ```
 
 ### 44. userns_mode
 
 ```
-userns_mode: "host"1
+userns_mode: "host"
 ```
 
 ### 45. volumes
@@ -1330,7 +1321,7 @@ services:
 
 volumes:
   mydata:
-  dbdata:1234567891011121314151617181920212223
+  dbdata:
 ```
 
 Compose 的数据卷指定路径可以是相对路径，使用 `.` 或者 `..` 来指定相对目录。
@@ -1352,14 +1343,14 @@ volumes:
   - ~/configs:/etc/configs/:ro
 
   # 已经存在的命名的数据卷。
-  - datavolume:/var/lib/mysql123456789101112131415
+  - datavolume:/var/lib/mysql
 ```
 
 如果你不使用宿主机的路径，可以指定一个 `volume_driver`
 
 ```
 volume_driver: mydriver
-12
+
 ```
 
 #### 1. SHORT 语法
@@ -1383,7 +1374,7 @@ volumes:
   - ~/configs:/etc/configs/:ro
 
   # Named volume
-  - datavolume:/var/lib/mysql123456789101112131415
+  - datavolume:/var/lib/mysql
 ```
 
 #### 2. LONG 语法
@@ -1422,7 +1413,7 @@ networks:
   webnet:
 
 volumes:
-  mydata:123456789101112131415161718192021
+  mydata:
 ```
 
 ### 46. volumes_from
@@ -1434,7 +1425,7 @@ volumes_from:
   - service_name
   - service_name:ro
   - container:container_name
-  - container:container_name:rw12345
+  - container:container_name:rw
 ```
 
 ### 47. 用于服务、群集以及堆栈文件的卷
@@ -1458,7 +1449,7 @@ services:
       - backend
     deploy:
       placement:
-        constraints: [node.role == manager]1234567891011
+        constraints: [node.role == manager]
 ```
 
 ### 48. restart
@@ -1469,7 +1460,7 @@ services:
 restart: "no"
 restart: always
 restart: on-failure
-restart: unless-stopped1234
+restart: unless-stopped
 ```
 
 ### 49. 其他选项
@@ -1497,7 +1488,7 @@ privileged: true
 read_only: true
 shm_size: 64M
 stdin_open: true
-tty: true12345678910111213141516171819
+tty: true
 ```
 
 ### 50. 持续时间
@@ -1509,7 +1500,7 @@ tty: true12345678910111213141516171819
 10s
 1m30s
 2h32m
-5h34m56s12345
+5h34m56s
 ```
 
 支持的单位有 `us`、`ms`、`s`、`m` 以及 `h`
@@ -1523,7 +1514,7 @@ tty: true12345678910111213141516171819
 1024kb
 2048k
 300m
-1gb12345
+1gb
 ```
 
 支持的单位是 `b`，`k`，`m` 以及 `g`，或 `kb`， `mb` 和 `gb`。目前不支持十进制值
@@ -1535,7 +1526,7 @@ tty: true12345678910111213141516171819
 ```
 extends:
   file: common.yml
-  service: webapp123
+  service: webapp
 ```
 
 用户可以在任何地方使用这个标签，只要标签内容包含 `file` 和 `service` 两个值就可以了。`file` 的值可以是相对或者绝对路径，如果不指定 `file` 的值，那么 Compose 会读取当前 YML 文件的信息。

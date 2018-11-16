@@ -10,8 +10,6 @@
 
 **3. tornado高性能 : epoll机制**
 
-​	
-
 ```
 简单理解：
 ioloop封装了epoll
@@ -25,3 +23,4 @@ epoll返回可处理的socket
 如果需要更好了解需要看看epoll和select的机制，后续陆续学习
 ```
 
+### 3. 按学习顺序大的章节分成了many day, 注释都有. 

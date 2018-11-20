@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--css 样式引入-->
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script type="text/javascript" src="/static/js/common.js"></script>
+</head>
+<body>
+<li class="house-item">
+    <a href=""><img src="/static/images/xi.jpg" width="300" height="300"></a>
+    <div class="house-price">$<span>{{price1+price2}}</span>/晚</div>
+    <div class="house-intro">
+        <span class="house-title">{{'-'.join(titles)}}</span>
+    <em>整套出租 - {{score}}分/{{comments}}点评-{{position}}</em>
+    </div>
+    <div class="house-intro">
+        {% if  fuwu_price is  not  None %}
+            {% if  fuwu_price>=30000 %}
+             <span class="house-title">高级服务价格：{{fuwu_price}}￥</span>
+            {% elif  fuwu_price>=20000 %}
+             <span class="house-title">一般服务价格：{{fuwu_price}}￥</span>
+            {% else %}
+            <span class="house-title">一般服务价格：{{fuwu_price}}￥</span>
+            {% end %}
+        {% else %}
+             <span>暂无服务</span>
+        {% end %}
+    </div>
+</li>
+
+</body>
+</html>

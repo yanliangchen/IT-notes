@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--css 样式引入-->
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script type="text/javascript" src="/static/js/common.js"></script>
+</head>
+<body>
+{% if  len(info_dic) > 0 %}
+
+    {% for city in  info_dic %}
+    <li class="house-item">
+        <a href=""><img src="/static/images/xi.jpg" width="300" height="300"></a>
+        <div class="house-price">$<span>{{city["price1"]+city["price2"]}}</span>/晚</div>
+        <div class="house-intro">
+            <span class="house-title">{{'-'.join(city["titles"])}}</span>
+        <em>整套出租 - {{city["score"]}}分/{{city["comments"]}}点评-{{city["position"]}}</em>
+        </div>
+    </li>
+    {% end %}
+{% else %}
+    暂无洗脚城，请去洗头
+{% end %}
+
+</body>
+</html>

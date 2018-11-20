@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--css 样式引入-->
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script type="text/javascript" src="/static/js/common.js"></script>
+</head>
+<body>
+<li class="house-item">
+    <a href=""><img src="/static/images/xi.jpg" width="300" height="300"></a>
+    <div class="house-price">$<span>{{info_dic["price1"]+info_dic["price2"]}}</span>/晚</div>
+    <div class="house-intro">
+        <span class="house-title">{{'-'.join(info_dic["titles"])}}</span>
+    <em>整套出租 - {{info_dic["score"]}}分/{{info_dic["comments"]}}点评-{{info_dic["position"]}}</em>
+    </div>
+
+</li>
+<hr>
+{{info_dic["titles"][0]}}
+{{info_dic["titles"][1]}}
+{% for  title  in  info_dic["titles"] %}
+    {{ title }}-
+{% end %}
+</body>
+</html>

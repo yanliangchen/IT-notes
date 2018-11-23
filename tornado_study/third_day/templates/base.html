@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% block css %}
+    {% end %}
+</head>
+<body>
+
+<div class="head">
+    我是头部
+</div>
+<hr>
+<div  class="body">
+    {% block main %}
+    我是基模板的身体部分
+    {% end %}
+</div>
+<hr>
+<div class="feet">
+    我是foot部
+</div>
+
+
+{% block js %}
+{% end %}
+</body>
+</html>

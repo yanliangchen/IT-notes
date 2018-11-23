@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Docker 使用 Pipeline" href="../docker/docker.html" />
     <link rel="prev" title="gitlab" href="../gitlab/gitlab.html" /> 
 
   
@@ -130,35 +131,65 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id26">pipeline</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id27">介绍</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id28">什么是 Pipeline</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id29">为什么是 Pipeline</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30">Pipeline 条件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#webhook">webhook</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gtihub-webhook">Gtihub Webhook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#github">配置 github 插件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27">项目配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#github-webhook">配置 github 的 webhook</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id31">入门</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id32">先决条件</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33">Pipeline 定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gitlab-webhook">Gitlab webhook</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gitlab-hook">配置 Gitlab hook 插件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gitlab">配置 gitlab 项目</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28">jenkins 权限设置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id29">pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id30">介绍</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id31">什么是 Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32">为什么是 Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33">Pipeline 条件</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id34">入门</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id35">先决条件</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36">Pipeline 定义</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#web-ui-pipeline">在 Web UI 中定义 Pipeline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scm">在 SCM 中定义管道</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id34">内置文档</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id37">内置文档</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#jenkinsfile">jenkinsfile 使用</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id37">创建 Jenkinsfile</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id38">建立</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id39">测试</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id40">部署</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id41">管道高级语法</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id43">工作环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40">创建 Jenkinsfile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41">建立</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42">测试</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43">部署</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44">管道高级语法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46">工作环境</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48">参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id49">故障处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50">使用多个代理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51">可选步骤参数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52">高级脚本管道</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pipeline-pull">Pipeline 分支与 Pull 请求</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id54">创建多分支</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55">附加环境变量</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56">使用组织文件夹</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id57">Pipeline 扩展共享库</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id58">定义共享库</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id45">Blue ocean</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/docker.html">Docker 使用 Pipeline</a></li>
 </ul>
 
             
@@ -643,6 +674,7 @@ sudo yum install jenkins
 </div>
 <p>写一个每天定时备份的脚本，保留 15 天的备份。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1">#set -x</span>
 
 <span class="nv">BACKUP_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/jenkins_backup&quot;</span>
 <span class="nv">JENKINS_WAR_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/lib/jenkins&quot;</span>
@@ -656,9 +688,9 @@ sudo yum install jenkins
 <span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.jenkins.io/war/&quot; ## JENKINS</span>
 
 <span class="k">function</span> backup_rotate<span class="o">()</span> <span class="o">{</span>
-    <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;-</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
+    <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;+</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
     <span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELETE_DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        rm -rf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELET_DATE_DAY</span><span class="si">}</span>.tar.gz
+        rm -rf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELETE_DATE_DAY</span><span class="si">}</span>.tar.gz
     <span class="k">fi</span>
 <span class="o">}</span>
 
@@ -742,7 +774,7 @@ sudo yum install jenkins
     <span class="p">;;</span>
     *<span class="o">)</span>
         <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery|upgrade}&quot;</span>
-            <span class="nb">exit</span> <span class="m">1</span>
+        <span class="nb">exit</span> <span class="m">1</span>
     <span class="p">;;</span>
 <span class="k">esac</span>
 </pre></div>
@@ -1112,13 +1144,92 @@ wget https://raw.githubusercontent.com/jenkinsci/email-ext-plugin/master/src/mai
 </div>
 </div>
 </div>
-<div class="section" id="id26">
-<h2>pipeline<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="webhook">
+<h2>webhook<a class="headerlink" href="#webhook" title="Permalink to this headline">¶</a></h2>
+<p>Webhook，也就是人们常说的钩子。你可以通过定制 Webhook 来监测你在 Github.com 上的各种事件，最常见的莫过于 push 事件。
+如果你设置了一个监测 push 事件的 webhook，那么每当你的这个项目有了任何提交，这个 webhook 都会被触发，这时 Github
+就会发送一个 HTTP POST 请求到你配置好的地址。</p>
+<p>如此一来，你就可以通过这种方法去自动完成一些重复性工作；比如，你可以用 Webhook 来自动触发一些持续集成（CI）工具的运作，
+比如 Travis CI；又或者是通过 Webhook 去部署你的线上服务器。</p>
+<div class="section" id="gtihub-webhook">
+<h3>Gtihub Webhook<a class="headerlink" href="#gtihub-webhook" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="github">
+<h4>配置 github 插件<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h4>
+<p>点击 系统管理 -&gt; 系统设置 进入页面，选择 Github 插件配置项。</p>
+<img alt="../_images/github_plugin_settings.png" src="../_images/github_plugin_settings.png" />
+<p>其中的 API URL 不需要修改，点击 Credentials 的 Add 增加一个 jenkins 访问
+github 的 token；到这里我们需要去 Github.com 创建一个 Token 给 Jenkins 使用，所以切换到 github 页面。</p>
+<p>打开 <a class="reference external" href="https://github.com">Github</a>，点击 setting -&gt; Developer settings -&gt; Personal access tokens
+-&gt; Gernerate new token，填写 Token 描述。</p>
+<img alt="../_images/github_token_description.png" src="../_images/github_token_description.png" />
+<p>下面的 scops 选择如下：</p>
+<img alt="../_images/github_token_scops.png" src="../_images/github_token_scops.png" />
+<p>点击下方 <span class="guilabel">Generate token</span> 会生成一串字母，这一串字母就是给 Jenkins
+分配的认证码；点击复制，回到 Jenkins。</p>
+<img alt="../_images/Jenkins_add_github_token_secret_text.png" src="../_images/Jenkins_add_github_token_secret_text.png" />
+<ul class="simple">
+<li>Kind 选择 Secret text</li>
+<li>Secret 填入刚刚从 Github.com 生成的 Token</li>
+<li>Description 填写对此 Secret text 的描述</li>
+</ul>
+<p>填写完成后，点击 <span class="guilabel">Test connection</span> 测试与 Github 的连接。</p>
+</div>
 <div class="section" id="id27">
-<h3>介绍<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
-<p>本章将介绍Jenkins Pipeline的所有方面，从运行Pipeline到写入Pipeline代码，甚至扩展Pipeline本身。</p>
+<h4>项目配置<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<p>构建触发器选择 <span class="guilabel">Github hook trigger for GITScm polling</span>，
+在不知道那么版本的时候，<span class="guilabel">Build when a change is pushed to Github</span>
+改成了 <span class="guilabel">Github hook trigger for GITScm polling</span></p>
+<img alt="../_images/jenkins_github_build_triggers.png" src="../_images/jenkins_github_build_triggers.png" />
+<p>构建环境选择如下图，下面的 <span class="guilabel">Bindings</span> 中 <span class="guilabel">Credentials</span> 选择之前添加的 Token</p>
+<img alt="../_images/jenkins_github_build_environment.png" src="../_images/jenkins_github_build_environment.png" />
+</div>
+<div class="section" id="github-webhook">
+<h4>配置 github 的 webhook<a class="headerlink" href="#github-webhook" title="Permalink to this headline">¶</a></h4>
+<p>回到 github 页面，选择你需要配置的仓库，点击 Settings，注意是指定仓库的 Settings，
+跟之前的 github 的 settings 是不同的。</p>
+<p>webhook 页面配置钩子；完成后点击 <span class="guilabel">Add webhook</span></p>
+<img alt="../_images/jenkins_github_add_webhook.png" src="../_images/jenkins_github_add_webhook.png" />
+<p>一般 payload URL 添加为 <code class="docutils literal notranslate"><span class="pre">http[s]://${jenkins_url}:${jenkins_port}/github-webhook/</span></code>，配置完成，
+在 github 上传一个文件试试看吧。</p>
+</div>
+</div>
+<div class="section" id="gitlab-webhook">
+<h3>Gitlab webhook<a class="headerlink" href="#gitlab-webhook" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="gitlab-hook">
+<h4>配置 Gitlab hook 插件<a class="headerlink" href="#gitlab-hook" title="Permalink to this headline">¶</a></h4>
+<p>通常 jenkins 在项目配置时是可以配置远程构建触发器，设置好 jenkins 的回调 url 后就可以让 jenkins 进行自动构建。
+这就需要先下载 Gitlab Hook plugin 插件。登陆 Jenkins，点击 系统管理 -&gt; 插件管理 -&gt; 可选插件，选择安装 <span class="guilabel">Gitlab Hook Plugin</span></p>
+<p>当我们创建一个新的项目之后，jenkins gitlab hook plugin 会帮助我们生成一个回调地址。在任务重构建触发器喜爱获取回调 URL。</p>
+<img alt="../_images/jenkins_gitlab_hook_plugin.png" src="../_images/jenkins_gitlab_hook_plugin.png" />
+</div>
+<div class="section" id="gitlab">
+<h4>配置 gitlab 项目<a class="headerlink" href="#gitlab" title="Permalink to this headline">¶</a></h4>
+<p>登陆 gitlab 项目中，点击项目的 编辑项目（settings），找到 Webhooks 点击进入页面。</p>
+<img alt="../_images/jenkins_gitlab_hook_plugin.png" src="../_images/jenkins_gitlab_hook_plugin.png" />
+<p>将 jenkins gitlab hook plugin 生成的回调地址填写到 URL 中。
+添加成功后，点击此 webhook 后面的 test 进行测试。</p>
+<img alt="../_images/jenkins_webhook_test.png" src="../_images/jenkins_webhook_test.png" />
+<p>如果返回 <code class="docutils literal notranslate"><span class="pre">Hook</span> <span class="pre">successfully</span> <span class="pre">executed</span></code> 表示配置成功。</p>
+<img alt="../_images/gitlab_webhook_test_state.png" src="../_images/gitlab_webhook_test_state.png" />
+</div>
 <div class="section" id="id28">
-<h4>什么是 Pipeline<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<h4>jenkins 权限设置<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<p>gitlab 的 webhooks url 是根据 jenkins 构建权限连接设置的，
+如果必须登陆才能构建就必须获取jenkins的用户名及 token，可以在 jenkins 用户-设置里面查看到，
+url 格式为： <code class="docutils literal notranslate"><span class="pre">http://&lt;username&gt;:&lt;api-token&gt;&#64;&lt;jenkins-server&gt;:&lt;jenkins-port&gt;/</span></code></p>
+<p>当在gitlab上测试webhook报错 <code class="docutils literal notranslate"><span class="pre">Hook</span> <span class="pre">executed</span> <span class="pre">successfully</span> <span class="pre">but</span> <span class="pre">returned</span> <span class="pre">HTTP</span> <span class="pre">403</span></code>，我们必须进入 jenkins
+系统设置 -&gt; 全局安全配置（Configure Global Security）中，关闭 <span class="guilabel">Prevent Cross Site Request Forgery exploits</span> ，
+然后再点击 gitlab webhooks 测试返回 201 成功。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id29">
+<h2>pipeline<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id30">
+<h3>介绍<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>本章将介绍Jenkins Pipeline的所有方面，从运行Pipeline到写入Pipeline代码，甚至扩展Pipeline本身。</p>
+<div class="section" id="id31">
+<h4>什么是 Pipeline<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
 <p>Jenkins Pipeline是一套插件，支持将连续输送Pipeline实施和整合到Jenkins。Pipeline提供了一组可扩展的工具，用于通过PipelineDSL为代码创建简单到复杂的传送Pipeline。</p>
 <p>通常，此“Pipeline代码”将被写入 Jenkinsfile项目的源代码控制存储库，例如：</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
@@ -1153,8 +1264,8 @@ pipeline {
 <li>junit 是由 JUnit 插件提供的，用于聚合测试报告的 Pipeline 步骤</li>
 </ol>
 </div>
-<div class="section" id="id29">
-<h4>为什么是 Pipeline<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id32">
+<h4>为什么是 Pipeline<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
 <p>Jenkins 从根本上讲是一种支持多种自动化模式的自动化引擎。Pipeline 在 Jenkins 上添加了一套强大的自动化工具，支持从简单的连续集成到全面的连续输送 Pipeline 的用例。通过建模一系列相关任务，用户可以利用 Pipeline 的许多功能：</p>
 <blockquote>
 <div><ul class="simple">
@@ -1169,8 +1280,8 @@ pipeline {
 基于 Jenkins 的核心可扩展性，Pipeline 也可以由 Pipeline 共享库用户和插件开发人员扩展。
 下面的流程图是在 Jenkins Pipeline 中容易建模的一个连续发货方案的示例：</p>
 </div>
-<div class="section" id="id30">
-<h4>Pipeline 条件<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id33">
+<h4>Pipeline 条件<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
 <div class="section" id="step">
 <h5>step<a class="headerlink" href="#step" title="Permalink to this headline">¶</a></h5>
 <p>单一任务，从基础中告诉了 Jenkins 应该怎么做。例如，要执行 shell 命令，请 <code class="docutils literal notranslate"><span class="pre">make</span></code> 使用一下 <code class="docutils literal notranslate"><span class="pre">sh</span></code> 步骤： <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">'make'</span></code> 。当插件扩展 Pipeline DSL 时，通常意味着插件已经实现了一个新的步骤。</p>
@@ -1192,20 +1303,20 @@ pipeline {
 </div>
 </div>
 </div>
-<div class="section" id="id31">
-<h3>入门<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>入门<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <p>Jenkins Pipeline 是一套插件，支持将连续输送 Pipeline 实施和整合到 Jenkins。Pipeline 提供了一组可扩展的工具，用于通过 Pipeline DSL 为代码创建简单到复杂的传送 Pipeline。</p>
 <p>本节介绍 Jenkins Pipeline 的一些关键概念，并帮助介绍在运行的 Jenkins 实例中定于和使用 Pipelines 的基础知识。</p>
-<div class="section" id="id32">
-<h4>先决条件<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id35">
+<h4>先决条件<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h4>
 <p>要使用 Jenkins Pipeline，您将需要：</p>
 <ul class="simple">
 <li>Jenkins 2.x 或更高版本（旧版本回到 1.642.3 可能会工作，但不推荐）</li>
 <li>Pipeline 插件</li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h4>Pipeline 定义<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id36">
+<h4>Pipeline 定义<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h4>
 <p>脚本 Pipeline 是用 Groovy 写的。Groovy 语法的相关位将在本文档中根据需要进行介绍，因此，当了解 Groovy 时，不需要使用 Pipeline。
 可以通过以下任一方式创建基本 Pipeline：</p>
 <ul class="simple">
@@ -1271,13 +1382,13 @@ node {
 </div>
 </div>
 </div>
-<div class="section" id="id34">
-<h4>内置文档<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id37">
+<h4>内置文档<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
 <p>Pipeline 配有内置的文档功能，可以更轻松地创建不同复杂性的 Pipeline。根据 Jenkins 实例中安装的插件自动生成和更新内置文档。
 内置文档可以在全局范围找到： <a class="reference external" href="http://localhost:8080/pipeline-syntax/">http://localhost:8080/pipeline-syntax/</a> 假设你有一个 Jenkins 实例在本地端口 8080 上运行。同样的文档也作为管道语法链接到任何配置的 Pipeline 的侧栏项目中。</p>
 <img alt="../_images/Pipeline内置文档.png" src="../_images/Pipeline内置文档.png" />
-<div class="section" id="id35">
-<h5>代码段生成器<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="id38">
+<h5>代码段生成器<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h5>
 <p>内置的 “Snippet Generator” 实用程序有助于为单个步骤创建一些代码，发现插件提供的新步骤，或为特定步骤尝试不同的参数。</p>
 <p>Snippet Generator 动态填充 Jenkins 实例可用的步骤列表。可用的步骤数量取决于安装的插件，它明确地暴露了在 Pipeline 中使用的步骤。</p>
 <p>要使用代码段生成器生成步骤代码片段：</p>
@@ -1296,8 +1407,8 @@ node {
 </li>
 </ol>
 </div>
-<div class="section" id="id36">
-<h5>全局变量引用<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="id39">
+<h5>全局变量引用<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h5>
 <p>处理代码片段生成器之外，Pipelin 还提供了一个内置的”全局变量引用“。像 Snippet Generator 一样，它也是由插件动态填充的，与代码段生成器不同的是，全局变量引用仅包含 Pipeline 提供的变量的文档，这些变量可用于 Pipeline。</p>
 <p>在 Pipeline 中默认提供的变量是：</p>
 <blockquote>
@@ -1332,8 +1443,8 @@ node {
 <li>Pipeline 的唯一真实来源，可以由项目的多个成员查看和编辑。</li>
 </ul>
 <p>Pipeline 支持两种语法：Declarative（在 Pipeline 2.5 中引入）和 Scripted Pipeline。两者都支持建立连续输送 Pipeline。两者都可以用于在 Web UI 或者 a 中定义一个流水线 Jenkinsfile，尽管通常被认为是 Jenkinsfile 将文件创建并检查到源代码控制库中的最佳做法。</p>
-<div class="section" id="id37">
-<h4>创建 Jenkinsfile<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id40">
+<h4>创建 Jenkinsfile<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
 <p>如”入门“部分所述， <code class="docutils literal notranslate"><span class="pre">Jenkinsfile</span></code> 是一个包含 Jenkins Pipeline 定义的文本文件，并被检入源代码控制，考虑以下 Pipeline，实施基本的三个阶段连续输送 Pipeline。</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
 pipeline {
@@ -1394,8 +1505,8 @@ node {
 </div>
 <p>checkout 步骤将检出从源控制代码；scm 是一个特殊边领，指示 checkout 步骤克隆触发此 Pipeline 运行的特定修订。</p>
 </div>
-<div class="section" id="id38">
-<h4>建立<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id41">
+<h4>建立<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
 <p>对于许多项目，Pipeline “工作” 的开始就是“构建”阶段。通常，Pipeline 在这个阶段将是源代码组装，编译或打包的过程。Jenkinsfile 中有不是现有的构建工具，如 GNU/make，Maven，Gradle 等的替代品，而是可以被看作是一个胶层结合项目的开发生命周期的多个阶段（构建，测试，部署等）一起。</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
 pipeline {
@@ -1421,8 +1532,8 @@ pipeline {
 <p class="last">存档工件不能替代使用诸如 artifactory 或 Nexus 之类的外部工件存储库，只能用于基本报告和文件归档。</p>
 </div>
 </div>
-<div class="section" id="id39">
-<h4>测试<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id42">
+<h4>测试<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h4>
 <p>运行自动化测试是任何成功的连续传送过程的重要组成部分。因此，Jenkins 有许多插件提供的测试记录，报告和可视化设备。在基本层面上，当有测试失败时，让 Jenkins 在 Web UI 中记录报告和可视化的故障是有用的。下面的示例使用 junit 由 JUnit 插件提供的步骤。</p>
 <p>在下面的示例中，如果测试失败，则Pipeline 被标记为“不稳定”，如 Web UI 中的黄色球。根据记录的测试报告，Jenkins 还可以提供历史趋势分析和可视化。</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
@@ -1461,8 +1572,8 @@ node {
 <li>junit 捕获并关联与包含 pattern( <code class="docutils literal notranslate"><span class="pre">**/target/*.xml</span></code> ) 匹配的 JUnit XML 文件</li>
 </ol>
 </div>
-<div class="section" id="id40">
-<h4>部署<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id43">
+<h4>部署<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
 <p>部署可能意味着各种步骤，具体取决于项目或组织的要求，并且可能是从构建的工件发送到 Artifactory 服务器，将代码推送到生产系统的任何步骤。</p>
 <p>在 Pipeline 示例的这个阶段，“构建”和“测试”阶段都已成功执行。实际上，“部署”阶段只能在上一阶段完成，否则 Pipeline 将提前退出。</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
@@ -1506,10 +1617,10 @@ node {
 <p class="last">脚本 Pipeline 可以包括条件测试（如上所示），循环，try/catch/finally 块甚至函数。下一节将详细介绍这种高级脚本 Pipeline 语法。</p>
 </div>
 </div>
-<div class="section" id="id41">
-<h4>管道高级语法<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h4>
-<div class="section" id="id42">
-<h5>字符串插值<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="id44">
+<h4>管道高级语法<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id45">
+<h5>字符串插值<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h5>
 <p>Jenkins Pipeline 使用于 Groovy 相同的规则进行字符串插值。Groovy 的字符串插值支持可能会让很多新来的语言搞到困惑。虽然 Groovy 支持使用单引号或双引号声明一个字符串，例如：</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>def singlyQuoted = &#39;Hello&#39;
 def doublyQuoted = &quot;World&quot;
@@ -1529,8 +1640,8 @@ I said, Hello Mr. Jenkins
 <p>了解如何使用字符串插值对于使用一些管道更高级的功能至关重要。</p>
 </div>
 </div>
-<div class="section" id="id43">
-<h4>工作环境<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id46">
+<h4>工作环境<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h4>
 <p>Jenkins Pipeline 通过全局变量公开环境变量，该变量 env 可以从任何地方获得 Jenkinsfile。假设 Jenkins 主机正在运行，在 <a class="reference external" href="http://localhost:8080/pipeline-syntax/globals#env">http://localhost:8080/pipeline-syntax/globals#env</a> 中记录了可从 Jenkins Pipeline 中访问的环境变量的完整列表 localhots:8080，其中包括：</p>
 <ul>
 <li><p class="first">BUILD_ID</p>
@@ -1570,8 +1681,8 @@ node {
 }
 </pre></div>
 </div>
-<div class="section" id="id44">
-<h5>设置环境变量<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h5>
+<div class="section" id="id47">
+<h5>设置环境变量<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h5>
 <p>根据是否使用 Declarative 或 Scripted Pipeline，在 Jenkins Pipeline 中设置环境变量是不同的。
 声明式 Pipeline 支持环境指令，而 Scripted pipeline 的用户必须使用该 withEnv 步骤。</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
@@ -1610,10 +1721,299 @@ node {
 </ol>
 </div>
 </div>
+<div class="section" id="id48">
+<h4>参数<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h4>
+<p>声明式 Pipeline 支持开箱即用的参数，允许 Pipeline 在运行时通过 parameters 指令接受用户指定的参数。使用脚本 Pipeline 配置参数是通过 properties 步骤完成的，可以在代码段生成器中找到。</p>
+<p>如果你使用“使用参数构建”选项来配置 Pipeline 以接收参数，那么这些参数可作为 params 变量的成员访问。
+假设一个名为 “Greeting” 的 String 参数已经在 Jenkinsfile 配置中，它可以通过 ${params.Greeting} 方式访问该参数，示例如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    parameters {
+        string(name: &#39;Greeting&#39;, defaultValue: &#39;Hello&#39;, description: &#39;How should I greet the world?&#39;)
+    }
+    stages {
+        stage(&#39;Example&#39;) {
+            steps {
+                echo &quot;${params.Greeting} World!&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+properties([parameters([string(defaultValue: &#39;Hello&#39;, description: &#39;How should I greet the world?&#39;, name: &#39;Greeting&#39;)])])
+
+node {
+    echo &quot;${params.Greeting} World!&quot;
+}
+</pre></div>
 </div>
 </div>
-<div class="section" id="id45">
-<h2>Blue ocean<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id49">
+<h4>故障处理<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h4>
+<p>声明性 Pipeline 默认支持 robust 失败处理经由其 post section，其允许声明许多不同的 “post conditions”，例如：always，unstable，success，failure 和 changed。“Pipelne 语法” 部分提供了有关如何使用各种处置条件的更多详细信息。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage(&#39;Test&#39;) {
+            steps {
+                sh &#39;make check&#39;
+            }
+        }
+    }
+    post {
+        always {
+            junit &#39;**/target/*.xml&#39;
+        }
+        failure {
+            mail to: team@example.com, subject: &#39;The Pipeline failed :(&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Test&#39;) {
+        try {
+            sh &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<p>但是脚本 Pipeline 依赖于 Groovy 的内置 try/catch/finally 该 pipeline 的执行过程中处理故障的语义。</p>
+<p>在上面的测试示例中，该 sh 步骤被修改为从不返回非零退出代码（sh ‘make check || true’）。这种方法虽然有效，但是意味着以下阶段需要检查 currentBuild。result 以确定是否测试失败。</p>
+<p>处理这种情况的另一种方式是保留 Pipeline 故障的早期退出行为，同时仍然 junit 有机会补货测试报告，是使用一系列 try/finally 代码块</p>
+</div>
+<div class="section" id="id50">
+<h4>使用多个代理<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h4>
+<p>在所有以前的例子中，值使用了一个代理。着意味着 Jenkins 将分配一个可用的执行器，无论他是如何标记或配置的。这不仅可以被行为覆盖，但 Pipeline 允许从内利用 Jenkins 环境中的多个代理商相同 Jenkinsfile，可为更高级的使用情况，如执行有帮助建立跨多个平台/测试。</p>
+<p>在下面的示例中，“构建”阶段将在一个代理上执行，并且构建的结果将在“测试”阶段中分别标记为 “linux” 和 “windows” 的两个后续代理程序中重用。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent none
+    stages {
+        stage(&#39;Build&#39;) {
+            agent any
+            steps {
+                checkout scm
+                sh &#39;make&#39;
+                stash includes: &#39;**/target/*.jar&#39;, name: &#39;app&#39;
+            }
+        }
+        stage(&#39;Test on Linux&#39;) {
+            agent {
+                label &#39;linux&#39;
+            }
+            steps {
+                unstash &#39;app&#39;
+                sh &#39;make check&#39;
+            }
+            post {
+                always {
+                    junit &#39;**/target/*.xml&#39;
+                }
+            }
+        }
+        stage(&#39;Test on Windows&#39;) {
+            agent {
+                label &#39;windows&#39;
+            }
+            steps {
+                unstash &#39;app&#39;
+                bat &#39;make check&#39;
+            }
+            post {
+                always {
+                    junit &#39;**/target/*.xml&#39;
+                }
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+stage(&#39;Build&#39;) {
+    node {
+        checkout scm
+        sh &#39;make&#39;
+        stash includes: &#39;**/target/*.jar&#39;, name: &#39;app&#39;
+    }
+}
+
+stage(&#39;Test&#39;) {
+    node(&#39;linux&#39;) {
+        checkout scm
+        try {
+            unstash &#39;app&#39;
+            sh &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+    node(&#39;windows&#39;) {
+        checkout scm
+        try {
+            unstash &#39;app&#39;
+            bat &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>该 <code class="docutils literal notranslate"><span class="pre">stash</span></code> 步骤允许捕获与包含模式（ <code class="docutils literal notranslate"><span class="pre">**/target/*.jar</span></code> ）匹配的文件，以在同一管道中重用。一旦 Pipeline 完成执行，垃圾文件将从 Jenkins 主站中删除。</li>
+<li>agent 中的参数 <code class="docutils literal notranslate"><span class="pre">node</span></code> 允许任何有效的 Jenkins 标签表达式。</li>
+<li><code class="docutils literal notranslate"><span class="pre">unstash</span></code> 将从 Jenkins 主机当前工作空间中检索名为 app 的管道</li>
+<li>该 bat 脚本允许在基于 Windows 的平台上执行批处理脚本。</li>
+</ol>
+</div>
+<div class="section" id="id51">
+<h4>可选步骤参数<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h4>
+<p>Pipeline 尊许 Groovy 语言约定，允许在方法参数中省略括号。
+许多 Pipeline 步骤还使用命名参数语法作为使用 Groovy 创建 map 的简写，它使用语法 [key1:value2, key2:value2]。发布如下功能的语句：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git url: &#39;git://example.com/amazing-project.git&#39; branch: &#39;master&#39;
+git([url: &#39;git://example.com/amazing-project.git&#39;, branch: &#39;master&#39;])
+</pre></div>
+</div>
+<p>为方便起见，当仅调用一个参数（或只有一个必须参数）时，可能会省略参数名称，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sh &#39;echo hello&#39; /* short form */
+sh([script: &#39;echo hello&#39;]) /* long form */
+</pre></div>
+</div>
+</div>
+<div class="section" id="id52">
+<h4>高级脚本管道<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h4>
+<p>脚本 Pipeline 是基于 Groovy 的领域专用语言，大多数 Groovy 语法可以在脚本 Pipeline 中使用而无需修改。</p>
+<div class="section" id="id53">
+<h5>同时执行<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h5>
+<p>上面的例子在线性系列中的两个不同平台上运行测试。在实践中，如果 make cache 执行需要 30 分钟完成，“测试” 阶段现在需要 60 分钟才能完成！</p>
+<p>幸运的时，Pipeline 具有内置功能，用于并执行 Scripted Pipeline 的部分，在适当命令的 Parallel 步骤中实现。重构上述示例以使用 parallel 步骤：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+stage(&#39;Build&#39;) {
+    /* .. snip .. */
+}
+
+stage(&#39;Test&#39;) {
+    parallel linux: {
+        node(&#39;linux&#39;) {
+            checkout scm
+            try {
+                unstash &#39;app&#39;
+                sh &#39;make check&#39;
+            }
+            finally {
+                junit &#39;**/target/*.xml&#39;
+            }
+        }
+    },
+    windows: {
+        node(&#39;windows&#39;) {
+            /* .. snip .. */
+        }
+    }
+}
+</pre></div>
+</div>
+<p>而不是在“linux”和“windows”标签的节点上执行测试，它们现在将在Jenkins环境中存在必需容量的情况下并行执行。</p>
+</div>
+</div>
+</div>
+<div class="section" id="pipeline-pull">
+<h3>Pipeline 分支与 Pull 请求<a class="headerlink" href="#pipeline-pull" title="Permalink to this headline">¶</a></h3>
+<p>在上一节一个 Jenkinsfile 可能被嵌入源代码实施控制。本节将介绍多分支 Pipeline 概念，该 Jenkinsfile 基础是在 Jenkins 提供更多动态和自动功能的基础上建立的。</p>
+<div class="section" id="id54">
+<h4>创建多分支<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h4>
+<p>多分支 Pipeline 项目类型使您可以实现不同 Jenkinsfile 在同一个项目的不同分支。在 Multibranch Pipeline 项目中，Jenkins 自动发现，Pipeline 和执行包含 Jenkinsfile 源代码控制的分支 Pipeline。</p>
+<p>这不需要手动 Pipeline 创建和管理。</p>
+<p>创建多分支 Pipeline:</p>
+<ol class="arabic">
+<li><p class="first">单击 Jenkins 主页上的 New Item</p>
+<blockquote>
+<div><img alt="../_images/New_Item.png" src="../_images/New_Item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">输入 Pipeline 的名称，选择多 Multibranch Pipeline，然后单击确定。</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Jenkins 使用 Pipeline 的名称在磁盘上创建目录。包含空格的 Pipeline 名称可能会发现不希望路径包含空格的脚本中的错误。</p>
+<img alt="../_images/创建多分支管道项目.png" class="last" src="../_images/创建多分支管道项目.png" />
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">添加分支源（例如，Git）并输入存储库的位置</p>
+<blockquote>
+<div><img alt="../_images/添加分支源.png" src="../_images/添加分支源.png" />
+</div></blockquote>
+</li>
+<li><p class="first">保存多分支 Pipeline 项目</p>
+<blockquote>
+<div><p>一旦保存，Jenkins 自动扫描指定的存储库，并为其中包含了库中的每个分支合适的项目 Jenkinsfile。默认情况下，Jenkins 不会自动重新索引存储库以进行分支添加或删除（除非使用组织文件夹），因此配置多分支 Pipeline 在配置中定期重新建立索引通常很有用。</p>
+<img alt="../_images/构建触发器.png" src="../_images/构建触发器.png" />
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id55">
+<h4>附加环境变量<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h4>
+<p>Multibranch Pipeline 公开了通过 env 全局变量构建的分支的附加信息，例如：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">BRANCH_NAME</p>
+<blockquote>
+<div><p>例如，该 Pipeline 正在执行的分支的名称</p>
+</div></blockquote>
+</li>
+<li><p class="first">CHANGE_ID</p>
+<blockquote>
+<div><p>对应于某种改变请求的标识符，例如拉取请求编号</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>其他的环境变量列在 “全局变量引用” 中。</p>
+<ul>
+<li><p class="first">支持 pull 请求</p>
+<blockquote>
+<div><p>通过 “Github” 或 “Bitbucker” 分支源，多分枝 pipeline 可用于验证拉/更改请求。该功能分别由 Github 分支源 和 Bitbucket 分支源 插件提供。有关如何使用这些插件的更多信息，请查阅官方文档。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id56">
+<h4>使用组织文件夹<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h4>
+<p>组织文件夹使 Jenkins 监视整个 Github 组织或 Bitbucker 团队/项目，并自动创建包含分支和拉请求的存储库的新的多分支 Pipeline Jenkinsfile。</p>
+<p>目前，此功能仅适用于 Github 和 Bitbucker，具有由 Github 组织文件夹 和 Bitbucket Branch Source 插件提供的功能。</p>
+</div>
+</div>
+<div class="section" id="id57">
+<h3>Pipeline 扩展共享库<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<p>由于 Pipeline 在一个组织中越来越多的项目被采用，普遍的模式很可能会出现。通常，在各种项目之间共享 Pipeline 的部分是有用的，以减少冗余并保持代码“DRY”。</p>
+<p>Pipeline 支持创建“共享库”，可以在外部源代码控制存储库中定义并加载到现有的 Pipeline 中。</p>
+<div class="section" id="id58">
+<h4>定义共享库<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h4>
+<p>共享库使用名称，源代码检索方法（如 SCM）以及可选的默认版本进行定义。该名称应该使一个简单的标识符，因为它将在脚本中使用。</p>
+<p>该版本可以被 SCM 所了解；例如</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -1624,6 +2024,8 @@ node {
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../docker/docker.html" class="btn btn-neutral float-right" title="Docker 使用 Pipeline" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../gitlab/gitlab.html" class="btn btn-neutral" title="gitlab" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

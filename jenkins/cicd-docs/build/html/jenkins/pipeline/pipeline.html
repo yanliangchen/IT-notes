@@ -646,6 +646,298 @@ node {
 </ol>
 </div>
 </div>
+<div class="section" id="id19">
+<h3>参数<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>声明式 Pipeline 支持开箱即用的参数，允许 Pipeline 在运行时通过 parameters 指令接受用户指定的参数。使用脚本 Pipeline 配置参数是通过 properties 步骤完成的，可以在代码段生成器中找到。</p>
+<p>如果你使用“使用参数构建”选项来配置 Pipeline 以接收参数，那么这些参数可作为 params 变量的成员访问。
+假设一个名为 “Greeting” 的 String 参数已经在 Jenkinsfile 配置中，它可以通过 ${params.Greeting} 方式访问该参数，示例如下：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    parameters {
+        string(name: &#39;Greeting&#39;, defaultValue: &#39;Hello&#39;, description: &#39;How should I greet the world?&#39;)
+    }
+    stages {
+        stage(&#39;Example&#39;) {
+            steps {
+                echo &quot;${params.Greeting} World!&quot;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+properties([parameters([string(defaultValue: &#39;Hello&#39;, description: &#39;How should I greet the world?&#39;, name: &#39;Greeting&#39;)])])
+
+node {
+    echo &quot;${params.Greeting} World!&quot;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="id20">
+<h3>故障处理<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>声明性 Pipeline 默认支持 robust 失败处理经由其 post section，其允许声明许多不同的 “post conditions”，例如：always，unstable，success，failure 和 changed。“Pipelne 语法” 部分提供了有关如何使用各种处置条件的更多详细信息。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent any
+    stages {
+        stage(&#39;Test&#39;) {
+            steps {
+                sh &#39;make check&#39;
+            }
+        }
+    }
+    post {
+        always {
+            junit &#39;**/target/*.xml&#39;
+        }
+        failure {
+            mail to: team@example.com, subject: &#39;The Pipeline failed :(&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* .. snip .. */
+    stage(&#39;Test&#39;) {
+        try {
+            sh &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+    /* .. snip .. */
+}
+</pre></div>
+</div>
+<p>但是脚本 Pipeline 依赖于 Groovy 的内置 try/catch/finally 该 pipeline 的执行过程中处理故障的语义。</p>
+<p>在上面的测试示例中，该 sh 步骤被修改为从不返回非零退出代码（sh ‘make check || true’）。这种方法虽然有效，但是意味着以下阶段需要检查 currentBuild。result 以确定是否测试失败。</p>
+<p>处理这种情况的另一种方式是保留 Pipeline 故障的早期退出行为，同时仍然 junit 有机会补货测试报告，是使用一系列 try/finally 代码块</p>
+</div>
+<div class="section" id="id21">
+<h3>使用多个代理<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>在所有以前的例子中，值使用了一个代理。着意味着 Jenkins 将分配一个可用的执行器，无论他是如何标记或配置的。这不仅可以被行为覆盖，但 Pipeline 允许从内利用 Jenkins 环境中的多个代理商相同 Jenkinsfile，可为更高级的使用情况，如执行有帮助建立跨多个平台/测试。</p>
+<p>在下面的示例中，“构建”阶段将在一个代理上执行，并且构建的结果将在“测试”阶段中分别标记为 “linux” 和 “windows” 的两个后续代理程序中重用。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent none
+    stages {
+        stage(&#39;Build&#39;) {
+            agent any
+            steps {
+                checkout scm
+                sh &#39;make&#39;
+                stash includes: &#39;**/target/*.jar&#39;, name: &#39;app&#39;
+            }
+        }
+        stage(&#39;Test on Linux&#39;) {
+            agent {
+                label &#39;linux&#39;
+            }
+            steps {
+                unstash &#39;app&#39;
+                sh &#39;make check&#39;
+            }
+            post {
+                always {
+                    junit &#39;**/target/*.xml&#39;
+                }
+            }
+        }
+        stage(&#39;Test on Windows&#39;) {
+            agent {
+                label &#39;windows&#39;
+            }
+            steps {
+                unstash &#39;app&#39;
+                bat &#39;make check&#39;
+            }
+            post {
+                always {
+                    junit &#39;**/target/*.xml&#39;
+                }
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Toggle Scripted Pipeline (Advanced)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+stage(&#39;Build&#39;) {
+    node {
+        checkout scm
+        sh &#39;make&#39;
+        stash includes: &#39;**/target/*.jar&#39;, name: &#39;app&#39;
+    }
+}
+
+stage(&#39;Test&#39;) {
+    node(&#39;linux&#39;) {
+        checkout scm
+        try {
+            unstash &#39;app&#39;
+            sh &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+    node(&#39;windows&#39;) {
+        checkout scm
+        try {
+            unstash &#39;app&#39;
+            bat &#39;make check&#39;
+        }
+        finally {
+            junit &#39;**/target/*.xml&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>该 <code class="docutils literal notranslate"><span class="pre">stash</span></code> 步骤允许捕获与包含模式（ <code class="docutils literal notranslate"><span class="pre">**/target/*.jar</span></code> ）匹配的文件，以在同一管道中重用。一旦 Pipeline 完成执行，垃圾文件将从 Jenkins 主站中删除。</li>
+<li>agent 中的参数 <code class="docutils literal notranslate"><span class="pre">node</span></code> 允许任何有效的 Jenkins 标签表达式。</li>
+<li><code class="docutils literal notranslate"><span class="pre">unstash</span></code> 将从 Jenkins 主机当前工作空间中检索名为 app 的管道</li>
+<li>该 bat 脚本允许在基于 Windows 的平台上执行批处理脚本。</li>
+</ol>
+</div>
+<div class="section" id="id22">
+<h3>可选步骤参数<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>Pipeline 尊许 Groovy 语言约定，允许在方法参数中省略括号。
+许多 Pipeline 步骤还使用命名参数语法作为使用 Groovy 创建 map 的简写，它使用语法 [key1:value2, key2:value2]。发布如下功能的语句：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git url: &#39;git://example.com/amazing-project.git&#39; branch: &#39;master&#39;
+git([url: &#39;git://example.com/amazing-project.git&#39;, branch: &#39;master&#39;])
+</pre></div>
+</div>
+<p>为方便起见，当仅调用一个参数（或只有一个必须参数）时，可能会省略参数名称，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sh &#39;echo hello&#39; /* short form */
+sh([script: &#39;echo hello&#39;]) /* long form */
+</pre></div>
+</div>
+</div>
+<div class="section" id="id23">
+<h3>高级脚本管道<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p>脚本 Pipeline 是基于 Groovy 的领域专用语言，大多数 Groovy 语法可以在脚本 Pipeline 中使用而无需修改。</p>
+<div class="section" id="id24">
+<h4>同时执行<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
+<p>上面的例子在线性系列中的两个不同平台上运行测试。在实践中，如果 make cache 执行需要 30 分钟完成，“测试” 阶段现在需要 60 分钟才能完成！</p>
+<p>幸运的时，Pipeline 具有内置功能，用于并执行 Scripted Pipeline 的部分，在适当命令的 Parallel 步骤中实现。重构上述示例以使用 parallel 步骤：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+stage(&#39;Build&#39;) {
+    /* .. snip .. */
+}
+
+stage(&#39;Test&#39;) {
+    parallel linux: {
+        node(&#39;linux&#39;) {
+            checkout scm
+            try {
+                unstash &#39;app&#39;
+                sh &#39;make check&#39;
+            }
+            finally {
+                junit &#39;**/target/*.xml&#39;
+            }
+        }
+    },
+    windows: {
+        node(&#39;windows&#39;) {
+            /* .. snip .. */
+        }
+    }
+}
+</pre></div>
+</div>
+<p>而不是在“linux”和“windows”标签的节点上执行测试，它们现在将在Jenkins环境中存在必需容量的情况下并行执行。</p>
+</div>
+</div>
+</div>
+<div class="section" id="pipeline-pull">
+<h2>Pipeline 分支与 Pull 请求<a class="headerlink" href="#pipeline-pull" title="Permalink to this headline">¶</a></h2>
+<p>在上一节一个 Jenkinsfile 可能被嵌入源代码实施控制。本节将介绍多分支 Pipeline 概念，该 Jenkinsfile 基础是在 Jenkins 提供更多动态和自动功能的基础上建立的。</p>
+<div class="section" id="id25">
+<h3>创建多分支<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p>多分支 Pipeline 项目类型使您可以实现不同 Jenkinsfile 在同一个项目的不同分支。在 Multibranch Pipeline 项目中，Jenkins 自动发现，Pipeline 和执行包含 Jenkinsfile 源代码控制的分支 Pipeline。</p>
+<p>这不需要手动 Pipeline 创建和管理。</p>
+<p>创建多分支 Pipeline:</p>
+<ol class="arabic">
+<li><p class="first">单击 Jenkins 主页上的 New Item</p>
+<blockquote>
+<div><img alt="../../_images/New_Item.png" src="../../_images/New_Item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">输入 Pipeline 的名称，选择多 Multibranch Pipeline，然后单击确定。</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Jenkins 使用 Pipeline 的名称在磁盘上创建目录。包含空格的 Pipeline 名称可能会发现不希望路径包含空格的脚本中的错误。</p>
+<img alt="../../_images/创建多分支管道项目.png" class="last" src="../../_images/创建多分支管道项目.png" />
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">添加分支源（例如，Git）并输入存储库的位置</p>
+<blockquote>
+<div><img alt="../../_images/添加分支源.png" src="../../_images/添加分支源.png" />
+</div></blockquote>
+</li>
+<li><p class="first">保存多分支 Pipeline 项目</p>
+<blockquote>
+<div><p>一旦保存，Jenkins 自动扫描指定的存储库，并为其中包含了库中的每个分支合适的项目 Jenkinsfile。默认情况下，Jenkins 不会自动重新索引存储库以进行分支添加或删除（除非使用组织文件夹），因此配置多分支 Pipeline 在配置中定期重新建立索引通常很有用。</p>
+<img alt="../../_images/构建触发器.png" src="../../_images/构建触发器.png" />
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id26">
+<h3>附加环境变量<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<p>Multibranch Pipeline 公开了通过 env 全局变量构建的分支的附加信息，例如：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">BRANCH_NAME</p>
+<blockquote>
+<div><p>例如，该 Pipeline 正在执行的分支的名称</p>
+</div></blockquote>
+</li>
+<li><p class="first">CHANGE_ID</p>
+<blockquote>
+<div><p>对应于某种改变请求的标识符，例如拉取请求编号</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>其他的环境变量列在 “全局变量引用” 中。</p>
+<ul>
+<li><p class="first">支持 pull 请求</p>
+<blockquote>
+<div><p>通过 “Github” 或 “Bitbucker” 分支源，多分枝 pipeline 可用于验证拉/更改请求。该功能分别由 Github 分支源 和 Bitbucket 分支源 插件提供。有关如何使用这些插件的更多信息，请查阅官方文档。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h3>使用组织文件夹<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<p>组织文件夹使 Jenkins 监视整个 Github 组织或 Bitbucker 团队/项目，并自动创建包含分支和拉请求的存储库的新的多分支 Pipeline Jenkinsfile。</p>
+<p>目前，此功能仅适用于 Github 和 Bitbucker，具有由 Github 组织文件夹 和 Bitbucket Branch Source 插件提供的功能。</p>
+</div>
+</div>
+<div class="section" id="id28">
+<h2>Pipeline 扩展共享库<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<p>由于 Pipeline 在一个组织中越来越多的项目被采用，普遍的模式很可能会出现。通常，在各种项目之间共享 Pipeline 的部分是有用的，以减少冗余并保持代码“DRY”。</p>
+<p>Pipeline 支持创建“共享库”，可以在外部源代码控制存储库中定义并加载到现有的 Pipeline 中。</p>
+<div class="section" id="id29">
+<h3>定义共享库<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>共享库使用名称，源代码检索方法（如 SCM）以及可选的默认版本进行定义。该名称应该使一个简单的标识符，因为它将在脚本中使用。</p>
+<p>该版本可以被 SCM 所了解；例如</p>
+</div>
 </div>
 </div>
 

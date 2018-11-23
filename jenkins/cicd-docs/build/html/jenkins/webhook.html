@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>webhook &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jenkins.html">jenkins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker/docker.html">Docker 使用 Pipeline</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>webhook</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/jenkins/webhook.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="webhook">
+<h1>webhook<a class="headerlink" href="#webhook" title="Permalink to this headline">¶</a></h1>
+<p>Webhook，也就是人们常说的钩子。你可以通过定制 Webhook 来监测你在 Github.com 上的各种事件，最常见的莫过于 push 事件。
+如果你设置了一个监测 push 事件的 webhook，那么每当你的这个项目有了任何提交，这个 webhook 都会被触发，这时 Github
+就会发送一个 HTTP POST 请求到你配置好的地址。</p>
+<p>如此一来，你就可以通过这种方法去自动完成一些重复性工作；比如，你可以用 Webhook 来自动触发一些持续集成（CI）工具的运作，
+比如 Travis CI；又或者是通过 Webhook 去部署你的线上服务器。</p>
+<div class="section" id="gtihub-webhook">
+<h2>Gtihub Webhook<a class="headerlink" href="#gtihub-webhook" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="github">
+<h3>配置 github 插件<a class="headerlink" href="#github" title="Permalink to this headline">¶</a></h3>
+<p>点击 系统管理 -&gt; 系统设置 进入页面，选择 Github 插件配置项。</p>
+<img alt="../_images/github_plugin_settings.png" src="../_images/github_plugin_settings.png" />
+<p>其中的 API URL 不需要修改，点击 Credentials 的 Add 增加一个 jenkins 访问
+github 的 token；到这里我们需要去 Github.com 创建一个 Token 给 Jenkins 使用，所以切换到 github 页面。</p>
+<p>打开 <a class="reference external" href="https://github.com">Github</a>，点击 setting -&gt; Developer settings -&gt; Personal access tokens
+-&gt; Gernerate new token，填写 Token 描述。</p>
+<img alt="../_images/github_token_description.png" src="../_images/github_token_description.png" />
+<p>下面的 scops 选择如下：</p>
+<img alt="../_images/github_token_scops.png" src="../_images/github_token_scops.png" />
+<p>点击下方 <span class="guilabel">Generate token</span> 会生成一串字母，这一串字母就是给 Jenkins
+分配的认证码；点击复制，回到 Jenkins。</p>
+<img alt="../_images/Jenkins_add_github_token_secret_text.png" src="../_images/Jenkins_add_github_token_secret_text.png" />
+<ul class="simple">
+<li>Kind 选择 Secret text</li>
+<li>Secret 填入刚刚从 Github.com 生成的 Token</li>
+<li>Description 填写对此 Secret text 的描述</li>
+</ul>
+<p>填写完成后，点击 <span class="guilabel">Test connection</span> 测试与 Github 的连接。</p>
+</div>
+<div class="section" id="id2">
+<h3>项目配置<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>构建触发器选择 <span class="guilabel">Github hook trigger for GITScm polling</span>，
+在不知道那么版本的时候，<span class="guilabel">Build when a change is pushed to Github</span>
+改成了 <span class="guilabel">Github hook trigger for GITScm polling</span></p>
+<img alt="../_images/jenkins_github_build_triggers.png" src="../_images/jenkins_github_build_triggers.png" />
+<p>构建环境选择如下图，下面的 <span class="guilabel">Bindings</span> 中 <span class="guilabel">Credentials</span> 选择之前添加的 Token</p>
+<img alt="../_images/jenkins_github_build_environment.png" src="../_images/jenkins_github_build_environment.png" />
+</div>
+<div class="section" id="github-webhook">
+<h3>配置 github 的 webhook<a class="headerlink" href="#github-webhook" title="Permalink to this headline">¶</a></h3>
+<p>回到 github 页面，选择你需要配置的仓库，点击 Settings，注意是指定仓库的 Settings，
+跟之前的 github 的 settings 是不同的。</p>
+<p>webhook 页面配置钩子；完成后点击 <span class="guilabel">Add webhook</span></p>
+<img alt="../_images/jenkins_github_add_webhook.png" src="../_images/jenkins_github_add_webhook.png" />
+<p>一般 payload URL 添加为 <code class="docutils literal notranslate"><span class="pre">http[s]://${jenkins_url}:${jenkins_port}/github-webhook/</span></code>，配置完成，
+在 github 上传一个文件试试看吧。</p>
+</div>
+</div>
+<div class="section" id="gitlab-webhook">
+<h2>Gitlab webhook<a class="headerlink" href="#gitlab-webhook" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gitlab-hook">
+<h3>配置 Gitlab hook 插件<a class="headerlink" href="#gitlab-hook" title="Permalink to this headline">¶</a></h3>
+<p>通常 jenkins 在项目配置时是可以配置远程构建触发器，设置好 jenkins 的回调 url 后就可以让 jenkins 进行自动构建。
+这就需要先下载 Gitlab Hook plugin 插件。登陆 Jenkins，点击 系统管理 -&gt; 插件管理 -&gt; 可选插件，选择安装 <span class="guilabel">Gitlab Hook Plugin</span></p>
+<p>当我们创建一个新的项目之后，jenkins gitlab hook plugin 会帮助我们生成一个回调地址。在任务重构建触发器喜爱获取回调 URL。</p>
+<img alt="../_images/jenkins_gitlab_hook_plugin.png" src="../_images/jenkins_gitlab_hook_plugin.png" />
+</div>
+<div class="section" id="gitlab">
+<h3>配置 gitlab 项目<a class="headerlink" href="#gitlab" title="Permalink to this headline">¶</a></h3>
+<p>登陆 gitlab 项目中，点击项目的 编辑项目（settings），找到 Webhooks 点击进入页面。</p>
+<img alt="../_images/jenkins_gitlab_hook_plugin.png" src="../_images/jenkins_gitlab_hook_plugin.png" />
+<p>将 jenkins gitlab hook plugin 生成的回调地址填写到 URL 中。
+添加成功后，点击此 webhook 后面的 test 进行测试。</p>
+<img alt="../_images/jenkins_webhook_test.png" src="../_images/jenkins_webhook_test.png" />
+<p>如果返回 <code class="docutils literal notranslate"><span class="pre">Hook</span> <span class="pre">successfully</span> <span class="pre">executed</span></code> 表示配置成功。</p>
+<img alt="../_images/gitlab_webhook_test_state.png" src="../_images/gitlab_webhook_test_state.png" />
+</div>
+<div class="section" id="jenkins">
+<h3>jenkins 权限设置<a class="headerlink" href="#jenkins" title="Permalink to this headline">¶</a></h3>
+<p>gitlab 的 webhooks url 是根据 jenkins 构建权限连接设置的，
+如果必须登陆才能构建就必须获取jenkins的用户名及 token，可以在 jenkins 用户-设置里面查看到，
+url 格式为： <code class="docutils literal notranslate"><span class="pre">http://&lt;username&gt;:&lt;api-token&gt;&#64;&lt;jenkins-server&gt;:&lt;jenkins-port&gt;/</span></code></p>
+<p>当在gitlab上测试webhook报错 <code class="docutils literal notranslate"><span class="pre">Hook</span> <span class="pre">executed</span> <span class="pre">successfully</span> <span class="pre">but</span> <span class="pre">returned</span> <span class="pre">HTTP</span> <span class="pre">403</span></code>，我们必须进入 jenkins
+系统设置 -&gt; 全局安全配置（Configure Global Security）中，关闭 <span class="guilabel">Prevent Cross Site Request Forgery exploits</span> ，
+然后再点击 gitlab webhooks 测试返回 201 成功。</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pipeline 分支与 Pull 请求 &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Pipeline 分支与 Pull 请求</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/jenkins/pipeline/branch_and_pull.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pipeline-pull">
+<h1>Pipeline 分支与 Pull 请求<a class="headerlink" href="#pipeline-pull" title="Permalink to this headline">¶</a></h1>
+<p>在上一节一个 Jenkinsfile 可能被嵌入源代码实施控制。本节将介绍多分支 Pipeline 概念，该 Jenkinsfile 基础是在 Jenkins 提供更多动态和自动功能的基础上建立的。</p>
+<div class="section" id="id1">
+<h2>创建多分支<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>多分支 Pipeline 项目类型使您可以实现不同 Jenkinsfile 在同一个项目的不同分支。在 Multibranch Pipeline 项目中，Jenkins 自动发现，Pipeline 和执行包含 Jenkinsfile 源代码控制的分支 Pipeline。</p>
+<p>这不需要手动 Pipeline 创建和管理。</p>
+<p>创建多分支 Pipeline:</p>
+<ol class="arabic">
+<li><p class="first">单击 Jenkins 主页上的 New Item</p>
+<blockquote>
+<div><img alt="../../_images/New_Item.png" src="../../_images/New_Item.png" />
+</div></blockquote>
+</li>
+<li><p class="first">输入 Pipeline 的名称，选择多 Multibranch Pipeline，然后单击确定。</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Jenkins 使用 Pipeline 的名称在磁盘上创建目录。包含空格的 Pipeline 名称可能会发现不希望路径包含空格的脚本中的错误。</p>
+<img alt="../../_images/创建多分支管道项目.png" class="last" src="../../_images/创建多分支管道项目.png" />
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">添加分支源（例如，Git）并输入存储库的位置</p>
+<blockquote>
+<div><img alt="../../_images/添加分支源.png" src="../../_images/添加分支源.png" />
+</div></blockquote>
+</li>
+<li><p class="first">保存多分支 Pipeline 项目</p>
+<blockquote>
+<div><p>一旦保存，Jenkins 自动扫描指定的存储库，并为其中包含了库中的每个分支合适的项目 Jenkinsfile。默认情况下，Jenkins 不会自动重新索引存储库以进行分支添加或删除（除非使用组织文件夹），因此配置多分支 Pipeline 在配置中定期重新建立索引通常很有用。</p>
+<img alt="../../_images/构建触发器.png" src="../../_images/构建触发器.png" />
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2>附加环境变量<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Multibranch Pipeline 公开了通过 env 全局变量构建的分支的附加信息，例如：</p>
+<blockquote>
+<div><ul>
+<li><p class="first">BRANCH_NAME</p>
+<blockquote>
+<div><p>例如，该 Pipeline 正在执行的分支的名称</p>
+</div></blockquote>
+</li>
+<li><p class="first">CHANGE_ID</p>
+<blockquote>
+<div><p>对应于某种改变请求的标识符，例如拉取请求编号</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<p>其他的环境变量列在 “全局变量引用” 中。</p>
+<ul>
+<li><p class="first">支持 pull 请求</p>
+<blockquote>
+<div><p>通过 “Github” 或 “Bitbucker” 分支源，多分枝 pipeline 可用于验证拉/更改请求。该功能分别由 Github 分支源 和 Bitbucket 分支源 插件提供。有关如何使用这些插件的更多信息，请查阅官方文档。</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>使用组织文件夹<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>组织文件夹使 Jenkins 监视整个 Github 组织或 Bitbucker 团队/项目，并自动创建包含分支和拉请求的存储库的新的多分支 Pipeline Jenkinsfile。</p>
+<p>目前，此功能仅适用于 Github 和 Bitbucker，具有由 Github 组织文件夹 和 Bitbucket Branch Source 插件提供的功能。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

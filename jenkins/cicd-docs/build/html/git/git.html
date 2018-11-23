@@ -109,16 +109,29 @@
 <li class="toctree-l3"><a class="reference internal" href="#id13">分支命令</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id14">高级管理</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id15">查看</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">回滚</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id17">文件层操作</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id18">使用场景</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">标签</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id15">列出已有的标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">新建标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id17">包含附注的标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">部署标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id19">轻量级标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id20">验证标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">后期加注标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id22">分享标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id23">移除远程标签</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id24">获取远程标签</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id19">远程仓库</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id20">远程管理</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id21">标签管理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id25">高级管理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id26">查看</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id27">回滚</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id28">文件层操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id29">使用场景</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id30">远程仓库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id31">远程管理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id32">标签管理</a></li>
 </ul>
 </li>
 </ul>
@@ -546,9 +559,236 @@ git --versio
 </div>
 </div>
 <div class="section" id="id14">
-<h2>高级管理<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<h2>标签<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<p>同大多数 VCS 一样，Git 也可以对某一时间点上的版本打上标签。人们在发布某个软件版本（比如 v1.0 等等）的时候，经常这么做。</p>
 <div class="section" id="id15">
-<h3>查看<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h3>列出已有的标签<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>列出现有标签的命令非常简单，直接运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span></code> 即可：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># git tag
+1.0.0
+1.1.0
+1.2.0
+2.0.0
+2.0.1
+...
+</pre></div>
+</div>
+<p>显示的标签按字母顺序排列，所以标签的先后并不表示重要程度的轻重。</p>
+<p>我们可以用特定的搜索模式列出符合条件的标签。在 Git 自身项目的仓库中，有着超过 240 个标签，如果你只对 1.4.2 系统的版本感兴趣，可以运行下面的命令：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag -l &#39;v1.4.2.*&#39;
+v1.4.2.1
+v1.4.2.2
+v1.4.2.3
+v1.4.2.4
+</pre></div>
+</div>
+</div>
+<div class="section" id="id16">
+<h3>新建标签<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>Git 使用的标签有两种形式：轻量级的（lightweight）和含附注（annotated）。轻量级标签就像是个不会变化的分支，实际上它就是个指向特定提交对象的引用。而含附注标签，实际上时存储在仓库中的一个独立对象，它有自身的校验和信息，包含着标签的名字，电子邮件地址和日期，以及标签的说明，标签本身也允许使用 GNU Privacy Guard(GPG) 来部署或验证。一般我们都建议使用含附注型的标签，以便保留相关信息；当然，如果只是临时性加附注标签，或者不需要旁注额外信息，用轻量级标签也没有问题。</p>
+</div>
+<div class="section" id="id17">
+<h3>包含附注的标签<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>创建一个包含附注类型类型的标签非常简单，用 <code class="docutils literal notranslate"><span class="pre">-a</span></code> 指定标签名字即可：</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">-a</span></code> 取 annotated 的首字母</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag -a v1.4 -m &#39;my version 1.4&#39;
+$ git tag
+v0.1
+v1.3
+v1.4
+</pre></div>
+</div>
+<p>而 <code class="docutils literal notranslate"><span class="pre">-m</span></code> 选项则指定了对应的标签说明，Git 会将此说明一同保存在标签对象中。如果没有给出该选项，Git 回启动文本编辑软件供你输入标签说明。</p>
+<p>可以使用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span></code> 命令查看相应标签的版本信息，并连同显示打标签时的提交对象。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git show v1.4
+tag v1.4
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 14:45:11 2009 -0800
+
+my version 1.4
+
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+
+    Merge branch &#39;experiment&#39;
+</pre></div>
+</div>
+<p>我们可以看到在提交对象信息上面，列出此标签的提交者和提交时间，以及相应的标签说明。</p>
+</div>
+<div class="section" id="id18">
+<h3>部署标签<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>如果你有自己的私钥，还可以用 GPG 来签署标签，只需要把之前的 <code class="docutils literal notranslate"><span class="pre">-a</span></code> 改为 <code class="docutils literal notranslate"><span class="pre">-s</span></code> （取 <code class="docutils literal notranslate"><span class="pre">signed</span></code> 的首字母）即可：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag -s v1.5 -m &#39;my signed 1.5 tag&#39;
+You need a passphrase to unlock the secret key for
+user: &quot;Scott Chacon &lt;schacon@gee-mail.com&gt;&quot;
+1024-bit DSA key, ID F721C45A, created 2009-02-09
+</pre></div>
+</div>
+<p>现在再运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span></code> 会看到对应的 GPG 标签也附在其内：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git show v1.5
+tag v1.5
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 15:22:20 2009 -0800
+
+my signed 1.5 tag
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.8 (Darwin)
+
+iEYEABECAAYFAkmQurIACgkQON3DxfchxFr5cACeIMN+ZxLKggJQf0QYiQBwgySN
+Ki0An2JeAVUCAiJ7Ox6ZEtK+NvZAj82/
+=WryJ
+-----END PGP SIGNATURE-----
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+
+    Merge branch &#39;experiment&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id19">
+<h3>轻量级标签<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>轻量级标签实际上就是一个保存着对应提交对象的校验和信息的文件。要创建这样的标签，一个 <code class="docutils literal notranslate"><span class="pre">-a</span></code> ， <code class="docutils literal notranslate"><span class="pre">-s</span></code> 或 <code class="docutils literal notranslate"><span class="pre">-m</span></code> 选项都不用，直接给出标签名字即可：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag v1.4-lw
+$ git tag
+v0.1
+v1.3
+v1.4
+v1.4-lw
+v1.5
+</pre></div>
+</div>
+<p>现在运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span></code> 查看此标签信息，就只有相应的提交对象摘要：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git show v1.4-lw
+commit 15027957951b64cf874c3557a0f3547bd83b3ff6
+Merge: 4a447f7... a6b4c97...
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sun Feb 8 19:02:46 2009 -0800
+
+    Merge branch &#39;experiment&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id20">
+<h3>验证标签<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>可以使用 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-v</span> <span class="pre">[tag-name]</span></code> （取 <code class="docutils literal notranslate"><span class="pre">verify</span></code> 的首字母）的方式验证已经签署的标签。此命令回调用 GPG 来验证签名，所以你需要有签署者的公钥，存放在 keyring 中，才能验证：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag -v v1.4.2.1
+object 883653babd8ee7ea23e6a5c392bb739348b1eb61
+type commit
+tag v1.4.2.1
+tagger Junio C Hamano &lt;junkio@cox.net&gt; 1158138501 -0700
+
+GIT 1.4.2.1
+
+Minor fixes since 1.4.2, including git-mv and git-http with alternates.
+gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Good signature from &quot;Junio C Hamano &lt;junkio@cox.net&gt;&quot;
+gpg:                 aka &quot;[jpeg image of size 1513]&quot;
+Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
+</pre></div>
+</div>
+<p>若是没有签署者的公钥，会报告类似下面这样的错误：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+gpg: Can&#39;t check signature: public key not found
+error: could not verify the tag &#39;v1.4.2.1&#39;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>后期加注标签<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>你甚至可以在后期对早先的某次提交加注标签。比如在下面展示的提交历史中：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git log --pretty=oneline
+15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch &#39;experiment&#39;
+a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch &#39;experiment&#39;
+0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
+4682c3261057305bdd616e23b64b0857d832627b added a todo file
+166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
+9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
+964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
+8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+</pre></div>
+</div>
+<p>我们忘了在提交 “updated rakefile” 后为此项目打上版本号 v1.2，没关系，现在也能做。只要在打标签的时候跟上对应提交对象的校验和（或者几位字符）即可。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag -a v1.2 9fceb02
+</pre></div>
+</div>
+<p>可以看到我们已经补上了标签：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git tag
+v0.1
+v1.2
+v1.3
+v1.4
+v1.4-lw
+v1.5
+
+$ git show v1.2
+tag v1.2
+Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Feb 9 15:32:16 2009 -0800
+
+version 1.2
+commit 9fceb02d0ae598e95dc970b74767f19372d61af8
+Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;
+Date:   Sun Apr 27 20:43:35 2008 -0700
+
+    updated rakefile
+...
+</pre></div>
+</div>
+</div>
+<div class="section" id="id22">
+<h3>分享标签<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>默认情况下， <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> 并不会把标签传送到远端服务器上，只有通过显示命令才能分享标签到远端仓库。其命令格式如同推送分支，运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">[tagname]</span></code> 即可：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git push origin v1.5
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:schacon/simplegit.git
+* [new tag]         v1.5 -&gt; v1.5
+</pre></div>
+</div>
+<p>如果要一次推送所有本地新增的标签上去，可以使用 <code class="docutils literal notranslate"><span class="pre">--tags</span></code> 选项：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ git push origin --tags
+Counting objects: 50, done.
+Compressing objects: 100% (38/38), done.
+Writing objects: 100% (44/44), 4.56 KiB, done.
+Total 44 (delta 18), reused 8 (delta 1)
+To git@github.com:schacon/simplegit.git
+* [new tag]         v0.1 -&gt; v0.1
+* [new tag]         v1.2 -&gt; v1.2
+* [new tag]         v1.4 -&gt; v1.4
+* [new tag]         v1.4-lw -&gt; v1.4-lw
+* [new tag]         v1.5 -&gt; v1.5
+</pre></div>
+</div>
+<p>现在，其他人克隆共享仓库或拉取数据同步后，也会看到这些标签。</p>
+</div>
+<div class="section" id="id23">
+<h3>移除远程标签<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git push origin :refs/tags/[tagname]
+</pre></div>
+</div>
+</div>
+<div class="section" id="id24">
+<h3>获取远程标签<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git fetch origin tag &lt;tagname&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id25">
+<h2>高级管理<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id26">
+<h3>查看<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span></code> 用于切换分支</p>
 <blockquote>
@@ -564,8 +804,8 @@ git --versio
 </li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>回滚<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>回滚<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <img alt="../_images/reset参数影响.png" src="../_images/reset参数影响.png" />
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> 默认选项。缓存区域和你指定的提交同步，但工作目录不受影响</li>
@@ -579,8 +819,8 @@ git --versio
 </div>
 <p>上面示例命令中 <code class="docutils literal notranslate"><span class="pre">HEAD~2</span></code> 是语法糖，含义是将 HEAD 向前移动两个提交。</p>
 </div>
-<div class="section" id="id17">
-<h3>文件层操作<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>文件层操作<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <img alt="../_images/回滚文件.png" src="../_images/回滚文件.png" />
 <p>当检测到文件路径时，<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> 将缓存区同步到你指定的那个提交。比如，下面这个命令会将倒数第二个提交中的 foo.py 加入缓存区中，供下一个提交使用。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git reset HEAD~2 foo.py
@@ -589,8 +829,8 @@ git --versio
 <p>运行 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">HEAD</span> <span class="pre">foo.py</span></code> 会将当前的 foo.py 从缓存区域中移除出去，而不会影响工作目录中对 foo.py 的更改。</p>
 <p>–soft、–mixed 和 –hard 对文件层面的 git reset 毫无作用，因为缓存区域中的文件一定会变化，而工作目录中的文件一定不变。</p>
 </div>
-<div class="section" id="id18">
-<h3>使用场景<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>使用场景<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <table border="1" class="docutils">
 <colgroup>
 <col width="24%" />
@@ -630,11 +870,11 @@ git --versio
 <p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reflog</span></code> 命令分析你所有分支的头指针的日志来查找出你在重写历史上可能丢失的提交。</p>
 </div>
 </div>
-<div class="section" id="id19">
-<h2>远程仓库<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id30">
+<h2>远程仓库<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
 <img alt="../_images/远程仓库.png" src="../_images/远程仓库.png" />
-<div class="section" id="id20">
-<h3>远程管理<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>远程管理<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/respawner/looking-glass
 git pull
 git fetch
@@ -648,8 +888,8 @@ git tag -a v1.0 -m <span class="s2">&quot;abc&quot;</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id21">
-<h3>标签管理<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>标签管理<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git tag -a v1.4 -m <span class="s1">&#39;my version 1.4&#39;</span>
 git show v1.4
 git tag -a v1.2 9fceb01

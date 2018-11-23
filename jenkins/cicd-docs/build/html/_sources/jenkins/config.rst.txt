@@ -68,6 +68,7 @@ Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war �
 .. code-block:: bash
 
     #!/usr/bin/env bash
+    #set -x
 
     BACKUP_PATH="/opt/jenkins_backup"
     JENKINS_WAR_BALL_PATH="/usr/lib/jenkins"
@@ -81,9 +82,9 @@ Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war �
     #JENKINS_REPO_URL="http://mirrors.jenkins.io/war/" ## JENKINS
 
     function backup_rotate() {
-        DELETE_DATE_DAY=`date -d "-${BACKUP_ROTATE} day ago" +%F`
+        DELETE_DATE_DAY=`date -d "+${BACKUP_ROTATE} day ago" +%F`
         if [ -f ${BACKUP_PATH}/jenkins_${DELETE_DATE_DAY}.tar.gz ]; then
-            rm -rf ${BACKUP_PATH}/jenkins_${DELET_DATE_DAY}.tar.gz
+            rm -rf ${BACKUP_PATH}/jenkins_${DELETE_DATE_DAY}.tar.gz
         fi
     }
 
@@ -167,7 +168,7 @@ Jenkins 升级比较简单，我们只需要下载你需要更新版本的 war �
         ;;
         *)
             echo "Usage: $0 {backup|recovery|upgrade}"
-                exit 1
+            exit 1
         ;;
     esac
 

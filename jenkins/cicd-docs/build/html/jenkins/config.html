@@ -226,6 +226,7 @@
 </div>
 <p>写一个每天定时备份的脚本，保留 15 天的备份。</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+<span class="c1">#set -x</span>
 
 <span class="nv">BACKUP_PATH</span><span class="o">=</span><span class="s2">&quot;/opt/jenkins_backup&quot;</span>
 <span class="nv">JENKINS_WAR_BALL_PATH</span><span class="o">=</span><span class="s2">&quot;/usr/lib/jenkins&quot;</span>
@@ -239,9 +240,9 @@
 <span class="c1">#JENKINS_REPO_URL=&quot;http://mirrors.jenkins.io/war/&quot; ## JENKINS</span>
 
 <span class="k">function</span> backup_rotate<span class="o">()</span> <span class="o">{</span>
-    <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;-</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
+    <span class="nv">DELETE_DATE_DAY</span><span class="o">=</span><span class="sb">`</span>date -d <span class="s2">&quot;+</span><span class="si">${</span><span class="nv">BACKUP_ROTATE</span><span class="si">}</span><span class="s2"> day ago&quot;</span> +%F<span class="sb">`</span>
     <span class="k">if</span> <span class="o">[</span> -f <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELETE_DATE_DAY</span><span class="si">}</span>.tar.gz <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-        rm -rf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELET_DATE_DAY</span><span class="si">}</span>.tar.gz
+        rm -rf <span class="si">${</span><span class="nv">BACKUP_PATH</span><span class="si">}</span>/jenkins_<span class="si">${</span><span class="nv">DELETE_DATE_DAY</span><span class="si">}</span>.tar.gz
     <span class="k">fi</span>
 <span class="o">}</span>
 
@@ -325,7 +326,7 @@
     <span class="p">;;</span>
     *<span class="o">)</span>
         <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="nv">$0</span><span class="s2"> {backup|recovery|upgrade}&quot;</span>
-            <span class="nb">exit</span> <span class="m">1</span>
+        <span class="nb">exit</span> <span class="m">1</span>
     <span class="p">;;</span>
 <span class="k">esac</span>
 </pre></div>

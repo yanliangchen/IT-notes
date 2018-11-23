@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Docker 使用 Pipeline &mdash; cicd alpha documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cicd
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../git/git.html">git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gitlab/gitlab.html">gitlab</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jenkins/jenkins.html">jenkins</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cicd</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Docker 使用 Pipeline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/docker/docker.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="docker-pipeline">
+<h1>Docker 使用 Pipeline<a class="headerlink" href="#docker-pipeline" title="Permalink to this headline">¶</a></h1>
+<p>使用 Docker 来跨主机同一构建和测试环境，并提供用于部署应用程序的高效机制。Pipeline 从 2.5 版本开始对通过 Jenkinsfile 和 Docker 交互提供内置的支持。</p>
+<div class="section" id="docker">
+<h2>Docker 远程连接<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h2>
+<p>Docker 默认通讯方式只支持本地形式调用，不支持 TCP 远程，如何增加 Docker 支持通过 TCP 方式管理 Docker，可通过配置文件形式，各个版本的配置方式不同。</p>
+<ul>
+<li><p class="first">通过配置文件配置</p>
+<blockquote>
+<div><p>创建 /etc/docker/daemon.json 文件</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;hosts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;tcp://0.0.0.0:2376&quot;</span><span class="p">,</span> <span class="s2">&quot;unix:///var/run/docker.sock&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">通过 systemd 启动文件配置</p>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd
+ExecReload=/bin/kill -s HUP $MAINPID
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+# Uncomment TasksMax if your systemd version supports it.
+# Only systemd 226 and above support this version.
+#TasksMax=infinity
+TimeoutStartSec=0
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+# restart the docker process if it exits prematurely
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+</div>
+<p>将以上配置中的 <code class="docutils literal notranslate"><span class="pre">ExecStart=/usr/bin/dockerd</span></code> 修改为 <code class="docutils literal notranslate"><span class="pre">ExecStart=/usr/bin/dockerd</span> <span class="pre">-H</span> <span class="pre">unix:///var/run/docker.sock</span> <span class="pre">-H</span> <span class="pre">tcp://0.0.0.0:2375</span></code></p>
+</div></blockquote>
+</li>
+</ul>
+<p>重启服务</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>systemctl daemon-reload
+systemctl restart docker
+</pre></div>
+</div>
+<p>即可进行本地活远程 API 调用</p>
+</div>
+<div class="section" id="jenkins">
+<h2>Jenkins 插件安装<a class="headerlink" href="#jenkins" title="Permalink to this headline">¶</a></h2>
+<p>我们需要一些插件支持</p>
+<ul class="simple">
+<li>Docker Plugin 提供 Docker 构建和发布</li>
+<li>SSH Plugin 提供通过 SSH 在远程主机执行命令，用于部署服务</li>
+</ul>
+<p>插件安装完成之后，进入 系统管理 -&gt; 系统设置 -&gt; Cloud，点击 ADD A NEW CLOUD 按钮，选择 Docker。</p>
+<img alt="../_images/cloud_remote_docker配置.png" src="../_images/cloud_remote_docker配置.png" />
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">docker host url 需要加上 <a class="reference external" href="tcp://">tcp://</a></p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>配置执行环境<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Pipeline 旨在轻松将 Docker 镜像用做单个 Stage 或整个 Pipeline 的执行环境。这意味着用户可以定义 Pipeline 所需的工具，而无需手动配置代理。实际上可以使用能装到 Docker 容器中的几乎所有工具。只需对 Jenkins 文件进行少量编辑即可轻松使用。</p>
+<p>声明式 pipeline:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+Pipeline {
+    agent {
+        docker { image: &#39;node:7-alpine&#39; }
+    }
+    stages {
+        stage(&#39;Test&#39;) {
+            steps {
+                sh &#39;node --version&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>对应的脚本式 Pipeline:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* Requires the Docker Pipeline plugin to be installed */
+    docker.image(&#39;node:7-alpine&#39;).inside {
+        stage(&#39;Test&#39;) {
+            sh &#39;node --version&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>Pipeline 执行时，Jenkins 会自动启动指定的容器并通过这个容器执行定义的步骤：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Test)
+[Pipeline] sh
+[an-pipeline] Running shell script
++ node --version
+v7.10.1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h3>缓存容器的数据<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>许多构建工具会下载并缓存额外的依赖以便后买呢再次使用。应为容器是通过干净的文件系统初始化创建的，这会导致 Pipeline 无法载多个步骤之间利用磁盘上的缓存而降低速度。</p>
+<p>Pipeline 支持添加传递给 Docker 自定义参数，语序用户指定要装入的自定义 Docker 卷，这可用于在 Pipeline 运行之间在代理上缓存数据。以下示例将在使用 Maven 容器的管道运行之间缓存 <code class="docutils literal notranslate"><span class="pre">~/.m2</span></code> ，从而避免需要重新下载用于管道的后续运行的依赖关系。</p>
+<p>声明式 Pipeline</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent {
+        docker {
+            image &#39;maven:3-alpine&#39;
+            args &#39;-v $HOME/.m2:/root/.m2&#39;
+        }
+    }
+    stages {
+        stage(&#39;Build&#39;) {
+            steps {
+                sh &#39;mvn -B&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>对应的脚本式 Pipeline</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* Requires the Docker Pipeline plugin to be installed */
+    docker.image(&#39;maven:3-alpine&#39;).inside(&#39;-v $HOME/.m2:/root/.m2&#39;) {
+        stage(&#39;build&#39;) {
+            sh &#39;mvn -B&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>使用多个容器<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>代码库依赖与多种不同的技术的场景正在变得越来越的常见。例如，一个存储库可能同时拥有一个基于 Java 的后端API实现和一个基于 JavaScript 的前端实现。在不同的阶段 stage 中通过使用 <code class="docutils literal notranslate"><span class="pre">agent{}</span></code> 指令可以将 docker 与 Pipeline 相结合，从而让 Jenkinsfile 使用多种类型的技术。</p>
+<p>声明式 Pipeline</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent none
+    stages {
+        stage(&#39;Back-end&#39;) {
+            agent {
+                docker { image &#39;maven:3-alpine&#39; }
+            }
+            steps {
+                sh &#39;mvn --version&#39;
+            }
+        }
+        stage(&#39;Front-end&#39;) {
+            agent {
+                docker { image &#39;node:7-alpine&#39; }
+            }
+            steps {
+                sh &#39;node --version&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p>对应的脚本式 Pipeline</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Scripted Pipeline)
+node {
+    /* Requires the Docker Pipeline plugin to be installed */
+
+    stage(&#39;Back-end&#39;) {
+        docker.image(&#39;maven:3-alpine&#39;).inside {
+            sh &#39;mvn --version&#39;
+        }
+    }
+
+    stage(&#39;Front-end&#39;) {
+        docker.image(&#39;node:7-alpine&#39;).inside {
+            sh &#39;node --version&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="dockerfile">
+<h3>使用 Dockerfile<a class="headerlink" href="#dockerfile" title="Permalink to this headline">¶</a></h3>
+<p>对于那些需要更多定制化执行环境的项目，Pipeline 还支持从代码仓库中的 Dockerfile 创建和运行容器。与以前使用“现成”容器的方法相反，使用 <code class="docutils literal notranslate"><span class="pre">agent</span> <span class="pre">{</span> <span class="pre">dockerfile</span> <span class="pre">true</span> <span class="pre">}</span></code> 语法将从 Dockerfile 构建新的镜像，而不是从 Docker Hub 中获取一个镜像。</p>
+<p>再次使用上面的示例，这次使用更加定制化的 Dockerfile</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Dockerfile
+From node:7-alpine
+
+RUN apk add -u subversion
+</pre></div>
+</div>
+<p>把这个代码提交到代码仓库的根目录，Jenkinsfile 可以被设置为通过这个 Dockerfile 创建容器，然后使用这个容器运行指定的步骤</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Jenkinsfile (Declarative Pipeline)
+pipeline {
+    agent { dockerfile true}
+    stages {
+        stage(&#39;Test&#39;) {
+            steps {
+                sh &#39;node --version&#39;
+                sh &#39;svn --version&#39;
+            }
+        }
+    }
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">agent</span> <span class="pre">{</span> <span class="pre">dockerfile</span> <span class="pre">true</span> <span class="pre">}</span></code> 语法支持一系列其他选项，参考 Pipeline 语法章节</p>
+</div>
+<div class="section" id="id4">
+<h3>指定  Docker 标签<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>默认情况喜爱，Pipeline 会嘉定所有配置的 代理 都有能力运行基于 Docker 的 Pipeline。对于无法运行 Docker 守护程序的 macOS，Windows 或其他代理的 Jenkins 环境，此默认设置可能存在问题。Pipeline 在 Manager Jenkins 页面和文件夹级别提供全局选项，用于通过标签指定用于运行基于 Docker 的 Pipeline 的代理。</p>
+</div>
+</div>
+<div class="section" id="pipeline">
+<h2>脚本式 Pipeline 高级用法<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sidecar">
+<h3>运行 “sidecar” 容器<a class="headerlink" href="#sidecar" title="Permalink to this headline">¶</a></h3>
+<p>在 Pipeline 中使用 Docker 可以高效的运行构建活测试所依赖的服务。与 sidecar 模式 类型，Docker Pipeline 可以在后台运行一个容器，而在另一个容器中执行工作。利用这种 sidecar 方法，Pipeline 可以为每个 Pipeline 运行配置一个“干净”的容器。</p>
+<p>考虑一个假设的集成测试套件，它依赖与本地的 MySQL 数据库来运行。使用 Docker Pipeline 插件对脚本式 Pipeline 的支持中实现的 withRun 方法，Jenkinsfile 可以作为 sidecar 运行 MySQL：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    /*
+    * In order to communicate with the MySQL server，this Pipeline explicitly
+    * maps the port (`3306`) to a known port on the host machine.
+    */
+    docker.image(&#39;mysql:5&#39;).withRun(&#39;-e &quot;MYSQL_ROOT_PASSWORD=my-secret-password&quot; -p 3306:3306&#39;) { c -&gt;
+        /* Wait until mysql server is up */
+        sh &#39;while ! mysqladmin ping -h 0.0.0.0 --silent; do sleep 1; done&#39;
+        /* Run some tests which require MySQL */
+        sh &#39;make check&#39;
+    }
+}
+</pre></div>
+</div>
+<p>这个例子可以进一步采用，同时使用两个容器。一个“sidecar”运行 MySQL，另一个提供执行的环境，通过使用 Docker 容器链接。</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    docker.image(&#39;mysql:5&#39;).withRun(&#39;-e &quot;MYSQL_ROOT_PASSWORD=my-secret-password&quot;&#39;) { c -&gt;
+        docker.image(&#39;mysql:5&#39;).inside(&quot;--link ${c.id}:db&quot;) {
+            /* Wait until mysql service is up */
+            sh &#39;while ! mysqladmin ping -hdb --silent; do sleep 1; done&#39;
+        }
+        docker.image(&#39;centos:7&#39;).inside(&quot;--link ${c.id}:db&quot;) {
+            /*
+            * Run some tests which require MySQL, and assume that it is
+            * available on the host name `db`
+            */
+            sh &#39;make check&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>以上示例使用 withRun 公开对象，该对象具有可通过 ID 属性获取正在运行的容器ID。使用容器的ID，Pipeline 可以通过将定制的 Docker 参数传递给 <code class="docutils literal notranslate"><span class="pre">inside()</span></code> 方法来创建一个链接。</p>
+<p>在管道退出之前，ID 属性对于检查正在运行的 Docker 容器中的日志也很有用：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sh <span class="s2">&quot;docker log </span><span class="si">${</span><span class="nv">c</span><span class="p">.id</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>构建容器<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>为了创建一个 Docker 镜像，Docker Pipeline 插件还提供了一个 <code class="docutils literal notranslate"><span class="pre">build()</span></code> 方法，用于在 Pipeline 运行期间从存储库中的 Dockerfile 创建一个新镜像。</p>
+<p>使用语法 <code class="docutils literal notranslate"><span class="pre">docker.build(&quot;my-image-name&quot;)</span></code> 的一个主要好处是脚本式 Pipeline 可以为后续的 Docker Pipeline 调用使用返回值，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    def customImage = docker.build(&quot;my-image:${env.BUILD_ID}&quot;)
+    customImage.inside {
+        sh &#39;make test&#39;
+    }
+}
+</pre></div>
+</div>
+<p>返回值还可以用于通过 <code class="docutils literal notranslate"><span class="pre">push()</span></code> 方法将 Docker 镜像发布到 Docker Hub 或自定义注册表，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    def customImage = docker.build(&quot;my-image:${env.BUILD_ID}&quot;)
+    customImage.push()
+}
+</pre></div>
+</div>
+<p>镜像“标签”式一个常见用法是为最近验证的 Docker 镜像版本指定 latest 的标签，<code class="docutils literal notranslate"><span class="pre">push()</span></code> 方法接受一个可选的标签参数，允许 Pipeline 用不同的标签推送 customImage，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    def customImage = docker.build(&quot;my-image:${env.BUILD_ID}&quot;)
+    customImage.push()
+    customImage.push(&#39;latest&#39;)
+}
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">build()</span></code> 方法默认在当前目录下构建 Dockerfile。可以通过第二个参数指定提供 Dockerfile 的目录路径来覆盖默认值，例如：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    def testImage = docker.build(&quot;test-image&quot;, &quot;./dockerfile/test&quot;)
+
+    testImage.inside {
+        sh &#39;make test&#39;
+    }
+}
+</pre></div>
+</div>
+<p>可以将其他参数传递给 <code class="docutils literal notranslate"><span class="pre">build()</span></code> 方法的第二个参数来传递给 docker build。以这种方式传递参数时，该字符串中得分最后一个值必须时 docker 文件的路径。</p>
+<p>这个例子通过 <code class="docutils literal notranslate"><span class="pre">-f</span></code> 标志覆盖默认的 Dockerfile：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    def dockerfile = &quot;Dockerfile.test&quot;
+    def customImage = docker.build(&quot;my-image:${env.BUILD_ID}&quot;, &quot;-f ${dockerfile} ./dockerfiles&quot;)
+}
+</pre></div>
+</div>
+<p>根据 <code class="docutils literal notranslate"><span class="pre">./dockerfiles/Dockerfile.test</span></code> 中的 Dockerfile 构建 <code class="docutils literal notranslate"><span class="pre">my-image:${env.BUILD_ID}</span></code></p>
+</div>
+<div class="section" id="id6">
+<h3>使用远程 Docker 服务器<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>默认情况下，Docker Pipeline 插件会与本地 Docker 守护进程通信，通常是通过 <code class="docutils literal notranslate"><span class="pre">/var/run/docker.sock</span></code> 来实现的。</p>
+<p>要选中非默认的 Docker 服务器，例如 Docker Swarm，需要使用 <code class="docutils literal notranslate"><span class="pre">withServer()</span></code> 方法。</p>
+<p>通过传递 URL 和可选的在 Jenkins 中预先配置的 Docker 服务器授权认证（Docker Server Certificate Authentication）的凭证 ID 到这个方法：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    docker.withServer(&#39;tcp://swarm.example.com:2376&#39;, &#39;swarm-certs&#39;) {
+        docker.image(&#39;mysql:5&#39;).withRun(&#39;-p 3306:3306&#39;) {
+            /* do things */
+        }
+    }
+}
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>在盒子外面（out of the box），inside() 和 build() 将无法正常使用 Docker Swarm 服务器。
+要使 inside() 可以工作，Docker 服务器和 Jenkins 代理必须使用相同的文件系统，这样才能挂载工作控件。</p>
+<p>目前 Jenkins 插件和 Docker CLI 都不会自动家册服务器远程运行情况；一个典型的症状将是嵌套的 sh 命令错误，例如</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cannot create /…@tmp/durable-…/pid: Directory nonexistent
+</pre></div>
+</div>
+<p class="last">当 Jenkins 检测到代理本身在 Docker 容器中运行时，他会自动将 <code class="docutils literal notranslate"><span class="pre">--&gt;volumes-from</span></code> 参数传递给内部容器，以确保它可以与代理共享工作区。
+此外某些版本的 Docker Swarm 不支持自定义的 registry。</p>
+</div>
+</div>
+<div class="section" id="registry">
+<h3>使用自定义 registry<a class="headerlink" href="#registry" title="Permalink to this headline">¶</a></h3>
+<p>默认情况下，Docker Pipeline 集成使用 Docker Hub 的默认 Docker registry。</p>
+<p>要使用自定义 Docker Registry，脚本式 Pipeline 的用户可以使用 <code class="docutils literal notranslate"><span class="pre">withRegistry()</span></code> 方法包裹每个步骤，并传入指定的 Registry 的 URL：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+
+    docker.withRegistry(&#39;https://registry.exmaple.com&#39;) {
+        docker.image(&#39;my-custom-image&#39;).inside {
+            sh &#39;make test&#39;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>对于需要认证的 Docker Registry，在 jenkins 首页增加一条 “Username/Password” 凭证，并使用凭证的ID作为 <code class="docutils literal notranslate"><span class="pre">withRegistry()</span></code> 的第二个参数：</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>node {
+    checkout scm
+    docker.withRegistry(&#39;https://registry.example.com&#39;, &#39;creadentials-id&#39;) {
+        def customImage = docker.build(&quot;my-image:${env.BUILD_ID}&quot;)
+
+        /* Push the container to the custom Registry */
+        customImage.push()
+    }
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, renkeju.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'alpha',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+version: '3'
+services: 
+
+  html:
+    container_name: sphinx-cicd
+    network_mode: "none"
+    image: sphinx:1.6.4-apline3.8
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "/Users/renkeju/Documents/cicd-docs:/usr/src/sphinx"
+    
+  web:
+    container_name: nginx-cicd
+    image: nginx:1.14-alpine
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - "/Users/renkeju/Documents/cicd-docs/build/html:/usr/share/nginx/html"

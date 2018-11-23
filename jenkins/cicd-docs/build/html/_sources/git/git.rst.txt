@@ -92,5 +92,6 @@ git 原理
 
 .. include:: /git/install.rst 
 .. include:: /git/branch.rst
+.. include:: /git/tag.rst
 .. include:: /git/advanced.rst
 .. include:: /git/remote.rst

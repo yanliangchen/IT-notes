@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>云顶洗头城</title>
+    <script src="{{static_url('jquery.min.js')}}"></script>
+</head>
+<body>
+<div id="contents" style="height: 500px; overflow: auto">
+</div>
+<div>
+    <textarea id="msg"></textarea>
+    <a href="javascript:;" onclick="sendMsg()">发送</a>
+</div>
+<script>
+    alert('欢迎来到云顶山庄');
+    var ws = new WebSocket("ws://192.168.139.1:8090/chat");//和服务器建立websocket连接 返回一个连接
+    // 当服务器有消息发送的时候
+    ws.onmessage = function (e) {
+        $('#contents').append("<p>" + e.data +"</p>");//向聊天窗口追加服务器发送过来的数据
+    };
+    //向服务器发送数据的函数
+    function sendMsg() {
+        var msg = $("#msg"); //获取输入框
+        ws.send(msg.val());//获取输入框中的值
+        msg.val('')//清空输入框
+    }
+</script>
+</body>
+</html>

@@ -1,10 +1,14 @@
 ### 详解Django rest_framework实现RESTful API
 
+参考:https://www.jb51.net/article/140724.htm
+
 ##### 1.   pip3 install  djangorestframework
 
 ##### 2.  新建Django项目
 
-![](.\image\1.png)
+![](./image/1.png)
+
+
 
 ##### 3.创建一个apitest APP
 

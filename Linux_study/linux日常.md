@@ -181,3 +181,57 @@ Configure是一个可执行脚本，它有很多选项，在待安装的源码�
 
 
 
+ **23 .linux下登录日志在下面的目录里 ：**
+
+  cd /var/log  查看ssh用户的登录日志：  less secure  linux日志管理： 
+
+
+
+**24. Linux下的常用性能查询命令top、vmstat、gprof、pidstat之对比**
+
+（1）查看各个CPU核的使用情况
+sudo top -d 1
+进入之后，按1，会出现下面的CPU使用情况，其中us列反映了各个CPU核的使用情况，百分比大说明该核在进行紧张的任务。
+
+
+（2）查看哪个进程在哪个CPU核上运行
+sudo top -d 1
+进入之后，依次按f、j和空格，会出现如下（其中P列指示的是该进程最近使用的CPU核，如进程mencoder的P列为7，则表示mencoder最近在核7上运行，对于多线程甚至单线程的进程，在不同时刻会使用不同的CPU Core）：
+
+（3）vmstat查看整体的CPU使用情况
+sudo vmstat 2 3
+参数2表示每个2秒显示一下结果，3表示显示结果的数目。
+
+cs列表示每秒上下文切换次数，us表示用户CPU时间。
+
+（4）Intel工具powertop
+sudo powertop
+会显示各个CPU核的使用百分比。
+
+（5）gprof分析一个程序
+假设程序源文件为speedup-example.cpp
+gcc speedup-example.cpp -o speedup-example -pg（注意-pg）
+执行程序./speedup-example，会在当前目录生成gmon.out，这个文件是我们查看程序运行情况的来源，接下来用gprof命令查看它：
+gprof -b speedup-example gmon.out > Results.txt
+这样这个程序的运行信息就在Results.txt中了。
+
+
+（6）pidstat实时查看一个进程的CPU使用情况及上下文切换情况
+首先安装
+sudo apt-get install sysstat
+接下来使用pidstat（下面的-p是与进程号连用，用于显示特定进程的性能信息，之后还可以指定每隔几秒显示，一共显示几条）：
+
+pidstat 5 -p 15488（你要追踪的进程的pid）
+这样就能实时显示15488进程的CPU使用情况：
+
+
+
+pidstat -w —— 显示每个进程的上下文切换情况pidstat -w -p 15488 2 —— 每隔2秒显示15488进程的上下文切换情况：
+
+
+cswch/s —— 每秒该进程产生的voluntary context switches总数。voluntary context switches出现在访问一个已经被占用的资源，从而不得不挂起（即我们通常说的Synchronization Context Switches）
+
+nvcswch/s —— 每秒该进程产生的involuntary context switches总数。involuntary  context switches发生在自己的时间片用完或被更高的优先级抢占（包含Preemption Context Switches）
+
+
+

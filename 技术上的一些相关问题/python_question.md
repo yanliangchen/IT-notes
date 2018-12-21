@@ -1448,3 +1448,14 @@ l2 = []
 
 
 
+### 32. 关于sql的几个重要的点，你会了吗?
+
+https://mp.weixin.qq.com/s/BIa3CU73JEGQOzHfs0_X0w
+
+### 33. 画出TCP三次握手，四次挥手断开示意图。
+
+https://www.cnblogs.com/qq78292959/p/3922231.html
+
+### 34. MySQL半同步复制
+
+https://www.cnblogs.com/ivictor/p/5735580.html

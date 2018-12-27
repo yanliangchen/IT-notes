@@ -1459,3 +1459,7 @@ https://www.cnblogs.com/qq78292959/p/3922231.html
 ### 34. MySQL半同步复制
 
 https://www.cnblogs.com/ivictor/p/5735580.html
+
+### 35.Python是如何进行类型转换的。
+
+答  :  通过函数来进行转换

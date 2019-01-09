@@ -1620,3 +1620,77 @@ print(nowTime)
 
 
 
+
+
+### 38. 如何用Python来进行查询和替换一个文本字符串
+
+答：
+
+```
+find()方法可以在一个较长的字符串中查找子串，返回子串坐在位置的最左端索引
+
+replace()方法返回某字符串的所有匹配项均被替换之后得到的字符串
+
+可能这里问的是正则表达式的东西！！！
+
+一、http://www.mianwww.com/html/2009/03/3258.html
+
+可以使用sub()方法来进行查询和替换，sub方法的格式为：sub(replacement, string[, count=0])
+
+replacement是被替换成的文本
+
+string是需要被替换的文本
+
+count是一个可选参数，指最大被替换的数量
+
+例子：
+
+import re
+p = re.compile(‘(blue|white|red)’)
+print(p.sub(‘colour’,'blue socks and red shoes’))
+print(p.sub(‘colour’,'blue socks and red shoes’, count=1))
+
+输出：
+
+colour socks and colour shoes
+colour socks and red shoes
+
+subn()方法执行的效果跟sub()一样，不过它会返回一个二维数组，包括替换后的新的字符串和总共替换的数量
+
+例如：
+
+import re
+p = re.compile(‘(blue|white|red)’)
+print(p.subn(‘colour’,'blue socks and red shoes’))
+print(p.subn(‘colour’,'blue socks and red shoes’, count=1))
+
+输出
+
+(‘colour socks and colour shoes’, 2)
+
+(‘colour socks and red shoes’, 1)
+```
+
+
+
+### 39.python中变量的作用域，变量的查找顺序。
+
+```
+变量查找顺序：
+
+LEGB ： locals -> enclosing function -> globals -> builtins
+
+locals 是函数内的名字空间，包括局部变量和形参
+enclosing 外部嵌套函数的名字空间
+globals 全局变量，函数定义所在模块的名字空间
+builtins 内置模块的名字空间
+```
+
+
+
+### 40.python中如何动态获取和设置对象	的属性？
+
+```
+
+```
+

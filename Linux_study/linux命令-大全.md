@@ -1857,3 +1857,30 @@ chkconfig iptables off   关掉指定服务的自动启动
 chkconfig iptables on   开启指定服务的自动启动
 ```
 
+## 20. ssh非root登陆（用户名登陆切换到root）
+
+```
+[root@localhost ~]# cat /etc/redhat-release 
+
+CentOS Linux release 7.4.1708 (Core) 
+
+[root@localhost ~]# ssh -V
+OpenSSH_6.6.1p1, OpenSSL 1.0.1e-fips 11 Feb 2013
+
+vim /etc/ssh/sshd_config
+
+PermitRootLogin yes更改为no
+
+重启ssh 
+
+systemctl restart sshd
+
+[root@localhost ~] useradd yaoniming3000
+[root@localhost ~]passwd yaoniming3000
+使用普通账户登录服务器后执行su –切换
+# 注意su后面有个减号，是同时切换环境变量的意思
+[root@localhost ~]su –
+```
+
+
+

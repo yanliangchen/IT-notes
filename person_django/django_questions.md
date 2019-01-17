@@ -1,4 +1,4 @@
-### 1. Django里QuerySet的get和filter方法的区别?
+1. Django里QuerySet的get和filter方法的区别?
 
 get获得是一个对象，filter得到是一个对象列表，即使只有一个满足条件 
 
@@ -491,7 +491,7 @@ def index(request):
 
 [![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
 
-### 4.8.Django中Model的slugFied类型字段有什么用途（温故其他字段类型）？
+### 4.Django中Model的slugFied类型字段有什么用途（温故其他字段类型）？
 
 转自：https://blog.csdn.net/gavinking0110/article/details/54412590
 
@@ -972,3 +972,157 @@ def UploadFile(request):
             print upload.file
 ```
 
+
+
+### 5.Django的生命周期(中间件的理解)
+
+参考 **https://blog.csdn.net/zhoulin753/article/details/80457355**
+
+参考  **https://www.cnblogs.com/zhaof/p/6281541.html**
+
+```
+ django的生命周期是:前端请求--->nginx--->uwsgi.--->中间件--->url路由---->view试图--->orm---->拿到数据返回给view---->试图将数据渲染到模版中拿到字符串---->中间件--->uwsgi---->nginx---->前端渲染。
+ 
+   今天就不讲其他内容，今天就讲中间件的内容，中间件的作用非常大，可以处理所有的请求内容，中间件其实就是一个类，这个类中一共有5个方法，分别是process_request, process_response，process_view, process_exception,process_render_template，今天就讲讲他的运行顺序。
+
+当一个请求，首先从上往下运行这些类中process_request方法，之后进入django的从上往下执行每个类中的process_view方法，在然后就进入我们自定义的view.py文件，如果你的试图中有错误，那就会从下往上执行中间件中的process_exception方法，然后把错误信息在通过process_response中返回给客户端。
+
+process_request：在这个方法中是没有return方法的，如果有那就会执行process_response方法，直接返回给客户端，一般情况下我们是不会在这里返回内容的，除非你有需求，判断发过来的请求过来的内容，如果不是很友好的请求，那么我们直接就可以在这返回，直接卡死，让这个请求直接都进不了我们的django中的内部程序，
+
+process_response:在这个方法中我们必须要有return方法，这样才能一步一步的返回给客户端，当然你也可以写一些东西在response里，在这里写就是会在所有的response里都会有你所添加的内容！
+
+process_view:这个方法中是没有return方法的，如果有那就走process_response方法；
+
+process_exception:在这个方法中是一定要有return方法的，这个方法是专门返回你的错误信息的，我可以在所有的视图函数只要出现错误就会执行这个方法，可以返回一个错误模版信息！
+
+```
+
+### 6.Django中间件（settings解释）
+
+```
+django中有中间件middleware在我们项目settings中的 MIDDLEWARE中 下面浅谈各个中间件含义以及自定义用法:
+
+django.middleware.security.SecurityMiddleware’
+ 一些安全设置，比如XSS脚本过滤。
+
+django.contrib.sessions.middleware.SessionMiddleware
+session支持中间件，加入这个中间件，会在数据库中生成一个django_session的表。
+
+django.middleware.common.CommonMiddleware
+通用中间件，会处理一些URL，比如baidu.com会自动的处理成www.baidu.com。比如/blog/111会处理成/blog/111/自动加上反斜杠。
+
+django.middleware.csrf.CsrfViewMiddleware
+跨域请求伪造中间件。加入这个中间件，在提交表单的时候会必须加入csrf_token，cookie中也会生成一个名叫csrftoken的值，也会在header中加入一个HTTP_X_CSRFTOKEN的值来放置CSRF攻击。
+
+django.contrib.auth.middleware.AuthenticationMiddleware
+用户授权中间件。他会在每个HttpRequest对象到达view之前添加当前登录用户的user属性，也就是你可以在view中通过request访问user。
+
+django.contrib.messages.middleware.MessageMiddleware
+消息中间件。展示一些后台信息给前端页面。如果需要用到消息，还需要在INSTALLED_APPS中添加django.contrib.message才能有效。如果不需要，可以把这两个都删除。
+
+django.middleware.clickjacking.XFrameOptionsMiddleware
+防止通过浏览器页面跨Frame出现clickjacking（欺骗点击）攻击出现。
+
+```
+
+### 7.Django的CBV与FBV
+
+**参考：https://www.cnblogs.com/yuanchenqi/articles/8715364.html**
+
+#### FBV
+
+**FBV（function base views）** 就是在视图里使用函数处理请求。
+
+在之前django的学习中，我们一直使用的是这种方式，所以不再赘述。
+
+#### CBV
+
+**CBV（class base views）** 就是在视图里使用类处理请求。
+
+Python是一个面向对象的编程语言，如果只用函数来开发，有很多面向对象的优点就错失了（继承、封装、多态）。所以Django在后来加入了Class-Based-View。可以让我们用类写View。这样做的优点主要下面两种：
+
+1. 提高了代码的复用性，可以使用面向对象的技术，比如Mixin（多继承）
+2. 可以用不同的函数针对不同的HTTP方法处理，而不是通过很多if判断，提高代码可读性
+
+#### **使用class-based views**
+
+如果我们要写一个处理GET方法的view，用函数写的话是下面这样。
+
+```
+from django.http import HttpResponse
+  
+def my_view(request):
+     if request.method == 'GET':
+            return HttpResponse('OK')
+```
+
+如果用class-based view写的话，就是下面这样
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+```
+from django.http import HttpResponse
+from django.views import View
+  
+class MyView(View):
+
+      def get(self, request):
+            return HttpResponse('OK')
+```
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+Django的url是将一个请求分配给可调用的函数的，而不是一个class。针对这个问题，class-based view提供了一个`as_view()`静态方法（也就是类方法），调用这个方法，会创建一个类的实例，然后通过实例调用`dispatch()`方法，`dispatch()`方法会根据request的method的不同调用相应的方法来处理request（如`get() `,` post()`等）。到这里，这些方法和function-based view差不多了，要接收request，得到一个response返回。如果方法没有定义，会抛出HttpResponseNotAllowed异常。
+
+在url中，就这么写：
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+```
+# urls.py
+from django.conf.urls import url
+from myapp.views import MyView
+  
+urlpatterns = [
+     url(r'^index/$', MyView.as_view()),
+]
+```
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+类的属性可以通过两种方法设置，第一种是常见的Python的方法，可以被子类覆盖。
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+```
+from django.http import HttpResponse
+from django.views import View
+  
+class GreetingView(View):
+    name = "yuan"
+    def get(self, request):
+         return HttpResponse(self.name)
+  
+# You can override that in a subclass
+  
+class MorningGreetingView(GreetingView):
+    name= "alex"
+```
+
+[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+第二种方法，你也可以在url中指定类的属性：
+
+在url中设置类的属性Python
+
+```
+urlpatterns = [
+   url(r'^index/$', GreetingView.as_view(name="egon")),
+]
+```
+
+#### **使用Mixin**
+
+我觉得要理解django的class-based-view（以下简称cbv），首先要明白django引入cbv的目的是什么。在django1.3之前，generic view也就是所谓的通用视图，使用的是function-based-view（fbv），亦即基于函数的视图。有人认为fbv比cbv更pythonic，窃以为不然。python的一大重要的特性就是面向对象。而cbv更能体现python的面向对象。cbv是通过class的方式来实现视图方法的。class相对于function，更能利用多态的特定，因此更容易从宏观层面上将项目内的比较通用的功能抽象出来。关于多态，不多解释，有兴趣的同学自己Google。总之可以理解为一个东西具有多种形态（的特性）。cbv的实现原理通过看django的源码就很容易明白，大体就是由url路由到这个cbv之后，通过cbv内部的dispatch方法进行分发，将get请求分发给cbv.get方法处理，将post请求分发给cbv.post方法处理，其他方法类似。怎么利用多态呢？cbv里引入了mixin的概念。Mixin就是写好了的一些基础类，然后通过不同的Mixin组合成为最终想要的类。
+
+所以，理解cbv的基础是，理解Mixin。Django中使用Mixin来重用代码，一个View Class可以继承多个Mixin，但是只能继承一个View（包括View的子类），推荐把View写在最右边，多个Mixin写在左边。

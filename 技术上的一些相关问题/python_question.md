@@ -1807,7 +1807,7 @@ Python的内存管理是由私有heap空间管理的。所有的Python对象和�
 ### 42. 有哪些工具可以帮助debug或做静态分析
 
 ```
-
+PyChecker是一个静态分析工具，它不仅能报告源代码中的错误，并且会报告错误类型和复杂度。Pylint是检验模块是否达到代码标准的另一个工具。
 ```
 
 ### 43. python中is和==的区别
@@ -1815,3 +1815,46 @@ Python的内存管理是由私有heap空间管理的。所有的Python对象和�
 答案：Python中对象包含的三个基本要素，分别是：id(身份标识) 、type(数据类型)和value(值)。
 ‘==’比较的是value值
 ‘is’比较的是id
+
+
+
+### 44. python的异常处理机制和自己开发过程中的体会。
+
+**Python的异常处理机制:**
+
+**try:** 尝试抛出异常;
+
+**raise:** 引发异常;
+
+**except:** 处理异常;
+
+**finally:** 是否发生异常都需要做的事情;
+
+创建新的异常类型, 需要继承Exception类, 可以定义类的属性, 便于处理异常;
+
+```
+# 主动触发异常
+try:
+    raise Exception("出现错误")
+except Exception as e:
+    print(e)
+
+# 自定义异常
+class wangwenhuiwrong(object):
+    def __init__(self,name):
+        self.name=name
+    def __str__(self):
+        return self.message
+try:
+    raise wangwenhuiwrong("出现错误")
+except Exception as e:
+    print(e)
+```
+
+**体会:**
+
+异常主要处理读取文件, 也可以使用with的方法读取文件; 还可以用于网络连接, 异常可以包含大量的错误信息, 进行错误处理.
+
+
+
+### 45. python中怎么有效读取一个20G大小的文件。

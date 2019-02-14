@@ -1,6 +1,8 @@
 # 一  .Docker 官方文档总结 
 
-**官方文档  ：https://docs.docker.com/install/**
+**官方文档  ：https://docs.docker.com/install/
+
+**老铁k8s里docker文档**: [http://kubernetes.renkeju.com](http://kubernetes.renkeju.com/) 
 
 ### 1.1 **版本 **
 

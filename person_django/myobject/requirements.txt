@@ -1,4 +1,4 @@
-Django==1.11
+Django==2.2.24
 olefile==0.44
 Pillow==4.2.1
 PyMySQL==0.7.11
